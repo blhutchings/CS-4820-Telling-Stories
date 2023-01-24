@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <style>
+            .main {
+                background-color: #EAF7FF;
+                width: 100%;
+                height: 100vh;
+                margin: auto;
+            }
+            
+            .form-container {
+                background-color: rgb(255, 255, 255);
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 30px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                box-shadow: 0 0 10px #ccc;
+            }
+            
+            .btn {
+                background-color: #4F95FF;
+                width: 100px;
+                border-radius: 14px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="form-container">
+                <form action="/login" method="POST">
+                    <h2 class="text-center">Login</h2>
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="remember-me">
+                        <label class="form-check-label" for="remember-me">Remember me</label>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-rounded btn-lg">Login</button>
+                    </div>
+                    <div class="text-center">
+                        <p>Don't have an account?
+                            <a href="registration"> Register</p>
+                </div>
+            </form>
+        </div>
+        </div>
+    </body>
+
+</html>
