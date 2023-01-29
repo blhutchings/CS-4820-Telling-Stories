@@ -4,19 +4,23 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express")
 const db = require("./config/database")
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcrypt")
 const { Prisma } = require("@prisma/client")
 const initializePassport = require("./config/passport")
 const flash = require("express-flash")
 const session = require("express-session")
 const { application } = require("express")
 const passport = require("passport")
+const methodOverride = require("method-override")
 const server = express()
     //app.set('views', './src');
     //app.set('view engine', 'ejs');
 
+const salt = bcrypt.genSaltSync(10);
 initializePassport(
     passport,
+    // email => users.find(u => u.email === email),
+    // id => users.find(u => u.id === id)
     async email => await db.user.findFirst({ where: { email } }),
     async id => await db.user.findFirst({ where: { id } })
 )
@@ -25,14 +29,14 @@ initializePassport(
 server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(session({
-    //secret: process.env.SESSION_SECRET,
-    secret: "sami1234",
+    secret: process.env.SESSION_SECRET,
+    //secret: "sami1234",
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
 }))
 server.use(passport.initialize())
 server.use(passport.session())
-
+server.use(methodOverride("_method"))
 
 async function main() {
     const PORT = 8080
@@ -46,39 +50,41 @@ server.get('/', async(req, res) => {
     res.render("index.ejs")
 })
 
-server.get('/login', (req, res) => {
+server.get('/create', checkAuthenticated, async(req, res) => {
+
+    console.log(req.user.email)
+    res.render("create.ejs", { name: req.user.firstName })
+})
+
+server.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('login.ejs')
 })
-server.post('/login', passport.authenticate("local", {
+server.post('/login', checkNotAuthenticated, passport.authenticate("local", {
 
-    successRedirect: "/",
+    successRedirect: "/create",
     failureRedirect: "/login",
     failureFlash: true
 }))
-server.get('/registration', (req, res) => {
+server.get('/registration', checkNotAuthenticated, (req, res) => {
     res.render('registration.ejs')
 })
 
-server.post('/registration', async(req, res) => {
-    console.log(req.body)
-    const salt = bcrypt.genSaltSync(10);
-    const encryptedPassword = bcrypt.hashSync(req.body.password.toString().trim(), salt)
-
-    console.log("Encrypted password is: " + encryptedPassword)
-
-    const { firstName, lastName, email } = req.body
-    console.log(firstName, lastName, email, encryptedPassword)
+server.post('/registration', checkNotAuthenticated, async(req, res) => {
+    const { firstName, lastName, email, password } = req.body
+    const encryptedPassword = await bcrypt.hashSync(password, salt)
     if (email && encryptedPassword) {
         try {
-            //db.promise().query(`INSERT INTO user (email, password, firstName, lastName) VALUES('${email}','${encryptedPassword}','${firstName}','${lastName}')`)
             const result = await db.user.create({
                 data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
             })
-            console.log(result);
-            //res.status(201).send({ message: "User is created" })
+            console.log("firstName: " + firstName)
+            console.log("lastName: " + lastName)
+            console.log("email: " + email)
+            console.log("password: " + password)
             res.redirect("/login")
         } catch (error) {
             console.log(error)
+            req.flash("error", "User is already registered. Please login.");
             res.redirect("/registration")
         } finally {
             await db.$disconnect();
@@ -86,4 +92,25 @@ server.post('/registration', async(req, res) => {
 
     }
 })
+
+server.delete("/logout", (req, res) => {
+    req.logout(req.user, err => {
+        if (err) return next(err)
+        res.redirect("/")
+    })
+})
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+    res.redirect("/login")
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect("/create")
+    }
+    next()
+}
 main();

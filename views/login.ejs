@@ -35,23 +35,28 @@
         <div class="main">
             <div class="form-container">
                 <form action="/login" method="POST">
-                    <h2 class="text-center">Login</h2>
-                    <div class="form-group">
-                        <input type="email" name="email" class="form-control" id="email" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password" class="form-control" id="password" placeholder="Password">
-                    </div>
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="remember-me">
-                        <label class="form-check-label" for="remember-me">Remember me</label>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-rounded btn-lg">Login</button>
-                    </div>
-                    <div class="text-center">
-                        <p>Don't have an account?
-                            <a href="registration"> Register</p>
+                    <% if(messages.error) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <strong><%= messages.error %></strong>
+                        </div>
+                        <% } %>
+                            <h2 class="text-center">Login</h2>
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="remember-me">
+                                <label class="form-check-label" for="remember-me">Remember me</label>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-rounded btn-lg">Login</button>
+                            </div>
+                            <div class="text-center">
+                                <p>Don't have an account?
+                                    <a href="registration"> Register</p>
                 </div>
             </form>
         </div>
