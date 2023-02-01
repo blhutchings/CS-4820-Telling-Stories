@@ -45,7 +45,6 @@ async function main() {
         console.log(`Server started on port ${PORT}...`)
     })
 }
-
 server.get('/', async(req, res) => {
     res.render("index.ejs")
 })
