@@ -24,7 +24,7 @@ initializePassport(
     async email => await db.user.findFirst({ where: { email } }),
     async id => await db.user.findFirst({ where: { id } })
 )
-
+server.use('/public', express.static('public'));
 // below line of code is to get the form data in req.body
 server.use(express.urlencoded({ extended: false }))
 server.use(flash())
