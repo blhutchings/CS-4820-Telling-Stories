@@ -24,7 +24,11 @@
 
 ## About Us
 
-We are a group of 4th year students currently studying at UPEI. Under the guidance of Prof. David LeBlanc we have been trusted with creating an interactive media applciaiton (similar to H5P)
+We are a group of 4th year students currently studying at UPEI. Under the guidance of Prof. David LeBlanc we have been trusted with creating an interactive media applciaiton (similar to H5P) that allows a non-technical user to register with our application and start adding various components to their written work. Components such as ----, ----, and ---- . You can then integrate these components into ----.
+
+*put screenshot here*  
+*put screenshot here*  
+
 
 
 
