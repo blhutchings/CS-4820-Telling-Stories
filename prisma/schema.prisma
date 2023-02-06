@@ -15,4 +15,16 @@ model User {
   email String  @unique 
   password String
   name  String?
+  role UserRole[]
+}
+
+model UserRole {
+  id Int @id @default(autoincrement())
+  user User @relation(fields:[id], references: [id])
+  role Role
+}
+
+enum Role {
+  User
+  Admin
 }
