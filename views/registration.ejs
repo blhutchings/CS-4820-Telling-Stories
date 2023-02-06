@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Registration</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <style>
+            .main {
+                background-color: #EAF7FF;
+                width: 100%;
+                height: 100vh;
+                margin: auto;
+            }
+            
+            .form-container {
+                background-color: rgb(255, 255, 255);
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 30px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                box-shadow: 0 0 10px #ccc;
+            }
+            
+            .btn {
+                background-color: #4F95FF;
+                border-radius: 14px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="form-container">
+                <form action="/registration" method="POST">
+                    <% if(messages.error) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <strong><%= messages.error %></strong>
+                        </div>
+                        <% } %>
+                            <h2 class="text-center">Register</h2>
+                            <div class="form-group">
+                                <input type="text" name="firstName" class="form-control" id="firstName" placeholder="First name">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Last name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-rounded btn-lg">Create Account</button>
+                            </div>
+                            <div class="text-center">
+                                <p>Already have an account?
+                                    <a href="login">Login</p>
+                </div>
+            </form>
+        </div>
+        </div>
+    </body>
+
+</html>
