@@ -12,6 +12,7 @@ const session = require("express-session")
 const { application } = require("express")
 const passport = require("passport")
 const methodOverride = require("method-override")
+const jwt = require("jsonwebtoken")
 const server = express()
     //app.set('views', './src');
     //app.set('view engine', 'ejs');
@@ -21,8 +22,8 @@ initializePassport(
     passport,
     // email => users.find(u => u.email === email),
     // id => users.find(u => u.id === id)
-    async email => await db.user.findFirst({ where: { email } }),
-    async id => await db.user.findFirst({ where: { id } })
+    async email => await db.User.findFirst({ where: { email } }),
+    async id => await db.User.findFirst({ where: { id } })
 )
 server.use('/public', express.static('public'));
 // below line of code is to get the form data in req.body
@@ -73,7 +74,7 @@ server.post('/registration', checkNotAuthenticated, async(req, res) => {
     const encryptedPassword = await bcrypt.hashSync(password, salt)
     if (email && encryptedPassword) {
         try {
-            const result = await db.user.create({
+            const result = await db.User.create({
                 data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
             })
             console.log("firstName: " + firstName)
@@ -97,6 +98,31 @@ server.delete("/logout", (req, res) => {
         if (err) return next(err)
         res.redirect("/")
     })
+})
+
+server.get('/forgot-password', async(req, res) => {
+    res.render('forgotPassword.ejs')
+})
+
+server.post('/forgot-password', async(req, res) => {
+    const { email } = req.body
+
+    const userExists = await db.User.findFirst({ where: { email } })
+
+    if (!userExists) {
+        req.flash("error", "Email is not registered")
+        res.redirect("/forgot-password")
+            //res.send('User is not registered')
+    }
+
+})
+
+server.get('/reset-password', async(req, res) => {
+    res.render("forgotPassword.ejs")
+})
+
+server.post('/reset-password', async(req, res) => {
+    res.render("forgotPassword.ejs")
 })
 
 function checkAuthenticated(req, res, next) {
