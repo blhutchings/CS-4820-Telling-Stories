@@ -12,11 +12,18 @@
                 justify-content: center;
                 height: 100vh;
             }
+            .header-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         </style>
     </head>
 
     <body>
-        <%- include('./partials/_header'); %>
+        <%# parital header, check what classes its associated with because the css will affect it as well %>
+        <%- include('../views/partial/_header.ejs'); %>  
+
         <div class="container">
             <div class="row">
                 <div class="col-12">
