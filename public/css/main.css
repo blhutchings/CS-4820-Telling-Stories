@@ -1,0 +1,195 @@
+/*body css*/
+
+body {
+    padding: 0;
+    margin: 0;
+    background: #EAF7FF;
+}
+
+
+/*links css*/
+
+a {
+    font-family: Nueue;
+    letter-spacing: 2px;
+}
+
+
+/*paragrapg text css*/
+
+p {
+    font-family: Nueue;
+}
+
+h5 {
+    font-family: Nueue;
+    font-weight: 700;
+    font-size: xx-large;
+    letter-spacing: 5px;
+}
+
+
+/*fonta to be used*/
+
+@font-face {
+    font-family: Nueue;
+    src: url("/fonts/Helvetica 43 Light Extended.otf") format("opentype");
+}
+
+
+/*nav bar css*/
+
+.nav-link,
+.navbar-brand {
+    font-weight: 800;
+    color: #074EE8 !important;
+    cursor: pointer;
+}
+
+.navbar-brand {
+    margin: auto;
+    letter-spacing: 15px;
+    font-size: xx-large;
+}
+
+.offcanvas {
+    background-color: #EAF7FF;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+    outline: none;
+    box-shadow: none;
+    border-color: #EAF7FF;
+}
+
+.btn:hover {
+    background-color: #4F95FF;
+    border-color: #074EE8;
+}
+
+.btn {
+    color: #074EE8;
+    border-color: #074EE8;
+    border: 1px solid #2871FF;
+    font-family: Nueue;
+    font-size: small;
+    letter-spacing: 2px;
+    border-radius: 20px;
+    height: 30px;
+    width: 100px;
+}
+
+.nav-link {
+    margin-right: 1em !important;
+}
+
+.nav-link:hover {
+    color: #000000 !important;
+}
+
+.navbar-collapse {
+    justify-content: flex-end;
+}
+
+
+/*Div Containers holding login container and preview image container*/
+
+.login-box {
+    text-align: center;
+    width: fit-content;
+    /*border: 2px solid black;*/
+    height: 600px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.register-box {
+    width: 100%;
+    margin: auto;
+    /*border: 2px solid black;*/
+    height: 600px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.registration-info {
+    width: 800px;
+    height: 600px;
+    margin-top: 170px;
+    margin-left: 60px;
+    /*border: 2px solid black;*/
+    display: inline-block;
+}
+
+
+/*Next to register box info CSS*/
+
+.info-label {
+    font-family: Nueue;
+}
+
+.image-gondola-container {
+    width: 800px;
+    height: 600px;
+    margin-top: 100px;
+    margin-left: 120px;
+    text-align: center;
+    /*border: 2px solid black;*/
+    display: inline-block;
+}
+
+
+/*form css*/
+
+.form-control {
+    border-radius: 100px;
+    border: 1px solid #2871FF;
+    height: 30px;
+}
+
+.input-form {
+    margin: auto;
+}
+
+.form-group-form-check,
+.form-group {
+    width: 350px;
+    padding: 8px;
+    margin: auto;
+    text-align: center;
+    display: flex;
+}
+
+.form-group-lgn-btn {
+    padding-top: 10px;
+    text-align: center;
+}
+
+
+/*login form container css*/
+
+.form-container {
+    background-color: #ffffff;
+    width: 500px;
+    height: 500px;
+    margin-top: 160px;
+    margin-left: 170px;
+    border-radius: 15px 100px;
+    box-shadow: 0 10px #ccc;
+    border: 1px solid #ccc;
+    display: grid;
+    float: left;
+}
+
+
+/*Preview image CSS*/
+
+.Login-H5P {
+    box-shadow: 0 10px #ccc;
+    border: 1px solid #ccc;
+    border-radius: 100px 15px;
+    width: 120%;
+    height: auto;
+    aspect-ratio: attr(width) / attr(height);
+}
