@@ -37,7 +37,8 @@ server.use(session({
 }))
 server.use(passport.initialize())
 server.use(passport.session())
-server.use(methodOverride("_method"))
+server.use(methodOverride("_method")) //https://stackoverflow.com/questions/23643694/whats-the-role-of-the-method-override-middleware-in-express-4 
+server.use(express.json()) // enables our server to parse incoming requests with JSON payloads, read here: https://www.geeksforgeeks.org/express-js-express-json-function/
 
 async function main() {
     const PORT = 8080
@@ -71,16 +72,13 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
 
 server.post('/registration', checkNotAuthenticated, async(req, res) => {
     const { firstName, lastName, email, password } = req.body
+    //console.log(req.body) //debugging
     const encryptedPassword = await bcrypt.hashSync(password, salt)
     if (email && encryptedPassword) {
         try {
             const result = await db.User.create({
                 data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
             })
-            console.log("firstName: " + firstName)
-            console.log("lastName: " + lastName)
-            console.log("email: " + email)
-            console.log("password: " + password)
             res.redirect("/login")
         } catch (error) {
             console.log(error)
@@ -106,14 +104,18 @@ server.get('/forgot-password', async(req, res) => {
 
 server.post('/forgot-password', async(req, res) => {
     const { email } = req.body
+    console.log(req.body)
 
-    const userExists = await db.User.findFirst({ where: { email } })
-
-    if (!userExists) {
-        req.flash("error", "Email is not registered")
+    const userInfo = await db.User.findFirst({ where: { email } })
+    console.log(userInfo)
+    if (!userInfo) {
+        req.flash("error", "There is no account associated with that email")
         res.redirect("/forgot-password")
             //res.send('User is not registered')
     }
+
+
+    
 
 })
 
