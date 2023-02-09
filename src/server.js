@@ -134,9 +134,9 @@ server.post('/forgot-password', async(req, res) => {
     })
     let mailOptions = {
         from: process.env.EMAIL,
-        to: process.env.EMAIL,
+        to: process.env.EMAIL, //user email you are sending to
         subject: "testing swe app",
-        text: "hello gmail!"
+        html: "<h1>hello!!1!</h1>"
     }
     transporter.sendMail(mailOptions, (err, info) => {
         if(err){
