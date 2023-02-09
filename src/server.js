@@ -18,6 +18,7 @@ const server = express()
     //server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
+const sendEmail = require("../utils/email/sendEmail");
 initializePassport(
     passport,
     // email => users.find(u => u.email === email),
@@ -102,63 +103,38 @@ server.get('/forgot-password', async(req, res) => {
     res.render('forgotPassword.ejs')
 })
 
-/*
-
-THIS IS MY CURRENT WORK
 
 
-*/
-const nodemailer = require("nodemailer")
-const fs     = require("fs")
-const ejs = require("ejs")
-//check if const and let are correct
+
 
 server.post('/forgot-password', async(req, res) => {
+    
     const { email } = req.body
-    console.log(req.body)
     const userInfo = await db.User.findFirst({ where: { email } })
-    console.log(userInfo)
+    //console.log(userInfo) //for debugging
     if (!userInfo) {
         req.flash("error", "There is no account associated with that email")
         res.redirect("/forgot-password")
-        //res.send('User is not registered')
     }
 
-    const templateFile = fs.readFileSync("./views/partial/_emailPasswordResetRequest.ejs", "utf-8") //todo: incoporate dynamic path files 
-    const temp = ejs.compile(templateFile)
-    const info = {
+
+    /*
+        Hardcoded values for testing purposes, implement own logic here
+    */
+    const receivingEmailAddress = process.env.EMAIL
+    const emailSubject = "Password Reset"
+    const payload = {
         name: "jackson",
-        link: "test"
+        link: "testing"
     }
+    const ejsTemplateLocation = "./views/partial/_emailPasswordResetRequest.ejs"
 
-
-    let transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.EMAIL,
-            pass: process.env.EMAIL_PASSWORD
-        },
-        tls: {
-            rejectUnauthorized: false
-        }
-    })
-    let mailOptions = {
-        from: process.env.EMAIL,
-        to: process.env.EMAIL, //user email you are sending to
-        subject: "testing swe app",
-        html: temp(info) // this will through an error if you dont supply every var declared in the .ejs file
-    }
-    transporter.sendMail(mailOptions, (err, info) => {
-        if(err){
-            console.log(err)
-        }else{
-            console.log("email was sent!")
-        }
-    })
-
+    //use this fnc to handle sending the email
+    sendEmail(receivingEmailAddress, emailSubject, payload, ejsTemplateLocation)
     
-
 })
+
+
 
 server.get('/reset-password', async(req, res) => {
     res.render("forgotPassword.ejs")
