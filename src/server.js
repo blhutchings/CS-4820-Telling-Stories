@@ -102,6 +102,15 @@ server.get('/forgot-password', async(req, res) => {
     res.render('forgotPassword.ejs')
 })
 
+/*
+
+THIS IS MY CURRENT WORK
+
+
+*/
+const nodemailer = require("nodemailer")
+//check if const and let are correct
+
 server.post('/forgot-password', async(req, res) => {
     const { email } = req.body
     console.log(req.body)
@@ -113,7 +122,29 @@ server.post('/forgot-password', async(req, res) => {
         res.redirect("/forgot-password")
             //res.send('User is not registered')
     }
-
+    let transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.EMAIL_PASSWORD
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    })
+    let mailOptions = {
+        from: process.env.EMAIL,
+        to: process.env.EMAIL,
+        subject: "testing swe app",
+        text: "hello gmail!"
+    }
+    transporter.sendMail(mailOptions, (err, info) => {
+        if(err){
+            console.log(err)
+        }else{
+            console.log("email was sent!")
+        }
+    })
 
     
 
