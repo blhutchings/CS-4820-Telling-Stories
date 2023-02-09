@@ -15,7 +15,7 @@ const methodOverride = require("method-override")
 const jwt = require("jsonwebtoken")
 const server = express()
     //app.set('views', './src');
-    //app.set('view engine', 'ejs');
+    //server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
 initializePassport(
@@ -109,19 +109,29 @@ THIS IS MY CURRENT WORK
 
 */
 const nodemailer = require("nodemailer")
+const fs     = require("fs")
+const ejs = require("ejs")
 //check if const and let are correct
 
 server.post('/forgot-password', async(req, res) => {
     const { email } = req.body
     console.log(req.body)
-
     const userInfo = await db.User.findFirst({ where: { email } })
     console.log(userInfo)
     if (!userInfo) {
         req.flash("error", "There is no account associated with that email")
         res.redirect("/forgot-password")
-            //res.send('User is not registered')
+        //res.send('User is not registered')
     }
+
+    const templateFile = fs.readFileSync("./views/partial/_emailPasswordResetRequest.ejs", "utf-8") //todo: incoporate dynamic path files 
+    const temp = ejs.compile(templateFile)
+    const info = {
+        name: "jackson",
+        link: "test"
+    }
+
+
     let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -136,7 +146,7 @@ server.post('/forgot-password', async(req, res) => {
         from: process.env.EMAIL,
         to: process.env.EMAIL, //user email you are sending to
         subject: "testing swe app",
-        html: "<h1>hello!!1!</h1>"
+        html: temp(info) // this will through an error if you dont supply every var declared in the .ejs file
     }
     transporter.sendMail(mailOptions, (err, info) => {
         if(err){
