@@ -18,6 +18,7 @@ const server = express()
     //app.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
+const JWT_SECRET = process.env.JWT_SECRET
 initializePassport(
     passport,
     // email => users.find(u => u.email === email),
@@ -30,8 +31,7 @@ server.use('/public', express.static('public'));
 server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(session({
-    //secret: process.env.SESSION_SECRET,
-    secret: "sami1234",
+    secret: process.env.SESSION_SECRET,
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
 }))
@@ -107,22 +107,45 @@ server.get('/forgot-password', async(req, res) => {
 server.post('/forgot-password', async(req, res) => {
     const { email } = req.body
 
-    const userExists = await db.User.findFirst({ where: { email } })
+    const user = await db.User.findFirst({ where: { email } })
 
-    if (!userExists) {
+    if (!user) {
         req.flash("error", "Email is not registered")
         res.redirect("/forgot-password")
             //res.send('User is not registered')
     }
 
+    //user exists and now creating a one time link that is valid for only 15 minutes
+    else {
+        const secret = JWT_SECRET + user.password
+        const payload = {
+            email: user.email,
+            id: user.id
+        }
+        const token = jwt.sign(payload, secret, { expiresIn: '15m' })
+        const link = `http://localhost:8080/reset-password/${user.id}/${token}`
+        console.log(link)
+            //res.redirect('/reset-password')
+    }
 })
 
-server.get('/reset-password', async(req, res) => {
-    res.render("forgotPassword.ejs")
+server.get('/reset-password/:id/:token', async(req, res) => {
+    //res.render("resetPassword.ejs")
+    const { id, token } = req.params
+    const user = await db.User.findFirst({ where: { id: parseInt(id) } })
+    if (!user) {
+        console.log("invalid id")
+        return
+    }
+    // We have a valid user
+    else {
+        const secret = JWT_SECRET + user.password
+    }
+
 })
 
 server.post('/reset-password', async(req, res) => {
-    res.render("forgotPassword.ejs")
+    res.render("resetPassword.ejs")
 })
 
 function checkAuthenticated(req, res, next) {
