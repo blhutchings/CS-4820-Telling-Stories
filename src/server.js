@@ -121,7 +121,7 @@ server.post('/forgot-password', async(req, res) => {
     /*
         Hardcoded values for testing purposes, implement own logic here
     */
-    const receivingEmailAddress = process.env.receivingEmailAddress
+    const receivingEmailAddress = process.env.RECEIVING_EMAIL_ADDRESS
     const emailSubject = "Password Reset"
     const payload = {
         name: "jackson",
