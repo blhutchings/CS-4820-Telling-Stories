@@ -15,9 +15,10 @@ const methodOverride = require("method-override")
 const jwt = require("jsonwebtoken")
 const server = express()
     //app.set('views', './src');
-    //app.set('view engine', 'ejs');
+    //server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
+const sendEmail = require("../utils/email/sendEmail");
 initializePassport(
     passport,
     // email => users.find(u => u.email === email),
@@ -37,13 +38,14 @@ server.use(session({
 }))
 server.use(passport.initialize())
 server.use(passport.session())
-server.use(methodOverride("_method"))
+server.use(methodOverride("_method")) //https://stackoverflow.com/questions/23643694/whats-the-role-of-the-method-override-middleware-in-express-4 
+server.use(express.json()) // enables our server to parse incoming requests with JSON payloads, read here: https://www.geeksforgeeks.org/express-js-express-json-function/
 
 async function main() {
     const PORT = 8080
 
     server.listen(PORT, function() {
-        console.log(`Server started on port ${PORT}...`)
+        console.log(`Server started on http://localhost:${PORT}...`)
     })
 }
 server.get('/', async(req, res) => {
@@ -71,16 +73,13 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
 
 server.post('/registration', checkNotAuthenticated, async(req, res) => {
     const { firstName, lastName, email, password } = req.body
+    //console.log(req.body) //debugging
     const encryptedPassword = await bcrypt.hashSync(password, salt)
     if (email && encryptedPassword) {
         try {
             const result = await db.User.create({
                 data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
             })
-            console.log("firstName: " + firstName)
-            console.log("lastName: " + lastName)
-            console.log("email: " + email)
-            console.log("password: " + password)
             res.redirect("/login")
         } catch (error) {
             console.log(error)
@@ -104,18 +103,38 @@ server.get('/forgot-password', async(req, res) => {
     res.render('forgotPassword.ejs')
 })
 
+
+
+
+
 server.post('/forgot-password', async(req, res) => {
+    
     const { email } = req.body
-
-    const userExists = await db.User.findFirst({ where: { email } })
-
-    if (!userExists) {
-        req.flash("error", "Email is not registered")
+    const userInfo = await db.User.findFirst({ where: { email } })
+    //console.log(userInfo) //for debugging
+    if (!userInfo) {
+        req.flash("error", "There is no account associated with that email")
         res.redirect("/forgot-password")
-            //res.send('User is not registered')
     }
 
+
+    /*
+        Hardcoded values for testing purposes, implement own logic here
+    */
+    const receivingEmailAddress = process.env.EMAIL
+    const emailSubject = "Password Reset"
+    const payload = {
+        name: "jackson",
+        link: "testing"
+    }
+    const ejsTemplateLocation = "./views/partial/_emailPasswordResetRequest.ejs"
+
+    //use this fnc to handle sending the email
+    sendEmail(receivingEmailAddress, emailSubject, payload, ejsTemplateLocation)
+    
 })
+
+
 
 server.get('/reset-password', async(req, res) => {
     res.render("forgotPassword.ejs")
