@@ -1,27 +1,58 @@
 <!DOCTYPE html>
-<html>
 
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <style>
-            .container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 100vh;
-            }
-        </style>
-    </head>
+<!--Main Homepage View-->
+<!--Author-->
+<!--Last Update: Sun Feb 12-->
 
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <button class="btn btn-primary mr-2" onclick="window.location.href='/registration'">Register</button>
-                    <button class="btn btn-secondary" onclick="window.location.href='/login'">Login</button>
-                </div>
-            </div>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/css/main.css" />
+    <title>Augment</title>
+  </head>
+  <body>
+    <%- include('../views/partial/_navHeader.ejs'); %>
+
+    <!--Hero Section-->
+    <div class="main">
+      <div class="main__container">
+        <div class="main__content">
+          <h1>POWERED BY H5P</h1>
+          <h2>INTERACTIVE</h2>
+          <p>AND CREATIVE</p>
+          <button class="main__btn"><a href="/">Get Started</a></button>
         </div>
-    </body>
+        <div class="main__img-container">
+          <img src="/public/images/H5P.png" alt="" id="main__img" />
+        </div>
+      </div>
+    </div>
+    <!--End of Hero Section-->
 
+    <!--Service Section-->
+    <div class="services">
+      <h1>See what the hype is about</h1>
+      <div class="services__container">
+        <div class="services__card">
+          <h2>Experience a better way</h2>
+          <img src="/public/img/H5P-Logo.png" alt="" />
+          <p>Improved for convenice</p>
+          <button><a href="https://h5p.org/">Learn more</a></button>
+        </div>
+        <div class="services__card">
+          <h2>Are you ready?</h2>
+          <img
+            src="/public/img/H5P-Content.png"
+            style="width: 350px; height: 145px"
+            alt=""
+          />
+          <p>Jump right in!</p>
+          <button><a href="">Get Creating</a></button>
+        </div>
+      </div>
+    </div>
+    <script src="src/menu-toggle-transition.js"></script>
+  </body>
 </html>
