@@ -13,7 +13,10 @@ const { application } = require("express")
 const passport = require("passport")
 const methodOverride = require("method-override")
 const jwt = require("jsonwebtoken")
+const { check, validationResult } = require("express-validator")
 const server = express()
+const sendEmail = require("../utils/email/sendEmail")
+const { render } = require("ejs")
     //app.set('views', './src');
     //app.set('view engine', 'ejs');
 
@@ -21,8 +24,6 @@ const salt = bcrypt.genSaltSync(10);
 const JWT_SECRET = process.env.JWT_SECRET
 initializePassport(
     passport,
-    // email => users.find(u => u.email === email),
-    // id => users.find(u => u.id === id)
     async email => await db.User.findFirst({ where: { email } }),
     async id => await db.User.findFirst({ where: { id } })
 )
@@ -52,7 +53,7 @@ server.get('/', async(req, res) => {
 
 server.get('/create', checkAuthenticated, async(req, res) => {
 
-    console.log(req.user.email)
+    console.log("USER ID IS " + req.user.id)
     res.render("create.ejs", { name: req.user.firstName })
 })
 
@@ -66,32 +67,60 @@ server.post('/login', checkNotAuthenticated, passport.authenticate("local", {
     failureFlash: true
 }))
 server.get('/registration', checkNotAuthenticated, (req, res) => {
-    res.render('registration.ejs')
+    res.render('registration.ejs', { validationErrors: req.flash('validationErrors') })
 })
 
-server.post('/registration', checkNotAuthenticated, async(req, res) => {
-    const { firstName, lastName, email, password } = req.body
-    const encryptedPassword = await bcrypt.hashSync(password, salt)
-    if (email && encryptedPassword) {
-        try {
-            const result = await db.User.create({
-                data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
-            })
-            console.log("firstName: " + firstName)
-            console.log("lastName: " + lastName)
-            console.log("email: " + email)
-            console.log("password: " + password)
-            res.redirect("/login")
-        } catch (error) {
-            console.log(error)
-            req.flash("error", "User is already registered. Please login.");
-            res.redirect("/registration")
-        } finally {
-            await db.$disconnect();
+server.post('/registration', checkNotAuthenticated,
+    check('confirmPassword').custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error('Passwords do not match');
+        }
+        return true;
+    }),
+
+    check('password')
+    .notEmpty().withMessage("Password field can not be empty")
+    .isLength({ min: 8 }).withMessage('Password must be 8 characters long')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must include a special character')
+    .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
+
+    async(req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const passwordValidationErrors = errors.array().map(error => error.msg);
+            req.flash("validationErrors", passwordValidationErrors)
+            res.redirect('/registration');
+            return;
         }
 
-    }
-})
+        const { firstName, lastName, email, password } = req.body
+        const encryptedPassword = await bcrypt.hashSync(password, salt)
+        if (email && encryptedPassword) {
+            try {
+                const result = await db.User.create({
+                    data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
+                })
+                console.log("firstName: " + firstName)
+                console.log("lastName: " + lastName)
+                console.log("email: " + email)
+                console.log("password: " + password)
+
+                // Create a new UserRole object and connect it to the newly created User object.
+                await db.UserRole.create({
+                    data: { role: 'User', user: { connect: { id: result.id } } },
+                });
+
+                res.redirect("/login")
+            } catch (error) {
+                console.log(error)
+                req.flash("error", "User is already registered. Please login.");
+                res.redirect("/registration")
+            } finally {
+                await db.$disconnect();
+            }
+
+        }
+    })
 
 server.delete("/logout", (req, res) => {
     req.logout(req.user, err => {
@@ -118,35 +147,129 @@ server.post('/forgot-password', async(req, res) => {
     //user exists and now creating a one time link that is valid for only 15 minutes
     else {
         const secret = JWT_SECRET + user.password
-        const payload = {
-            email: user.email,
-            id: user.id
+        try {
+            const payload = {
+                email: user.email,
+                id: user.id
+            }
+            const token = jwt.sign(payload, secret, { expiresIn: '15m' })
+            const resetLink = `localhost:8080/reset-password/${user.id}/${token}`
+            console.log(resetLink)
+            const resetEmailPayload = {
+                name: user.firstName,
+                link: resetLink
+            }
+            sendEmail(user.email, "Reset Password", resetEmailPayload, "views/partial/_emailPasswordResetRequest.ejs")
+            req.flash("success", "A password reset link has been sent to your email.")
+            res.redirect("/forgot-password")
+                //res.redirect('/reset-password')
+        } catch (error) {
+            console.log(error)
         }
-        const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-        const link = `http://localhost:8080/reset-password/${user.id}/${token}`
-        console.log(link)
-            //res.redirect('/reset-password')
+
     }
 })
 
 server.get('/reset-password/:id/:token', async(req, res) => {
-    //res.render("resetPassword.ejs")
     const { id, token } = req.params
+        //res.send(req.params)
     const user = await db.User.findFirst({ where: { id: parseInt(id) } })
     if (!user) {
         console.log("invalid id")
-        return
+        return;
     }
     // We have a valid user
     else {
         const secret = JWT_SECRET + user.password
+        try {
+            const payload = jwt.verify(token, secret)
+            res.render("resetPassword.ejs", { id: id, token: token, validationErrors: req.flash('validationErrors') })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 })
 
-server.post('/reset-password', async(req, res) => {
-    res.render("resetPassword.ejs")
-})
+server.post('/reset-password/:id/:token',
+    check('confirmPassword').custom((value, { req }) => {
+        if (value !== req.body.password) {
+            throw new Error('Passwords do not match');
+        }
+        return true;
+    }),
+
+    check('password')
+    .notEmpty().withMessage("Password field can not be empty")
+    .isLength({ min: 8 }).withMessage('Password must be 8 characters long')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must include a special character')
+    .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
+
+    async(req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const passwordValidationErrors = errors.array().map(error => error.msg);
+            req.flash("validationErrors", passwordValidationErrors)
+            res.redirect(`/reset-password/${req.params.id}/${req.params.token}`);
+            return;
+        }
+        const { id, token } = req.params
+        const { password, confirmPassword } = req.body
+        const user = await db.User.findFirst({ where: { id: parseInt(id) } })
+        if (!user) {
+            console.log("invalid id")
+            return;
+        } else {
+            console.log(user)
+            const secret = JWT_SECRET + user.password
+            try {
+                const payload = jwt.verify(token, secret)
+                const hash = await bcrypt.hash(password, salt)
+                await db.User.update({
+                    where: {
+                        id: parseInt(id),
+                    },
+                    data: {
+                        password: hash,
+                    },
+                })
+                return res.redirect('/login')
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+    })
+
+server.get('/users', checkAuthenticated, async(req, res) => {
+    const user = await db.User.findFirst({
+        where: { id: req.user.id },
+        include: { role: true },
+    })
+
+    console.log(user.role[0].role)
+
+    if (!user || user.role[0].role !== "Admin") {
+        // req.flash("error", "You do not have access to view users.")
+        res.render("unauthorized.ejs")
+        return
+    }
+
+    try {
+        const users = await db.user.findMany({
+            select: {
+                email: true,
+                firstName: true,
+                lastName: true,
+            },
+        });
+        res.render("users.ejs", { users });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

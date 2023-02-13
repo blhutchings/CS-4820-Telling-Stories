@@ -64,11 +64,22 @@
         <div class="register-box">
             <div class="form-container">
                 <form action="/registration" method="POST" class="input-form">
-                    <% if(messages.error) { %>
-                        <div class="alert alert-danger" role="alert">
-                            <strong><%= messages.error %></strong>
+
+                    <% if ((validationErrors && validationErrors.length)||messages.error) { %>
+                        <div class="alert alert-danger">
+                            <% if(messages.error) { %>
+                                <li>
+                                    <%= messages.error %>
+                                </li>
+                                <% } %>
+                                    <% validationErrors.forEach(error => { %>
+                                        <li>
+                                            <%= error %>
+                                        </li>
+                                        <% }) %>
                         </div>
                         <% } %>
+
                             <h5 class="text-center" style="padding: 20px;"><b>Register</b></h5>
                             <div class="form-group">
                                 <input type="text" name="firstName" class="form-control" id="firstName" placeholder="First name">
