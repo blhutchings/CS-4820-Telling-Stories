@@ -33,6 +33,7 @@ server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(session({
     secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET,
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
 }))
