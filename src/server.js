@@ -14,6 +14,8 @@ const passport = require("passport")
 const methodOverride = require("method-override")
 const jwt = require("jsonwebtoken")
 const server = express()
+
+
     //app.set('views', './src');
     //server.set('view engine', 'ejs');
 
@@ -31,8 +33,8 @@ server.use('/public', express.static('public'));
 server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(session({
-    //secret: process.env.SESSION_SECRET,
-    secret: "sami1234",
+    secret: process.env.SESSION_SECRET,
+   // secret: "sami1234",
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
 }))
@@ -73,7 +75,7 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
 
 server.post('/registration', checkNotAuthenticated, async(req, res) => {
     const { firstName, lastName, email, password } = req.body
-    //console.log(req.body) //debugging
+    console.log(req.body) //debugging
     const encryptedPassword = await bcrypt.hashSync(password, salt)
     if (email && encryptedPassword) {
         try {
