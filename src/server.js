@@ -18,7 +18,7 @@ const server = express()
 const sendEmail = require("../utils/email/sendEmail")
 const { render } = require("ejs")
     //app.set('views', './src');
-    //app.set('view engine', 'ejs');
+server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
 const JWT_SECRET = process.env.JWT_SECRET
@@ -32,7 +32,6 @@ server.use('/public', express.static('public'));
 server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(session({
-    secret: process.env.SESSION_SECRET,
     secret: process.env.SESSION_SECRET,
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
@@ -260,6 +259,7 @@ server.get('/users', checkAuthenticated, async(req, res) => {
     try {
         const users = await db.user.findMany({
             select: {
+                id: true,
                 email: true,
                 firstName: true,
                 lastName: true,
@@ -271,6 +271,95 @@ server.get('/users', checkAuthenticated, async(req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
+server.post('/users/:id/delete', async(req, res) => {
+    const userId = parseInt(req.params.id);
+    console.log(userId)
+    try {
+        // Find the user by ID
+        const user = await db.user.findUnique({
+            where: {
+                id: userId,
+            },
+        });
+        console.log(user);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        // Delete the user
+        await db.user.delete({
+            where: {
+                id: userId,
+            },
+        });
+
+        // Redirect to the list of users
+        res.redirect('/users');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+server.get('/users/:id/edit', async(req, res) => {
+    try {
+        const userId = parseInt(req.params.id);
+        const user = await db.user.findUnique({
+            where: {
+                id: userId
+            },
+            include: {
+                role: true
+            }
+        });
+        console.log(user)
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('edit-user', {
+            user: user
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+server.post('/users/:id/edit', async(req, res) => {
+    const { firstName, lastName, email, role } = req.body;
+    const userId = parseInt(req.params.id);
+
+    try {
+        const updatedUser = await db.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                firstName: firstName,
+                lastName: lastName,
+                email: email
+            }
+        });
+        const updatedUserRole = await db.userRole.update({
+            where: {
+                id: userId
+            },
+            data: {
+                role: role,
+            },
+        });
+
+        req.flash('success', 'User updated successfully!');
+        res.redirect('/users');
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'Failed to update user.');
+        res.redirect('/users');
+    }
+});
+
+
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

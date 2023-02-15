@@ -8,36 +8,52 @@
 
     <body>
         <div class="container mt-5">
-            <h1 class="mb-4">Users List</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Email</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% users.forEach(user => { %>
-                        <tr>
-                            <td>
-                                <%= user.email %>
-                            </td>
-                            <td>
-                                <%= user.firstName %>
-                            </td>
-                            <td>
-                                <%= user.lastName %>
-                            </td>
-                            <td>
-                                <a href="/users/<%= user.id %>/edit" class="btn btn-primary">Edit</a>
-                                <a href="/users/<%= user.id %>/delete" class="btn btn-danger">Remove</a>
-                            </td>
-                        </tr>
-                        <% }); %>
-                </tbody>
-            </table>
+            <% if(messages.error) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= messages.error %>
+                </div>
+                <% } else if(messages.success) { %>
+                    <div class="alert alert-success" role="alert">
+                        <%= messages.success %>
+                    </div>
+                    <% } %>
+                        <h1 class="mb-4">Users List</h1>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(user => { %>
+                                    <tr>
+                                        <td>
+                                            <%= user.email %>
+                                        </td>
+                                        <td>
+                                            <%= user.firstName %>
+                                        </td>
+                                        <td>
+                                            <%= user.lastName %>
+                                        </td>
+                                        <td>
+
+                                            <a href="/users/<%= user.id %>/edit" class="btn btn-primary">Edit</a>
+                                            <form action="/users/<%= user.id %>/delete" method="post">
+                                                <input type="hidden" name="id" , value="<%= user.id %>">
+                                                <button type="submit" class="btn btn-danger">Remove</button>
+                                            </form>
+
+
+
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
         </div>
     </body>
 
