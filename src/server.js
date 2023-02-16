@@ -27,6 +27,7 @@ initializePassport(
     async email => await db.User.findFirst({ where: { email } }),
     async id => await db.User.findFirst({ where: { id } })
 )
+const PAGE_SIZE = 8;
 server.use('/public', express.static('public'));
 // below line of code is to get the form data in req.body
 server.use(express.urlencoded({ extended: false }))
@@ -243,21 +244,31 @@ server.post('/reset-password/:id/:token',
     })
 
 server.get('/users', checkAuthenticated, async(req, res) => {
-    const user = await db.User.findFirst({
-        where: { id: req.user.id },
-        include: { role: true },
-    })
+    const page = parseInt(req.query.page) || 1
+    const skip = (page - 1) * PAGE_SIZE
+    const limit = PAGE_SIZE
 
-    console.log(user.role[0].role)
-
-    if (!user || user.role[0].role !== "Admin") {
-        // req.flash("error", "You do not have access to view users.")
-        res.render("unauthorized.ejs")
-        return
-    }
+    const count = await db.user.count()
+    const totalPages = Math.ceil(count / PAGE_SIZE)
 
     try {
+        const user = await db.User.findFirst({
+            where: { id: req.user.id },
+            include: { role: true },
+        })
+
+        //console.log(user)
+
+        if (!user || user.role[0].role !== "Admin") {
+            // req.flash("error", "You do not have access to view users.")
+            res.render("unauthorized.ejs")
+            return
+        }
+
+
         const users = await db.user.findMany({
+            skip: skip,
+            take: limit,
             select: {
                 id: true,
                 email: true,
@@ -265,7 +276,9 @@ server.get('/users', checkAuthenticated, async(req, res) => {
                 lastName: true,
             },
         });
-        res.render("users.ejs", { users });
+
+        console.log("users length is " + count)
+        res.render("users.ejs", { users, page, totalPages });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal server error');

@@ -4,6 +4,14 @@
     <head>
         <title>Users List</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-F5+5kS2Z1CUEZv2Qz1I9X9aCG42PkrChHwdwefcAsCJlpIHKYbhAm3q3EAp6Nl7Ifp9T8WHT3VTHf0ddhB7sUw==" crossorigin="anonymous" referrerpolicy="no-referrer"
+        />
+        <style>
+            .table td,
+            .table th {
+                padding: 0.3rem;
+            }
+        </style>
     </head>
 
     <body>
@@ -18,42 +26,73 @@
                     </div>
                     <% } %>
                         <h1 class="mb-4">Users List</h1>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Email</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% users.forEach(user => { %>
+                        <% if (users.length) { %>
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <%= user.email %>
-                                        </td>
-                                        <td>
-                                            <%= user.firstName %>
-                                        </td>
-                                        <td>
-                                            <%= user.lastName %>
-                                        </td>
-                                        <td>
-
-                                            <a href="/users/<%= user.id %>/edit" class="btn btn-primary">Edit</a>
-                                            <form action="/users/<%= user.id %>/delete" method="post">
-                                                <input type="hidden" name="id" , value="<%= user.id %>">
-                                                <button type="submit" class="btn btn-danger">Remove</button>
-                                            </form>
-
-
-
-                                        </td>
+                                        <th>Email</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Actions</th>
                                     </tr>
-                                    <% }); %>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <% users.forEach(user => { %>
+                                        <tr>
+                                            <td>
+                                                <%= user.email %>
+                                            </td>
+                                            <td>
+                                                <%= user.firstName %>
+                                            </td>
+                                            <td>
+                                                <%= user.lastName %>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <a href="/users/<%= user.id %>/edit" class="btn btn-primary mr-2">Edit</a>
+                                                    <form action="/users/<%= user.id %>/delete" method="post">
+                                                        <input type="hidden" name="id" value="<%= user.id %>">
+                                                        <button type="submit" class="btn btn-danger">Remove</button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                            <nav aria-label="User navigation">
+                                <ul class="pagination justify-content-center">
+                                    <% if (page > 1) { %>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=<%= page - 1 %>" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <% } %>
+
+                                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                                <li class="page-item <%= page === i ? 'active' : '' %>">
+                                                    <a class="page-link" href="?page=<%= i %>">
+                                                        <%= i %>
+                                                    </a>
+                                                </li>
+                                                <% } %>
+
+                                                    <% if (page < totalPages) { %>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?page=<%= page + 1 %>" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                                <span class="sr-only">Next</span>
+                                                            </a>
+                                                        </li>
+                                                        <% } %>
+                                </ul>
+                            </nav>
+                            <% } else { %>
+                                <p>No users found.</p>
+                                <% } %>
         </div>
     </body>
 
