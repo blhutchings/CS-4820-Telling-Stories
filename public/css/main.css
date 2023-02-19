@@ -114,6 +114,8 @@
 .button:hover {
   background: var(--button-color);
   transition: all 0.3s ease;
+  color: var(--navbar-backdrop-color);
+  text-decoration: none;
 }
 
 .navbar__links:hover {
@@ -672,7 +674,6 @@ hence based on resize thes values will accordingly resize*/
   margin: 0 auto;
   height: 90vh;
   z-index: 1;
-  width: 100%;
   max-width: 1300px;
 }
 
@@ -800,3 +801,36 @@ hence based on resize thes values will accordingly resize*/
   }
 }
 /*End of mobile reposnse for register page*/
+
+.h-100 {
+  background-color: var(--backdrop-color);
+}
+
+.card,
+.form-control {
+  border-radius: 50px;
+}
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: var(--backdrop-color);
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, #4f95ff 0%, #a74fff 100%);
+
+  border-radius: 50px;
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #4f95ff 0%, #a74fff 100%);
+}
+
+@media (min-width: 768px) {
+  .gradient-form {
+    height: 89vh !important;
+  }
+}
+@media (min-width: 769px) {
+  .gradient-custom-2 {
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+    border-radius: 50px;
+  }
+}

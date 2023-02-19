@@ -20,7 +20,7 @@ const server = express()
     //server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
-const sendEmail = require("../utils/email/sendEmail");
+//const sendEmail = require("../utils/email/sendEmail");
 initializePassport(
     passport,
     // email => users.find(u => u.email === email),
