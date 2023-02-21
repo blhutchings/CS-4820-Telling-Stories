@@ -42,9 +42,8 @@ To view any documentation either visit our github wiki via the above tabs, or cl
 **Project Lead:** Ben Hutchings -- @blhutchings  
 **Tech Lead:** Tasnif Ahmed -- @  
 **Test Lead:** Jackson Boulter -- @boulterjackson  
-
-Frontend Design:  
-Backend:
+**Frontend Design:** Aditya  
+**Backend:** Mamnoon Sami
 
 Other possible roles:   
 Git Repository Manager, Front End Design, Front End, Back End, API and Backend Testing Notifications, Email
