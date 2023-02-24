@@ -4,7 +4,11 @@ const db = require("../src/config/database");
 const http = require("http")
 const app = require("../src/server");
 const server = http.createServer(app);
-const port = 3000;
+const PORT = 3000;
+
+
+
+
 describe("POST /registration", () => {
     let firstName;
     let lastName;
@@ -12,7 +16,7 @@ describe("POST /registration", () => {
     let password;
     let encryptedPassword;
     beforeAll(() => {
-        server.listen(port);
+        server.listen(PORT);
     });
     afterAll(() => {
         app.close();
@@ -25,8 +29,8 @@ describe("POST /registration", () => {
         encryptedPassword = bcrypt.hashSync(password, 10);
     });
 
-    afterEach(async() => {
-        await db.User.deleteMany({});
+    afterEach(async() => { //when dealing with async() tests should add done() at the end
+        await db.UserTesting.deleteMany({});
     });
 
     it("should return 201 status code if user registration is successful", async() => {
