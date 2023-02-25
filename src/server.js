@@ -44,9 +44,9 @@ server.use(methodOverride("_method"))
 async function main() {
     const PORT = 8080
 
-    server.listen(PORT, function() {
-        console.log(`Server started on port ${PORT}...`)
-    })
+     server.listen(PORT, function() {
+         console.log(`Server started on port ${PORT}...`)
+     })
 }
 server.get('/', async(req, res) => {
     res.render("index.ejs")
@@ -74,7 +74,9 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
 server.post('/registration', checkNotAuthenticated,
     check('confirmPassword').custom((value, { req }) => {
         if (value !== req.body.password) {
+            
             throw new Error('Passwords do not match');
+            
         }
         return true;
     }),
@@ -86,11 +88,12 @@ server.post('/registration', checkNotAuthenticated,
     .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
 
     async(req, res) => {
+        res.status(400).send("password does not match")
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
             req.flash("validationErrors", passwordValidationErrors)
-            res.redirect('/registration');
+            res.redirect('/registration'); //todo
             return;
         }
 
@@ -101,11 +104,11 @@ server.post('/registration', checkNotAuthenticated,
                 const result = await db.User.create({
                     data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
                 })
-                console.log("firstName: " + firstName)
-                console.log("lastName: " + lastName)
-                console.log("email: " + email)
-                console.log("password: " + password)
-
+                // console.log("firstName: " + firstName)
+                // console.log("lastName: " + lastName)
+                // console.log("email: " + email)
+                // console.log("password: " + password)
+                console.log(data)
                 // Create a new UserRole object and connect it to the newly created User object.
                 await db.UserRole.create({
                     data: { role: 'User', user: { connect: { id: result.id } } },
@@ -115,7 +118,7 @@ server.post('/registration', checkNotAuthenticated,
             } catch (error) {
                 console.log(error)
                 req.flash("error", "User is already registered. Please login.");
-                res.redirect("/registration")
+                //res.redirect("/registration") //todo, results in a 302 status redirection code
             } finally {
                 await db.$disconnect();
             }
@@ -154,7 +157,7 @@ server.post('/forgot-password', async(req, res) => {
                 id: user.id
             }
             const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-            const resetLink = `localhost:8080/reset-password/${user.id}/${token}`
+            const resetLink = `localhost:8080/reset-password/${user.id}/${token}`//TODO: change local host to domain name
             console.log(resetLink)
             const resetEmailPayload = {
                 name: user.firstName,
@@ -388,3 +391,5 @@ function checkNotAuthenticated(req, res, next) {
     next()
 }
 main();
+
+module.exports = server
