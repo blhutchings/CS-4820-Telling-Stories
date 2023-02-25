@@ -17,7 +17,8 @@ const { check, validationResult } = require("express-validator")
 const server = express()
 const sendEmail = require("../utils/email/sendEmail")
 const { render } = require("ejs")
-    //app.set('views', './src');
+
+//app.set('views', './src');
 server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
@@ -71,10 +72,10 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
     res.render('registration.ejs', { validationErrors: req.flash('validationErrors') })
 })
 
+
 server.post('/registration', checkNotAuthenticated,
     check('confirmPassword').custom((value, { req }) => {
         if (value !== req.body.password) {
-            
             throw new Error('Passwords do not match');
             
         }
