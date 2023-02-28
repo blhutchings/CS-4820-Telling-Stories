@@ -18,7 +18,9 @@ const server = express()
 const sendEmail = require("../utils/email/sendEmail")
 const { render } = require("ejs")
 
-//app.set('views', './src');
+const getIP = require("../utils/getPublicIp")
+
+server.set('views', './src');
 server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
@@ -48,6 +50,7 @@ async function main() {
      server.listen(PORT, function() {
          console.log(`Server started on port ${PORT}...`)
      })
+     //getIP()
 }
 server.get('/', async(req, res) => {
     res.render("index.ejs")
@@ -158,7 +161,7 @@ server.post('/forgot-password', async(req, res) => {
                 id: user.id
             }
             const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-            const resetLink = `localhost:8080/reset-password/${user.id}/${token}`//TODO: change local host to domain name
+            const resetLink = `localhost:8080/reset-password/${user.id}/${token}`//TODO: make sure reset link is not tied to localhost
             console.log(resetLink)
             const resetEmailPayload = {
                 name: user.firstName,
