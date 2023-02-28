@@ -31,13 +31,19 @@
                       <h4 class="mt-5 mb-1 pb-5">A U G M E N T</h4>
                     </div>
 
-                    <form>
+                    <form action="/login" method="POST" class="input-form">
+                      <% if(messages.error) { %>
+                      <div class="alert-danger" role="alert">
+                        <strong><%= messages.error %></strong>
+                      </div>
+                      <% } %>
                       <p>Please login to your account</p>
 
                       <div class="form-outline mb-4">
                         <input
                           type="email"
                           id="form2Example11"
+                          name="email"
                           class="form-control"
                           placeholder="Email"
                         />
@@ -49,6 +55,7 @@
                       <div class="form-outline mb-4">
                         <input
                           type="password"
+                          name="password"
                           id="form2Example22"
                           class="form-control"
                           placeholder="Password"
@@ -61,7 +68,6 @@
                       <div class="text-center pt-1 mb-5 pb-1">
                         <button
                           class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-                          type="button"
                         >
                           Log in
                         </button>
@@ -102,71 +108,6 @@
         </div>
       </div>
     </section>
-    <!--Start of Login container divided into two coloums for image and login box-->
-    <!--
-    <div class="login">
-      <div class="login__container">
-        <div class="login__content">
-          <form action="/login" method="POST" class="login__form__container">
-            <% if(messages.error) { %>
-            <div class="alert-danger" role="alert">
-              <strong><%= messages.error %></strong>
-            </div>
-            <% } %>
-            <h5>Login</h5>
-            <div class="form__validation">
-              <input
-                type="email"
-                name="email"
-                class="form__input"
-                id="email"
-                placeholder="Email"
-              />
-            </div>
-            <div class="form__validation">
-              <input
-                type="password"
-                name="password"
-                class="form__input"
-                id="password"
-                placeholder="Password"
-              />
-            </div>
-            <div class="form__validation__check">
-              <input type="checkbox" class="form__input__check" />
-              <label for="remeberme" class="form__label">Remember me</label>
-            </div>
-            <div class="form__validation__btn">
-              <button class="login__btn" href="">Login</button>
-            </div>
-            <div class="form__newreg">
-              <label for="">Click here to</label>
-              <a href="/registration">Sign Up</a>
-            </div>
-          </form>
-        </div>
-        -->
-
-    <!--Start of image in second coloumn of login__container div-->
-    <!--multiple divs made to support possible putting a sildeshow-->
-    <!--
-        <div class="image__container">
-          <div class="image__item">
-            <img
-              class="img__H5P"
-              src="../public/img/H5P Comp.png"
-              alt=" H5P-COMP"
-              id="h5p__img"
-            />
-          </div>
-        </div>
-        -->
-    <!--End of image__container-->
-    <!--
-      </div>
-    </div>
-    -->
     <script src="../public/menu-toggle-transition.js"></script>
-    <script src="../public/routes.js"></script>
   </body>
 </html>
