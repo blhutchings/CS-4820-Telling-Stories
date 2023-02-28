@@ -74,7 +74,7 @@ server.post('/login', checkNotAuthenticated, passport.authenticate("local", {
     failureFlash: true
 }))
 server.get('/registration', checkNotAuthenticated, (req, res) => {
-    res.render('registration.ejs', { validationErrors: req.flash('validationErrors') })
+    res.render('tempReg.ejs', { validationErrors: req.flash('validationErrors') })
 })
 
 
