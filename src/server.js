@@ -42,17 +42,26 @@ server.use(session({
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
 }))
-server.set('views', './views');
-server.set('view engine', 'ejs');
-server.use('/public', express.static('public')); //may be expressed/condensed as app.use(express.static('public')) see here: https://expressjs.com/en/starter/static-files.html
+server.set('views', './views')
+server.set('view engine', 'ejs')
+server.use('/public', express.static('public')) //may be expressed/condensed as app.use(express.static('public')) see here: https://expressjs.com/en/starter/static-files.html
 server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(passport.initialize())
 server.use(passport.session())
 server.use(methodOverride("_method"))
 
+
+/**
+ * start the server and export server module
+ */
 server.listen(PORT)
 console.log(`Server started on port http://localhost:${PORT}...`)
+module.exports = server
+
+/**
+ * code
+ */
 
 server.get('/', async(req, res) => {
     res.render("index.ejs")
@@ -68,7 +77,6 @@ server.get('/login', checkNotAuthenticated, (req, res) => {
     res.render('login.ejs')
 })
 server.post('/login', checkNotAuthenticated, passport.authenticate("local", {
-
     successRedirect: "/create",
     failureRedirect: "/login",
     failureFlash: true
@@ -81,10 +89,7 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
 server.post('/registration', checkNotAuthenticated,
     check('confirmPassword').custom((value, { req }) => {
         if (value !== req.body.password) {
-            
             throw new Error('Passwords do not match');
-            
-
         }
         return true;
     }),
@@ -112,16 +117,13 @@ server.post('/registration', checkNotAuthenticated,
                 const result = await db.User.create({
                     data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
                 })
-                // console.log("firstName: " + firstName)
-                // console.log("lastName: " + lastName)
-                // console.log("email: " + email)
-                // console.log("password: " + password)
                 console.log(data)
+                
+                
                 // Create a new UserRole object and connect it to the newly created User object.
                 await db.UserRole.create({
                     data: { role: 'User', user: { connect: { id: result.id } } },
                 });
-
                 res.redirect("/login")
             } catch (error) {
                 console.log(error)
@@ -400,4 +402,3 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 
-module.exports = server
