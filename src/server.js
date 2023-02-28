@@ -1,56 +1,59 @@
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config()
-}
 
+/**
+ * modular dependancies
+ */
 const express = require("express")
-const db = require("./config/database")
-const bcrypt = require("bcrypt")
-const { Prisma } = require("@prisma/client")
-const initializePassport = require("./config/passport")
+const server = express()
+const render  = require("ejs")
 const flash = require("express-flash")
 const session = require("express-session")
-const { application } = require("express")
+const bcrypt = require("bcrypt")
 const passport = require("passport")
-const methodOverride = require("method-override")
 const jwt = require("jsonwebtoken")
 const { check, validationResult } = require("express-validator")
-const server = express()
-const sendEmail = require("../utils/email/sendEmail")
-const { render } = require("ejs")
+const methodOverride = require("method-override")
+const sendEmail = require("../utils/email/sendEmail") 
+const initializePassport = require("./config/passport")
+const db = require("./config/database")
 
-    //app.set('views', './src');
-server.set('view engine', 'ejs');
+const { Prisma } = require("@prisma/client") //is this needed/being used here, also see database.js
+const { application } = require("express") //is this being used?
 
-const salt = bcrypt.genSaltSync(10);
+
+
+/***
+ * Config
+ */
+const SALT = bcrypt.genSaltSync(10);
 const JWT_SECRET = process.env.JWT_SECRET
+const PAGE_SIZE = 8;
+const PORT = 8080
+
+if (process.env.NODE_ENV !== "production") {//checks if we are in prod envoirment
+    require("dotenv").config()
+}
 initializePassport(
     passport,
     async email => await db.User.findFirst({ where: { email } }),
     async id => await db.User.findFirst({ where: { id } })
 )
-const PAGE_SIZE = 8;
-server.use('/public', express.static('public'));
-// below line of code is to get the form data in req.body
-server.use(express.urlencoded({ extended: false }))
-server.use(flash())
 server.use(session({
     secret: process.env.SESSION_SECRET,
-
-   // secret: "sami1234",
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
 }))
+server.set('views', './views');
+server.set('view engine', 'ejs');
+server.use('/public', express.static('public')); //may be expressed/condensed as app.use(express.static('public')) see here: https://expressjs.com/en/starter/static-files.html
+server.use(express.urlencoded({ extended: false }))
+server.use(flash())
 server.use(passport.initialize())
 server.use(passport.session())
 server.use(methodOverride("_method"))
 
-async function main() {
-    const PORT = 8080
+server.listen(PORT)
+console.log(`Server started on port http://localhost:${PORT}...`)
 
-     server.listen(PORT, function() {
-         console.log(`Server started on port ${PORT}...`)
-     })
-}
 server.get('/', async(req, res) => {
     res.render("index.ejs")
 })
@@ -103,7 +106,7 @@ server.post('/registration', checkNotAuthenticated,
         }
 
         const { firstName, lastName, email, password } = req.body
-        const encryptedPassword = await bcrypt.hashSync(password, salt)
+        const encryptedPassword = await bcrypt.hashSync(password, SALT)
         if (email && encryptedPassword) {
             try {
                 const result = await db.User.create({
@@ -233,7 +236,7 @@ server.post('/reset-password/:id/:token',
             const secret = JWT_SECRET + user.password
             try {
                 const payload = jwt.verify(token, secret)
-                const hash = await bcrypt.hash(password, salt)
+                const hash = await bcrypt.hash(password, SALT)
                 await db.User.update({
                     where: {
                         id: parseInt(id),
@@ -395,6 +398,6 @@ function checkNotAuthenticated(req, res, next) {
     }
     next()
 }
-main();
+
 
 module.exports = server
