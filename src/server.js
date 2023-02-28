@@ -20,7 +20,7 @@ const { render } = require("ejs")
 
 const getIP = require("../utils/getPublicIp")
 
-server.set('views', './src');
+
 server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
