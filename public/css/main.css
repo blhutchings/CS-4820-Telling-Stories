@@ -1,195 +1,802 @@
-/*body css*/
-
-body {
-    padding: 0;
-    margin: 0;
-    background: #EAF7FF;
+:root {
+  --navbar-backdrop-color: #eaf7ff;
+  --backdrop-color: #eaf7ff; /*Chnage this to any color to affect chnage in overall backdrop color*/
+  --navbar-links-color: #131313; /*Menu Links and inverted color chnaged for text or menu links from here*/
+  --button-color: #4837ff; /*Button text color can be chnaged using this*/
+  --button-text-color: #fff;
 }
 
-
-/*links css*/
-
-a {
-    font-family: Nueue;
-    letter-spacing: 2px;
-}
-
-
-/*paragrapg text css*/
-
-p {
-    font-family: Nueue;
-}
-
-h5 {
-    font-family: Nueue;
-    font-weight: 700;
-    font-size: xx-large;
-    letter-spacing: 5px;
-}
-
-
-/*fonta to be used*/
-
+/*fonts to be used*/
 @font-face {
-    font-family: Nueue;
-    src: url("/fonts/Helvetica 43 Light Extended.otf") format("opentype");
+  font-family: Nueue;
+  src: url("/public/fonts/Helvetica 43 Light Extended.otf") format("opentype");
 }
 
-
-/*nav bar css*/
-
-.nav-link,
-.navbar-brand {
-    font-weight: 800;
-    color: #074EE8 !important;
-    cursor: pointer;
+/*General CSS*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Nueue;
 }
 
-.navbar-brand {
-    margin: auto;
-    letter-spacing: 15px;
-    font-size: xx-large;
+/*Start of your Nav Bar CSS*/
+.navbar {
+  background: var(--backdrop-color);
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 }
 
-.offcanvas {
-    background-color: #EAF7FF;
+.navbar__container {
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 50px;
+  padding-left: 50px;
+  font-weight: 700;
 }
 
-.navbar-toggler:focus,
-.navbar-toggler:active {
-    outline: none;
-    box-shadow: none;
-    border-color: #EAF7FF;
+#navbar__logo {
+  background-color: var(--button-color);
+  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 2rem;
+  letter-spacing: 20px;
 }
 
-.btn:hover {
-    background-color: #4F95FF;
-    border-color: #074EE8;
+.fa-gem {
+  margin-right: 0.5rem;
 }
 
-.btn {
-    color: #074EE8;
-    border-color: #074EE8;
-    border: 1px solid #2871FF;
-    font-family: Nueue;
-    font-size: small;
-    letter-spacing: 2px;
-    border-radius: 20px;
-    height: 30px;
-    width: 100px;
+.navbar__menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  text-align: center;
 }
 
-.nav-link {
-    margin-right: 1em !important;
+.navbar__item {
+  height: 80px;
 }
 
-.nav-link:hover {
-    color: #000000 !important;
+.navbar__links {
+  color: var(--navbar-links-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
 }
 
-.navbar-collapse {
-    justify-content: flex-end;
+.navbar__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  width: 100%;
 }
 
-
-/*Div Containers holding login container and preview image container*/
-
-.login-box {
-    text-align: center;
-    width: fit-content;
-    /*border: 2px solid black;*/
-    height: 600px;
-    display: inline-block;
-    white-space: nowrap;
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding: 10px 20px;
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
+  color: var(--button-text-color);
 }
 
-.register-box {
-    width: 100%;
-    margin: auto;
-    /*border: 2px solid black;*/
-    height: 600px;
-    display: inline-block;
-    white-space: nowrap;
+.button:hover {
+  background: var(--button-color);
+  transition: all 0.3s ease;
 }
 
-.registration-info {
-    width: 800px;
-    height: 600px;
-    margin-top: 170px;
-    margin-left: 60px;
-    /*border: 2px solid black;*/
-    display: inline-block;
+.navbar__links:hover {
+  color: #4837ff;
+  transition: all 0.3s ease;
 }
 
-
-/*Next to register box info CSS*/
-
-.info-label {
-    font-family: Nueue;
-}
-
-.image-gondola-container {
-    width: 800px;
-    height: 600px;
-    margin-top: 100px;
-    margin-left: 120px;
-    text-align: center;
-    /*border: 2px solid black;*/
-    display: inline-block;
-}
-
-
-/*form css*/
-
-.form-control {
-    border-radius: 100px;
-    border: 1px solid #2871FF;
-    height: 30px;
-}
-
-.input-form {
-    margin: auto;
-}
-
-.form-group-form-check,
-.form-group {
-    width: 350px;
-    padding: 8px;
-    margin: auto;
-    text-align: center;
+/*Nav Bar container mobile response*/
+@media screen and (max-width: 960px) {
+  .navbar__container {
     display: flex;
-}
+    justify-content: space-between;
+    height: 80px;
+    z-index: 1;
+    width: 100%;
+    max-width: 1300px;
+    padding: 0;
+  }
 
-.form-group-lgn-btn {
-    padding-top: 10px;
-    text-align: center;
-}
-
-
-/*login form container css*/
-
-.form-container {
-    background-color: #ffffff;
-    width: 500px;
-    height: 500px;
-    margin-top: 160px;
-    margin-left: 170px;
-    border-radius: 15px 100px;
-    box-shadow: 0 10px #ccc;
-    border: 1px solid #ccc;
+  .navbar__menu {
     display: grid;
-    float: left;
+    grid-template-columns: auto;
+    margin: 0;
+    width: 100%;
+    position: absolute;
+    top: -1000px;
+    opacity: 1;
+    transition: all 0.5s ease;
+    height: 50vh;
+    z-index: -1;
+  }
+
+  .navbar__menu.active {
+    background: var(--backdrop-color);
+    top: 100%;
+    opacity: 1;
+    transition: all 0.5s ease;
+    z-index: 99;
+    height: 50vh;
+    font-size: 1.6rem;
+  }
+
+  #navbar__logo {
+    padding-left: 25px;
+  }
+
+  .navbar__toggle .bar {
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    transition: all 0.3s ease-in-out;
+    background: var(--navbar-links-color);
+  }
+
+  .navbar__item {
+    width: 100%;
+  }
+
+  .navbar__links {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+  }
+
+  .navbar__btn {
+    padding-bottom: 2rem;
+  }
+
+  .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 80px;
+    margin: 0;
+  }
+
+  /*Mobile menu that appears when page is resized*/
+  #mobile-menu {
+    position: absolute;
+    top: 20%;
+    right: 5%;
+    transform: translate(5%, 20%);
+  }
+
+  .navbar__toggle .bar {
+    display: block;
+    cursor: pointer;
+  }
+
+  #mobile-menu.is-active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  #mobile-menu.is-active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  #mobile-menu.is-active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  /*End of Nav bar menu mobile repsonse*/
+}
+/*End of nav Bar mobile response*/
+/*End of Nav bar CSS*/
+
+/*Hero Section CSS*/
+/*This takes care of your main front page display
+that essentailly engages viewers or pulls in viewers*/
+.main {
+  background-color: var(--backdrop-color);
 }
 
-
-/*Preview image CSS*/
-
-.Login-H5P {
-    box-shadow: 0 10px #ccc;
-    border: 1px solid #ccc;
-    border-radius: 100px 15px;
-    width: 120%;
-    height: auto;
-    aspect-ratio: attr(width) / attr(height);
+.main__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  height: 90vh;
+  background-color: var(--backdrop-color);
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 50px;
 }
+
+.main__content h1 {
+  font-size: 4rem;
+  background-color: #4f95ff;
+  background-image: linear-gradient(to top, #4f5bff 0%, #8696d0 100%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.main__content h2 {
+  font-size: 4rem;
+  background-color: #4f95ff;
+  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.main__content p {
+  font-size: 4rem;
+  background-color: #4f95ff;
+  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.main__btn {
+  font-size: 1rem;
+  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
+  padding: 14px 32px;
+  border: none;
+  border-radius: 50px;
+  color: var(--button-color);
+  margin-top: 2rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.35s;
+  outline: none;
+}
+
+.main__btn a {
+  position: relative;
+  z-index: 2;
+  color: var(--button-text-color);
+  text-decoration: none;
+}
+
+.main__btn:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: var(--button-color);
+  transition: all 0.35s;
+  border-radius: 50px;
+}
+
+.main__btn:hover {
+  color: var(--button-color);
+}
+
+.main__btn:hover:after {
+  width: 100%;
+}
+
+.main__img--container {
+  text-align: center;
+}
+
+/*Image sizing here*/
+#main__img {
+  height: 100%;
+  width: 100%;
+}
+
+/*Mobile Responsive*/
+@media screen and (max-width: 768px) {
+  .main__container {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    justify-self: center;
+    width: 100%;
+    margin: 0 auto;
+    height: 90vh;
+  }
+
+  .main__content {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .main__content h1 {
+    font-size: 2.5rem;
+    margin-top: 2rem;
+  }
+
+  .main__content h2 {
+    font-size: 3rem;
+  }
+
+  .main__content p {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+  }
+}
+
+/*max-wdith for mobile responsive changes here
+hence based on resize thes values will accordingly resize*/
+@media screen and (max-width: 480px) {
+  .main__content h1 {
+    font-size: 2rem;
+    margin-top: 3rem;
+  }
+
+  .main__content h2 {
+    font-size: 2rem;
+  }
+
+  .main__content p {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .main__btn {
+    padding: 12px 36px;
+    margin: 2.5rem 0;
+  }
+}
+/*Services Section CSS*/
+.services {
+  background: var(--backdrop-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.services h1 {
+  background-color: #ff8177;
+  background-image: linear-gradient(
+    to right,
+    #4f95ff 0%,
+    #7baef9 0%,
+    #5d9af5 52%,
+    #2c5da5 78%,
+    #0f3774 100%
+  );
+
+  background-size: 100%;
+  margin-bottom: 5rem;
+  font-size: 2.5rem;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.services__container {
+  background-color: var(--backdrop-color);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.services__card {
+  background-color: var(--backdrop-color);
+  margin: 1rem;
+  height: 525px;
+  width: 400px;
+  border-radius: 4px;
+  background-image: linear-gradient(
+      to button,
+      rgba * (0, 0, 0, 0) 0%,
+      rgba(17, 17, 17, 0) 100%
+    ),
+    url("/public/images/H5P-Logo.png");
+  background-size: cover;
+  position: relative;
+  color: var(--navbar-links-color);
+}
+
+.services__card button {
+  font-size: 1rem;
+  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
+  padding: 14px 32px;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  color: var(--button-color);
+  margin-top: 2rem;
+  cursor: pointer;
+  position: absolute;
+  transition: all 0.35s;
+  outline: none;
+}
+
+.services__card a {
+  position: relative;
+  z-index: 2;
+  color: var(--button-text-color);
+  text-decoration: none;
+}
+
+.services__card button:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: #4837ff;
+  transition: all 0.35s;
+  border-radius: 50px;
+}
+
+.services__card button:hover {
+  color: var(--button-color);
+}
+
+.services__card button:hover:after {
+  width: 100%;
+}
+/*End of Hero Section Index Page*/
+
+/*This is the new login CSS, major changes to HTML and CSS made for clarity and consistency*/
+.login {
+  background-color: var(--backdrop-color);
+}
+
+.login__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  background-color: var(--backdrop-color);
+  justify-self: center;
+  margin: 0 auto;
+  height: 90vh;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+}
+
+.login__content {
+  font-size: 1rem;
+  background-color: var(--backdrop-color);
+  padding: 10%;
+}
+
+.login__form__container {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  text-align: center;
+  height: 70vh;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 28%;
+  background-color: #ffff;
+  border-radius: 40px;
+}
+.login__form__container h5 {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+}
+
+.form__validation {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+  text-align: center;
+}
+.form__input {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  z-index: 1;
+  height: 250%;
+  width: 100%;
+  max-width: 1300px;
+  border-radius: 20px;
+  text-indent: 10px;
+}
+
+.login__btn {
+  font-size: 1rem;
+  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
+  padding: 10px 32px;
+  border: none;
+  border-radius: 40px;
+  color: var(--button-text-color);
+  margin-top: 0.5rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.35s;
+  outline: none;
+}
+
+.login__btn a {
+  position: relative;
+  z-index: 2;
+  color: var(--button-text-color);
+  text-decoration: none;
+}
+.login__btn:hover {
+  background: var(--button-color);
+}
+
+.login__btn:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  transition: all 0.35s;
+  border-radius: 40px;
+}
+
+.login__btn:hover:after {
+  width: 100%;
+}
+/*end of login CSS*/
+
+/*Start of Mobile response for Login page*/
+@media screen and (max-width: 700px) {
+  .login__container {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0px;
+    height: 180vh;
+  }
+
+  .login__content {
+    text-align: center;
+    display: grid;
+    margin-bottom: 6rem;
+    margin-top: 4rem;
+  }
+
+  /*Mobile response for exaple image*/
+  /*This needs to becked and possibly redone*/
+
+  .image__item {
+    display: grid;
+    align-items: center;
+    justify-self: center;
+    margin: 0 auto;
+    height: 20vh;
+    z-index: 1;
+    width: 20%;
+    max-width: 1300px;
+    padding-right: 50%;
+    padding-top: 10%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .login__content h5 {
+    font-size: 2rem;
+    margin-top: 3rem;
+  }
+}
+/*end of Mobile response CSS*/
+
+/*Start of Image container for login page*/
+.image__container {
+  background-color: var(--backdrop-color);
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  height: 80vh;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+}
+
+.image__item {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  height: 70vh;
+  z-index: 1;
+  width: 130%;
+  max-width: 1300px;
+  padding-right: 50%;
+  padding-top: 10%;
+}
+
+#h5p__img {
+  height: 120%;
+  width: 130%;
+  border-radius: 40px;
+}
+/*End of image CSS for login page*/
+
+/*Start of regsiter CSS*/
+.register {
+  background-color: var(--backdrop-color);
+}
+
+.register__container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  background-color: var(--backdrop-color);
+  justify-self: center;
+  margin: 0 auto;
+  height: 90vh;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+}
+
+.register__form__container h5 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.register__content {
+  font-size: 1rem;
+  background-color: var(--backdrop-color);
+}
+
+.register__form__container {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  text-align: center;
+  height: 70vh;
+  z-index: 1;
+  width: 80%;
+  max-width: 1300px;
+  margin-left: 10%;
+  padding: 0 110px;
+  background-color: #ffff;
+  border-radius: 40px;
+}
+
+.form__validation__reg {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+  text-align: center;
+}
+
+.form__input {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  margin: 0 auto;
+  z-index: 1;
+  width: 100%;
+  max-width: 1300px;
+  border-radius: 20px;
+  text-indent: 10px;
+}
+
+.register__btn {
+  font-size: 1rem;
+  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
+  padding: 10px 32px;
+  border: none;
+  border-radius: 40px;
+  color: var(--button-text-color);
+  margin-top: 0.5rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.35s;
+  outline: none;
+}
+
+.register__btn a {
+  position: relative;
+  z-index: 2;
+  color: var(--button-color);
+  text-decoration: none;
+}
+
+.register__btn:hover {
+  background: #4837ff;
+}
+
+.register__btn:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  transition: all 0.35s;
+  border-radius: 40px;
+}
+
+.register__btn:hover:after {
+  width: 100%;
+}
+/*End of regsiter CSS*/
+
+/*Registration info Div CSS*/
+.register__info {
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  text-align: justify;
+}
+/*End of registration info CSS*/
+
+/*Start of Mobile response for register page*/
+@media screen and (max-width: 700px) {
+  .register__container {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0px;
+    height: 110vh;
+  }
+
+  .register__content {
+    text-align: center;
+    display: grid;
+    margin-bottom: 2rem;
+  }
+
+  .register__info {
+    display: grid;
+    text-align: justify;
+    align-items: center;
+    width: 80%;
+  }
+}
+/*End of mobile reposnse for register page*/

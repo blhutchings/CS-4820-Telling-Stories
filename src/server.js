@@ -17,6 +17,7 @@ const { check, validationResult } = require("express-validator")
 const server = express()
 const sendEmail = require("../utils/email/sendEmail")
 const { render } = require("ejs")
+
     //app.set('views', './src');
 server.set('view engine', 'ejs');
 
@@ -34,6 +35,8 @@ server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(session({
     secret: process.env.SESSION_SECRET,
+
+   // secret: "sami1234",
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
 }))
@@ -71,12 +74,14 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
     res.render('registration.ejs', { validationErrors: req.flash('validationErrors') })
 })
 
+
 server.post('/registration', checkNotAuthenticated,
     check('confirmPassword').custom((value, { req }) => {
         if (value !== req.body.password) {
             
             throw new Error('Passwords do not match');
             
+
         }
         return true;
     }),
