@@ -8,6 +8,12 @@ const router = express.Router()
 const auth = require('./authenticate')
 const db = require("./config/database")
 
+/**
+ * config
+ */
+const PAGE_SIZE = 8;
+
+
 
 /**
  * code to handle any requests to the user route

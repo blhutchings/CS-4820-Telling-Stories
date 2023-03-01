@@ -6,6 +6,17 @@ const express = require("express")
 const router = express.Router()
 const auth = require('./authenticate')
 const { check, validationResult } = require("express-validator")
+const bcrypt = require("bcrypt")
+
+
+/**
+ * config
+ */
+
+const SALT = bcrypt.genSaltSync(10);
+
+
+
 
 /**
  * code to handle any requests to the 'registration' route
