@@ -4,18 +4,15 @@
  */
 const express = require("express")
 const router = express.Router()
-const auth = require('./authenticate')
 const { check, validationResult } = require("express-validator")
 const bcrypt = require("bcrypt")
+const auth = require('./authenticate')
 
 
 /**
  * config
  */
-
 const SALT = bcrypt.genSaltSync(10);
-
-
 
 
 /**

@@ -3,11 +3,14 @@
  */
 const express = require("express")
 const router = express.Router()
-const auth = require('./authenticate')
 const passport = require("passport")
+const auth = require('./authenticate')
 
 
-
+/**
+ * routes that handle basic account functionality such as logging in and logging out, also redirects 
+ * the user to their 'homepage' when they successfully login
+ */
 router.get('/homepage', auth.checkAuthenticated, async(req, res) => { //todo: rename to account/homepage? user/create?
 
     console.log("USER ID IS " + req.user.id)

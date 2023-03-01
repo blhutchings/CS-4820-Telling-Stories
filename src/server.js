@@ -4,13 +4,13 @@
  */
 const express = require("express")
 const server = express()
-const render  = require("ejs")
+//const render  = require("ejs")
 const flash = require("express-flash")
 const session = require("express-session")
 const passport = require("passport")
-const { check, validationResult } = require("express-validator")
+//const { check, validationResult } = require("express-validator")
 const methodOverride = require("method-override")
-const sendEmail = require("../utils/email/sendEmail") 
+//const sendEmail = require("../utils/email/sendEmail") 
 const initializePassport = require("./config/passport")
 const db = require("./config/database")
 
@@ -23,10 +23,6 @@ const { application } = require("express") //TODO: is this being used?
 /***
  * Config
  */
-const JWT_SECRET = process.env.JWT_SECRET
-
-const PORT = 8080
-
 if (process.env.NODE_ENV !== "production") {//checks if we are in prod envoirment
     require("dotenv").config()
 }
@@ -48,17 +44,6 @@ server.use(flash())
 server.use(passport.initialize())
 server.use(passport.session())
 server.use(methodOverride("_method"))
-
-
-/**
- * start the server and export server module
- */
-server.listen(PORT)
-console.log(`Server started on port http://localhost:${PORT}...`)
-module.exports = server
-
-
-
 const ip = require('../utils/getPublicIp')
 const auth = require('./authenticate')
 const regestrationRoute = require('./registration')
@@ -66,12 +51,23 @@ const usersRoute = require('./users')
 const accountRoute = require('./account')
 const passwordRoute = require('./password')
 
+
+
+
+/**
+ * start the server and export server module
+ */
+const PORT = 8080
+server.listen(PORT)
+console.log(`Server started on port http://localhost:${PORT}...`)
+module.exports = server
+
+
+
 /**
  * server code, primiarly uses Expresses routes, and creates 'mini-apps' for the main functionalities
- * of our application,
+ * of our application
  */
-
-
 server.get('/', async(req, res) => {
     res.render("index.ejs")
 })

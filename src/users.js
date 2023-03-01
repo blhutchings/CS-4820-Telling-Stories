@@ -18,7 +18,6 @@ const PAGE_SIZE = 8;
 /**
  * code to handle any requests to the user route
  */
-
 router.get('/', auth.checkAuthenticated, async(req, res) => { //remember, /users is appended at the begining of this route, even though it is written as /
     const page = parseInt(req.query.page) || 1
     const skip = (page - 1) * PAGE_SIZE
@@ -35,7 +34,7 @@ router.get('/', auth.checkAuthenticated, async(req, res) => { //remember, /users
 
         //console.log(user)
 
-        if (!user || user.role[0].role !== "Admin") {
+        if (!user || user.role[0].role !== "Admin") { //todo, may be small issue, returns internal server error when the given user (in User) does not have role/exist in UserRole
             // req.flash("error", "You do not have access to view users.")
             res.render("unauthorized.ejs")
             return

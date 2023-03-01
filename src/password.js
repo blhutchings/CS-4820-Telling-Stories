@@ -5,17 +5,16 @@
  */
 const express = require("express")
 const router = express.Router()
-const db = require("./config/database")
 const { check, validationResult } = require("express-validator")
-const sendEmail = require("../utils/email/sendEmail") 
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const sendEmail = require("../utils/email/sendEmail") 
+const db = require("./config/database")
 
 
 /**
  * config
  */
-
 const SALT = bcrypt.genSaltSync(10);
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -137,11 +136,6 @@ router.post('/reset/:id/:token',
         }
 
     })
-
-
-
-
-
 
 
 
