@@ -1,10 +1,15 @@
+/**
+ * modular dependcies
+ * todo: might have to import our db config into this file as well
+ */
 const express = require("express")
 const router = express.Router()
 const auth = require('./authenticate')
 const { check, validationResult } = require("express-validator")
 
-//todo, might have to import our db config in this file as well
-
+/**
+ * code to handle any requests to the 'registration' route
+ */
 router.get('/', auth.checkNotAuthenticated, (req, res) => {
     res.render('tempReg.ejs', { validationErrors: req.flash('validationErrors') })
 })

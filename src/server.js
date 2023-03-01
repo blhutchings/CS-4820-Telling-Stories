@@ -64,6 +64,8 @@ module.exports = server
 
 const auth = require('./authenticate')
 const regestrationRoute = require('./registration')
+const usersRoute = require('./registration')
+
 /**
  * code
  */
@@ -89,6 +91,8 @@ server.get('/login', auth.checkNotAuthenticated, (req, res)=>{ //
 
 
 server.use('/registration', regestrationRoute)
+server.use('/users', usersRoute)
+
 ip()
 
 

@@ -1,5 +1,15 @@
+
+/**
+ * modular dependcies
+ */
 const express = require("express")
 const router = express.Router()
+const db = require("./config/database")
+
+
+/**
+ * code to handle any requests to the user route
+ */
 
 router.get('/', auth.checkAuthenticated, async(req, res) => { //remember, /users is appended at the begining of this route, even though it is written as /
     const page = parseInt(req.query.page) || 1
