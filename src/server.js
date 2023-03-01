@@ -16,8 +16,9 @@ const sendEmail = require("../utils/email/sendEmail")
 const initializePassport = require("./config/passport")
 const db = require("./config/database")
 
-const { Prisma } = require("@prisma/client") //is this needed/being used here, also see database.js
-const { application } = require("express") //is this being used?
+const { Prisma } = require("@prisma/client") //TODO: is this needed/being used here, also see database.js
+const { application } = require("express") //TODO: is this being used?
+
 
 
 
@@ -44,7 +45,7 @@ server.use(session({
 }))
 server.set('views', './views')
 server.set('view engine', 'ejs')
-server.use('/public', express.static('public')) //may be expressed/condensed as app.use(express.static('public')) see here: https://expressjs.com/en/starter/static-files.html
+server.use('/public', express.static('public')) //TODO: may be expressed/condensed as app.use(express.static('public')) see here: https://expressjs.com/en/starter/static-files.html
 server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(passport.initialize())
@@ -59,6 +60,9 @@ server.listen(PORT)
 console.log(`Server started on port http://localhost:${PORT}...`)
 module.exports = server
 
+
+
+const auth = require('./authenticate')
 /**
  * code
  */
@@ -67,26 +71,41 @@ server.get('/', async(req, res) => {
     res.render("index.ejs")
 })
 
-server.get('/create', checkAuthenticated, async(req, res) => {
+server.get('/create', auth.checkAuthenticated, async(req, res) => {
 
     console.log("USER ID IS " + req.user.id)
     res.render("create.ejs", { name: req.user.firstName })
 })
 
-server.get('/login', checkNotAuthenticated, (req, res) => {
+//testing
+
+const accountRoute = require("./account")
+
+//server.use('/login', accountRoute)
+server.get('/login', auth.checkNotAuthenticated, (req, res)=>{ //
     res.render('login.ejs')
 })
-server.post('/login', checkNotAuthenticated, passport.authenticate("local", {
+const ip = require('../utils/getPublicIp')
+
+
+ip()
+
+
+
+
+
+//end of testing
+server.post('/login', auth.checkNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/create",
     failureRedirect: "/login",
     failureFlash: true
 }))
-server.get('/registration', checkNotAuthenticated, (req, res) => {
+server.get('/registration', auth.checkNotAuthenticated, (req, res) => {
     res.render('tempReg.ejs', { validationErrors: req.flash('validationErrors') })
 })
 
 
-server.post('/registration', checkNotAuthenticated,
+server.post('/registration', auth.checkNotAuthenticated,
     check('confirmPassword').custom((value, { req }) => {
         if (value !== req.body.password) {
             throw new Error('Passwords do not match');
@@ -256,7 +275,7 @@ server.post('/reset-password/:id/:token',
 
     })
 
-server.get('/users', checkAuthenticated, async(req, res) => {
+server.get('/users', auth.checkAuthenticated, async(req, res) => {
     const page = parseInt(req.query.page) || 1
     const skip = (page - 1) * PAGE_SIZE
     const limit = PAGE_SIZE
@@ -387,18 +406,18 @@ server.post('/users/:id/edit', async(req, res) => {
 
 
 
-function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next()
-    }
-    res.redirect("/login")
-}
+// function checkAuthenticated(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         return next()
+//     }
+//     res.redirect("/login")
+// }
 
-function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect("/create")
-    }
-    next()
-}
+// function checkNotAuthenticated(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         return res.redirect("/create")
+//     }
+//     next()
+// }
 
 
