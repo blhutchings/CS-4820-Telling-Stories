@@ -63,6 +63,7 @@ module.exports = server
 
 
 const auth = require('./authenticate')
+const regestrationRoute = require('./registration')
 /**
  * code
  */
@@ -71,23 +72,23 @@ server.get('/', async(req, res) => {
     res.render("index.ejs")
 })
 
-server.get('/create', auth.checkAuthenticated, async(req, res) => {
+server.get('/create', auth.checkAuthenticated, async(req, res) => { //todo: rename to user/homepage? user/create?
 
     console.log("USER ID IS " + req.user.id)
     res.render("create.ejs", { name: req.user.firstName })
 })
 
 //testing
-
 const accountRoute = require("./account")
+const ip = require('../utils/getPublicIp')
 
 //server.use('/login', accountRoute)
 server.get('/login', auth.checkNotAuthenticated, (req, res)=>{ //
     res.render('login.ejs')
 })
-const ip = require('../utils/getPublicIp')
 
 
+server.use('/registration', regestrationRoute)
 ip()
 
 
@@ -100,60 +101,7 @@ server.post('/login', auth.checkNotAuthenticated, passport.authenticate("local",
     failureRedirect: "/login",
     failureFlash: true
 }))
-server.get('/registration', auth.checkNotAuthenticated, (req, res) => {
-    res.render('tempReg.ejs', { validationErrors: req.flash('validationErrors') })
-})
 
-
-server.post('/registration', auth.checkNotAuthenticated,
-    check('confirmPassword').custom((value, { req }) => {
-        if (value !== req.body.password) {
-            throw new Error('Passwords do not match');
-        }
-        return true;
-    }),
-
-    check('password')
-    .notEmpty().withMessage("Password field can not be empty")
-    .isLength({ min: 8 }).withMessage('Password must be 8 characters long')
-    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must include a special character')
-    .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
-
-    async(req, res) => {
-        res.status(400).send("password does not match")
-        const errors = validationResult(req)
-        if (!errors.isEmpty()) {
-            const passwordValidationErrors = errors.array().map(error => error.msg);
-            req.flash("validationErrors", passwordValidationErrors)
-            res.redirect('/registration'); //todo
-            return;
-        }
-
-        const { firstName, lastName, email, password } = req.body
-        const encryptedPassword = await bcrypt.hashSync(password, SALT)
-        if (email && encryptedPassword) {
-            try {
-                const result = await db.User.create({
-                    data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
-                })
-                console.log(data)
-                
-                
-                // Create a new UserRole object and connect it to the newly created User object.
-                await db.UserRole.create({
-                    data: { role: 'User', user: { connect: { id: result.id } } },
-                });
-                res.redirect("/login")
-            } catch (error) {
-                console.log(error)
-                req.flash("error", "User is already registered. Please login.");
-                //res.redirect("/registration") //todo, results in a 302 status redirection code
-            } finally {
-                await db.$disconnect();
-            }
-
-        }
-    })
 
 server.delete("/logout", (req, res) => {
     req.logout(req.user, err => {
@@ -275,149 +223,6 @@ server.post('/reset-password/:id/:token',
 
     })
 
-server.get('/users', auth.checkAuthenticated, async(req, res) => {
-    const page = parseInt(req.query.page) || 1
-    const skip = (page - 1) * PAGE_SIZE
-    const limit = PAGE_SIZE
 
-    const count = await db.user.count()
-    const totalPages = Math.ceil(count / PAGE_SIZE)
-
-    try {
-        const user = await db.User.findFirst({
-            where: { id: req.user.id },
-            include: { role: true },
-        })
-
-        //console.log(user)
-
-        if (!user || user.role[0].role !== "Admin") {
-            // req.flash("error", "You do not have access to view users.")
-            res.render("unauthorized.ejs")
-            return
-        }
-
-
-        const users = await db.user.findMany({
-            skip: skip,
-            take: limit,
-            select: {
-                id: true,
-                email: true,
-                firstName: true,
-                lastName: true,
-            },
-        });
-
-        console.log("users length is " + count)
-        res.render("users.ejs", { users, page, totalPages });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-server.post('/users/:id/delete', async(req, res) => {
-    const userId = parseInt(req.params.id);
-    console.log(userId)
-    try {
-        // Find the user by ID
-        const user = await db.user.findUnique({
-            where: {
-                id: userId,
-            },
-        });
-        console.log(user);
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        // Delete the user
-        await db.user.delete({
-            where: {
-                id: userId,
-            },
-        });
-
-        // Redirect to the list of users
-        res.redirect('/users');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-server.get('/users/:id/edit', async(req, res) => {
-    try {
-        const userId = parseInt(req.params.id);
-        const user = await db.user.findUnique({
-            where: {
-                id: userId
-            },
-            include: {
-                role: true
-            }
-        });
-        console.log(user)
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        res.render('edit-user', {
-            user: user
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-server.post('/users/:id/edit', async(req, res) => {
-    const { firstName, lastName, email, role } = req.body;
-    const userId = parseInt(req.params.id);
-
-    try {
-        const updatedUser = await db.user.update({
-            where: {
-                id: userId
-            },
-            data: {
-                firstName: firstName,
-                lastName: lastName,
-                email: email
-            }
-        });
-        const updatedUserRole = await db.userRole.update({
-            where: {
-                id: userId
-            },
-            data: {
-                role: role,
-            },
-        });
-
-        req.flash('success', 'User updated successfully!');
-        res.redirect('/users');
-    } catch (err) {
-        console.error(err);
-        req.flash('error', 'Failed to update user.');
-        res.redirect('/users');
-    }
-});
-
-
-
-// function checkAuthenticated(req, res, next) {
-//     if (req.isAuthenticated()) {
-//         return next()
-//     }
-//     res.redirect("/login")
-// }
-
-// function checkNotAuthenticated(req, res, next) {
-//     if (req.isAuthenticated()) {
-//         return res.redirect("/create")
-//     }
-//     next()
-// }
 
 
