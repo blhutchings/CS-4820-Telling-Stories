@@ -1,9 +1,11 @@
 
 /**
  * modular dependcies
+ * todo: might have to import our db config into this file as well
  */
 const express = require("express")
 const router = express.Router()
+const auth = require('./authenticate')
 const db = require("./config/database")
 
 

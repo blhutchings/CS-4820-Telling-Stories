@@ -64,7 +64,9 @@ module.exports = server
 
 const auth = require('./authenticate')
 const regestrationRoute = require('./registration')
-const usersRoute = require('./registration')
+const usersRoute = require('./users')
+const accountRoute = require('./account')
+const ip = require('../utils/getPublicIp')
 
 /**
  * code
@@ -74,24 +76,12 @@ server.get('/', async(req, res) => {
     res.render("index.ejs")
 })
 
-server.get('/create', auth.checkAuthenticated, async(req, res) => { //todo: rename to user/homepage? user/create?
 
-    console.log("USER ID IS " + req.user.id)
-    res.render("create.ejs", { name: req.user.firstName })
-})
-
-//testing
-const accountRoute = require("./account")
-const ip = require('../utils/getPublicIp')
-
-//server.use('/login', accountRoute)
-server.get('/login', auth.checkNotAuthenticated, (req, res)=>{ //
-    res.render('login.ejs')
-})
 
 
 server.use('/registration', regestrationRoute)
 server.use('/users', usersRoute)
+server.use('/account', accountRoute)
 
 ip()
 
@@ -100,19 +90,7 @@ ip()
 
 
 //end of testing
-server.post('/login', auth.checkNotAuthenticated, passport.authenticate("local", {
-    successRedirect: "/create",
-    failureRedirect: "/login",
-    failureFlash: true
-}))
 
-
-server.delete("/logout", (req, res) => {
-    req.logout(req.user, err => {
-        if (err) return next(err)
-        res.redirect("/")
-    })
-})
 
 server.get('/forgot-password', async(req, res) => {
     res.render('forgotPassword.ejs')
