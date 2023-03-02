@@ -39,12 +39,11 @@ router.post('/', auth.checkNotAuthenticated,
     .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
 
     async(req, res) => {
-        //res.status(400).send("password does not match")
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
-            //req.flash("validationErrors", passwordValidationErrors) /todo
-            res.redirect('/registration'); //todo
+            //req.flash("validationErrors", passwordValidationErrors) /todo, currenlty breaking registration page
+            res.redirect('/registration'); 
             return;
         }
 
@@ -66,7 +65,7 @@ router.post('/', auth.checkNotAuthenticated,
             } catch (error) {
                 console.log(error)
                 req.flash("error", "User is already registered. Please login.");
-                //res.redirect("/registration") //todo, results in a 302 status redirection code
+                res.redirect("/registration") 
             } finally {
                 await db.$disconnect();
             }

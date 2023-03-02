@@ -4,12 +4,10 @@
     "description": "",
     "type": "commonjs",
     "scripts": {
-        "devStart": "nodemon src/server.js",
         "start": "node src/server.js",
         "dev": "nodemon src/server.js",
         "test": "jest",
-        "testcov": "jest --coverage",
-        "e2e": "cypress open"
+        "cypress": "cypress open"
     },
     "repository": {
         "type": "git",
