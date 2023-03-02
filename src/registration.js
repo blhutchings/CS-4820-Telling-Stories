@@ -7,7 +7,7 @@ const router = express.Router()
 const { check, validationResult } = require("express-validator")
 const bcrypt = require("bcrypt")
 const auth = require('./authenticate')
-
+const db = require("./config/database")
 
 /**
  * config
@@ -55,14 +55,14 @@ router.post('/', auth.checkNotAuthenticated,
                 const result = await db.User.create({
                     data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
                 })
-                console.log(data)
+                console.log(req.body)
                 
                 
                 // Create a new UserRole object and connect it to the newly created User object.
                 await db.UserRole.create({
                     data: { role: 'User', user: { connect: { id: result.id } } },
                 });
-                res.redirect("/login")
+                res.redirect("/account/login")
             } catch (error) {
                 console.log(error)
                 req.flash("error", "User is already registered. Please login.");
