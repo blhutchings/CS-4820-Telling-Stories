@@ -47,7 +47,7 @@ const limiter = rateLimit({
     windowMs: 1*60*1000, //1 minute
     max: 10
 })
-server.use(limiter)
+//server.use(limiter) //todo, enable, currently disabled to test something
 server.set('views', './views')
 server.set('view engine', 'ejs')
 server.use('/public', express.static('public')) //TODO: may be expressed/condensed as app.use(express.static('public')) see here: https://expressjs.com/en/starter/static-files.html
