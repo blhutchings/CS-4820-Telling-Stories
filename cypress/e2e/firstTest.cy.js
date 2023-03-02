@@ -120,6 +120,12 @@ describe('test database functions', () => {
 
 })
 
+describe('visual stuff', () => {
+    it('test root /', () => {
+      cy.get('body')
+      cy.m
+    }); 
+  })
 
 /**
  * ideas for further tests: test cookies/session, edge cases (registration page, test passwords that dont match, password that is too short)(log in page, incorrect password)
