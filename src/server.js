@@ -71,7 +71,7 @@ module.exports = server
 
 
 /**
- * server code, primiarly uses Expresses routes, and creates 'mini-apps' for the main functionalities
+ * server code, primarily uses Expresses routes, and creates 'mini-apps' for the main functionalities
  * of our application
  */
 server.get('/', async(req, res) => {
