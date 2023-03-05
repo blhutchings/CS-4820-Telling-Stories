@@ -388,3 +388,4 @@ function checkNotAuthenticated(req, res, next) {
     next()
 }
 main();
+module.exports = server
