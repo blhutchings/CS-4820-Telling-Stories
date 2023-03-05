@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+
+<!--Main Homepage View-->
+<!--Author-->
+<!--Last Update: Sat Mar 4th-->
+
 <html>
   <head>
     <title>Users List</title>
@@ -23,7 +28,10 @@
   </head>
 
   <body style="background-color: #eaf7ff;">
+    <!--Navigation EJS Partial call do not remove-->
     <%- include('../views/partial/_navHeaderUserHub.ejs') %>
+
+
     <section class="h-100">
       <div class="container py-1 mb-5 h-100">
         <% if(messages.error) { %>
@@ -103,6 +111,8 @@
       <p>No users found.</p>
       <% } %>
     </div>
+
+    <!--Navigation menu script do not remove-->
     <script src="../public/menu-toggle-transition.js"></script>
   </body>
 </html>

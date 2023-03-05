@@ -75,11 +75,12 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
 
 server.post('/registration', checkNotAuthenticated,
     check('confirmPassword').custom((value, { req }) => {
+        
         if (value !== req.body.password) {
             throw new Error('Passwords do not match');
-
         }
-        return true;
+        return true
+    
     }),
 
     check('password')

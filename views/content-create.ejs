@@ -2,7 +2,9 @@
 
 <!--Main Homepage View-->
 <!--Author-->
-<!--Last Update: Sun Feb 12-->
+<!--Last Update: Sat Mar 4th-->
+
+<!--The followning will go through changes to match H5P hub website look-->
 
 <html lang="en">
   <head>
@@ -13,13 +15,16 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+
     <link rel="stylesheet" href="/public/css/main.css" />
     <title>Home</title>
   </head>
   <body>
+    <!--Navigation EJS Partial call do not remove-->
     <%- include('../views/partial/_navheaderUserHub.ejs'); %>
 
     <!--Hero Section-->
+    <!--This Hero Section contains the Iframe for the H5P content creation.-->
     <!--Iframe for H5P creator-->
     <section class="h-100" style="padding-top: 8rem; padding-bottom: 10rem">
       <div class="embed-responsive embed-responsive-16by9 w-50 m-auto">
@@ -60,6 +65,14 @@
         </div>
       </div>
     </div>
+
+    <!--Navigation menu script do not remove-->
     <script src="../public/menu-toggle-transition.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

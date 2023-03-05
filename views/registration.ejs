@@ -2,7 +2,7 @@
 
 <!--Registrations View-->
 <!--Author-->
-<!--Last Update: Sun Feb 12-->
+<!--Last Update: Sat Mar 4th-->
 
 <html lang="en">
   <head>
@@ -16,7 +16,9 @@
     <title>Augment|Registration</title>
   </head>
   <body>
+    <!--Navigation EJS Partial call do not remove-->
     <%- include('../views/partial/_navHeader.ejs'); %>
+
     <section class="h-100 gradient-form">
       <div class="container py-1 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -41,7 +43,7 @@
                       <% } %>
 
                       <p>Please fill out the fields to register</p>
-                      <div class="form-outline mb-1">
+                      <div class="form-outline mb-2">
                         <input
                           type="text"
                           name="firstName"
@@ -50,11 +52,8 @@
                           placeholder="First name"
                         />
                       </div>
-                      <label class="form-label" for="form2Example11"
-                        >First Name</label
-                      >
 
-                      <div class="form-outline mb-1">
+                      <div class="form-outline mb-2">
                         <input
                           type="text"
                           name="lastName"
@@ -63,11 +62,8 @@
                           placeholder="Last name"
                         />
                       </div>
-                      <label class="form-label" for="form2Example11"
-                        >Last Name</label
-                      >
 
-                      <div class="form-outline mb-1">
+                      <div class="form-outline mb-2">
                         <input
                           type="email"
                           name="email"
@@ -75,12 +71,9 @@
                           class="form-control"
                           placeholder="Email"
                         />
-                        <label class="form-label" for="form2Example11"
-                          >Username</label
-                        >
                       </div>
 
-                      <div class="form-outline mb-1">
+                      <div class="form-outline mb-2">
                         <input
                           type="password"
                           name="password"
@@ -88,12 +81,9 @@
                           class="form-control"
                           placeholder="Password"
                         />
-                        <label class="form-label" for="form2Example22"
-                          >Password</label
-                        >
                       </div>
 
-                      <div class="form-outline mb-1">
+                      <div class="form-outline mb-2">
                         <input
                           type="password"
                           name="confirmPassword"
@@ -102,11 +92,6 @@
                           placeholder="Confirm Password"
                         />
                       </div>
-
-                      <label class="form-label" for="form2Example22"
-                        >Re-type Password</label
-                      >
-
                       <div class="text-center pt mb-2 pb-1">
                         <button
                           class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
@@ -149,6 +134,7 @@
       </div>
     </section>
 
+    <!--Navigation menu script do not remove-->
     <script src="../public/menu-toggle-transition.js"></script>
   </body>
 </html>
