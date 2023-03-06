@@ -18,7 +18,6 @@ const server = express()
 const sendEmail = require("../utils/email/sendEmail")
 const { render } = require("ejs")
 
-//app.set('views', './src');
 server.set('view engine', 'ejs');
 
 const salt = bcrypt.genSaltSync(10);
@@ -35,6 +34,7 @@ server.use(express.urlencoded({ extended: false }))
 server.use(flash())
 server.use(session({
     secret: process.env.SESSION_SECRET,
+
     resave: false, // we want to resave the session variable if nothing is changed
     saveUninitialized: false
 }))
@@ -48,6 +48,7 @@ async function main() {
     server.listen(PORT, function() {
         console.log(`Server started on port ${PORT}...`)
     })
+
 }
 server.get('/', async(req, res) => {
     res.render("index.ejs")
@@ -57,6 +58,7 @@ server.get('/create', checkAuthenticated, async(req, res) => {
 
     console.log("USER ID IS " + req.user.id)
     res.render("content-create.ejs", { name: req.user.firstName })
+
 })
 
 server.get('/login', checkNotAuthenticated, (req, res) => {
@@ -75,12 +77,13 @@ server.get('/registration', checkNotAuthenticated, (req, res) => {
 
 server.post('/registration', checkNotAuthenticated,
     check('confirmPassword').custom((value, { req }) => {
+
         
         if (value !== req.body.password) {
             throw new Error('Passwords do not match');
         }
         return true
-    
+   
     }),
 
     check('password')
@@ -90,12 +93,14 @@ server.post('/registration', checkNotAuthenticated,
     .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
 
     async(req, res) => {
+          res.status(400).send("password does not match")
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
             console.log(passwordValidationErrors) //debugging purposes
             req.flash("error", passwordValidationErrors) //previously  req.flash("validationErrors", passwordValidationErrors)
             res.redirect('/registration');
+
             return;
         }
 
@@ -110,7 +115,6 @@ server.post('/registration', checkNotAuthenticated,
                 console.log("lastName: " + lastName)
                 console.log("email: " + email)
                 console.log("password: " + password)
-
                 // Create a new UserRole object and connect it to the newly created User object.
                 await db.UserRole.create({
                     data: { role: 'User', user: { connect: { id: result.id } } },
@@ -120,7 +124,8 @@ server.post('/registration', checkNotAuthenticated,
             } catch (error) {
                 console.log(error)
                 req.flash("error", "User is already registered. Please login.");
-                res.redirect("/registration")
+                res.redirect("/registration")//todo, results in a 302 status redirection code
+
             } finally {
                 await db.$disconnect();
             }
@@ -159,7 +164,8 @@ server.post('/forgot-password', async(req, res) => {
                 id: user.id
             }
             const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-            const resetLink = `localhost:8080/reset-password/${user.id}/${token}`
+            const resetLink = `localhost:8080/reset-password/${user.id}/${token}`//TODO: change local host to domain name
+
             console.log(resetLink)
             const resetEmailPayload = {
                 name: user.firstName,
@@ -251,6 +257,7 @@ server.post('/reset-password/:id/:token',
     server.get('/homepage', async(req, res) => {
         res.render('homepage.ejs')
     })
+
 
 server.get('/users', checkAuthenticated, async(req, res) => {
     const page = parseInt(req.query.page) || 1
@@ -397,3 +404,5 @@ function checkNotAuthenticated(req, res, next) {
     next()
 }
 main();
+
+module.exports = server
