@@ -93,7 +93,8 @@ server.post('/registration', checkNotAuthenticated,
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
-            req.flash("validationErrors", passwordValidationErrors)
+            console.log(passwordValidationErrors) //debugging purposes
+            req.flash("error", passwordValidationErrors) //previously  req.flash("validationErrors", passwordValidationErrors)
             res.redirect('/registration');
             return;
         }
