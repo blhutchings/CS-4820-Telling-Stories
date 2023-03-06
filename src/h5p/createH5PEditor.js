@@ -1,6 +1,6 @@
-import * as H5P from '@lumieducation/h5p-server';
-import * as dbImplementations from '@lumieducation/h5p-mongos3';
-import debug from 'debug';
+const H5P = require('@lumieducation/h5p-server')
+const dbImplementations = require('@lumieducation/h5p-mongos3')
+const debug = require('debug')
 
 /**
  * Create a H5PEditor object.
@@ -23,7 +23,7 @@ import debug from 'debug';
  * @param translationCallback a function that is called to retrieve translations of keys in a certain language; the keys use the i18next format (e.g. namespace:key).
  * @returns a H5PEditor object
  */
-export default async function createH5PEditor(
+module.exports = async function createH5PEditor(
     config,
     localLibraryPath,
     localContentPath,

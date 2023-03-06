@@ -1,20 +1,17 @@
-import * as H5P from '@lumieducation/h5p-server';
-import {
-    h5pAjaxExpressRouter,
-    libraryAdministrationExpressRouter,
-    contentTypeCacheExpressRouter,
-} from '@lumieducation/h5p-express';
-import { fileURLToPath } from 'url';
-import path, { dirname } from 'path';
-import fileUpload from 'express-fileupload';
-import DefaultUser from '../DefaultUser.js';
-import expressRoutes from '../routes/h5pRoutes.js';
-import createH5PEditor from '../h5p/createH5PEditor.js';
+const H5P = require('@lumieducation/h5p-server')
+const h5pAjaxExpressRouter = require('@lumieducation/h5p-express').h5pAjaxExpressRouter
+const libraryAdministrationExpressRouter = require('@lumieducation/h5p-express').libraryAdministrationExpressRouter
+const contentTypeCacheExpressRouter = require('@lumieducation/h5p-express').contentTypeCacheExpressRouter
+const fileURLToPath = require('url').fileURLToPath
+const path = require('path')
+const dirname = path.dirname
+const fileUpload = require('express-fileupload')
+const DefaultUser = require('../DefaultUser.js')
+const expressRoutes = require('../routes/h5pRoutes.js')
+const createH5PEditor = require('../h5p/createH5PEditor.js')
 
-export default async (server) => {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
 
+module.exports = async (server) => {
     // Load the configuration file from the local file system
     const config = await new H5P.H5PConfig(
         new H5P.fsImplementations.JsonStorage(

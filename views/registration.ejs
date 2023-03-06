@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<!--Registrations View-->
+<!--Author-->
+<!--Last Update: Sun Feb 12-->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css" />
+    <title>Augment|Registration</title>
+  </head>
+  <body>
+    <%- include('../views/partial/_navHeader.ejs'); %>
+
+    <!--Start of Login container divided into two coloums for image and login box-->
+    <div class="register">
+      <div class="register__container">
+        <div class="register__content">
+          <form action="/registration" method="POST" class="register__form__container">
+            <% if(messages.error) { %>
+            <div class="alert-danger" role="alert">
+              <strong><%= messages.error %></strong>
+            </div>
+            </nav>
+
+        <div class="register-box">
+            <div class="form-container">
+                <form action="/registration" method="POST" class="input-form">
+
+                    <% if ((validationErrors && validationErrors.length)||messages.error) { %>
+                        <div class="alert alert-danger">
+                            <% if(messages.error) { %>
+                                <li>
+                                    <%= messages.error %>
+                                </li>
+                                <% } %>
+                                    <% validationErrors.forEach(error => { %>
+                                        <li>
+                                            <%= error %>
+                                        </li>
+                                        <% }) %>
+                        </div>
+                        <% }} %>
+
+                            <h5 class="text-center" style="padding: 20px;"><b>Register</b></h5>
+                            <div class="form-group">
+                                <input type="text" name="firstName" class="form-control" id="firstName" placeholder="First name">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Last name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+                            </div>
+                            <div class="form-group-form-check">
+                                <input type="checkbox" class="form-check-input" style="float:left;" id="remember-me">
+                                <label class="text-center" style="float:left; padding-left: 8px;" for="remember-me">Remember
+                        me</label>
+                            </div>
+                            <div class="form-group-lgn-btn">
+                                <button type="submit" class="btn btn-outline-success" onclick="">Register</button>
+                            </div>
+                            <div>
+                                <label class="text-center" style="text-align:center; padding-left: 8px; margin-top: 20px;">Click
+                        here to</label>
+                                <a href="/login" style="text-align:center; margin-top: 20px; padding-left: 5px;">Login</button></a>
+                            </div>
+                </form>
+
+            </div>
+            <div class="form__validation__reg">
+              <input
+                type="email"
+                name="email"
+                class="form__input"
+                id="email"
+                placeholder="Email"
+              />
+            </div>
+            <div class="form__validation__reg">
+              <input
+                type="password"
+                name="password"
+                class="form__input"
+                id="password"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form__validation__reg">
+              <input
+                type="password"
+                name="confirmPassword"
+                class="form__input"
+                id="confirmPassword"
+                placeholder="Confirm Password"
+              />
+            </div>
+            <div class="form__validation__btn">
+              <button class="register__btn" href="">Register</button>
+            </div>
+            <div class="form__newreg">
+              <label for="">Click here to</label>
+              <a href="/login">Login</a>
+            </div>
+          </form>
+        </div>
+        <div class="register__info">
+          <p class="info-label">
+            Welcome to augment, where you are given the tools to create new and
+            interactive components to engage your viewers, to begin registration
+            please enter your email and password to create an account.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

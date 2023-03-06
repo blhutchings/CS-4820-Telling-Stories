@@ -3,11 +3,10 @@
  * too often. Run this script to update the content type cache mockup. Expect necessary changes in the tests if the hub content changes.
  */
 
-import fsExtra from 'fs-extra';
-import path from 'path';
+const fsExtra = require('fs-extra')
+const path = require('path')
+const {ContentTypeCache, H5PConfig} = require('@lumieducation/h5p-server')
 
-import {ContentTypeCache} from '@lumieducation/h5p-server'
-import {H5PConfig} from '@lumieducation/h5p-server'
 
 class InMemoryStorage  {
     storage;

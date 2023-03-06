@@ -1,6 +1,6 @@
-import express from "express";
+const express = require('express')
 
-export default function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
+module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
     const router = express.Router();
 
     //Gets and display/plays completed h5p component

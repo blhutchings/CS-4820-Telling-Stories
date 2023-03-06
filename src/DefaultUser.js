@@ -1,7 +1,7 @@
 /**
  * Example user object
  */
-export default class DefaultUser {
+module.exports = class DefaultUser {
     constructor() {
         this.id = '-1';
         this.name = 'Default User';

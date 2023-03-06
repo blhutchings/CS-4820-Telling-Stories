@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<!--Login View-->
+<!--Author-->
+<!--Last Update: Sun Feb 12-->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="../public/css/main.css" />
+    <script src="src/menu-toggle-transition.js"></script>
+    <title>Augment|Login</title>
+  </head>
+  <body>
+    <%- include('../views/partial/_navHeader.ejs'); %>
+
+    <!--Start of Login container divided into two coloums for image and login box-->
+    <div class="login">
+      <div class="login__container">
+        <div class="login__content">
+          <form action="/login" method="POST" class="login__form__container">
+            <% if(messages.error) { %>
+            <div class="alert-danger" role="alert">
+              <strong><%= messages.error %></strong>
+            </div>
+            <% } %>
+            <h5>Login</h5>
+            <div class="form__validation">
+              <input
+                type="email"
+                name="email"
+                class="form__input"
+                id="email"
+                placeholder="Email"
+              />
+            </div>
+            <div class="form__validation">
+              <input
+                type="password"
+                name="password"
+                class="form__input"
+                id="password"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form__validation__check">
+              <input type="checkbox" class="form__input__check" />
+              <label for="remeberme" class="form__label">Remember me</label>
+            </div>
+            <div class="form__validation__btn">
+              <button class="login__btn" href="">Login</button>
+            </div>
+            <div class="form__newreg">
+              <label for="">Click here to</label>
+              <a href="/registration">Sign Up</a>
+            </div>
+          </form>
+        </div>
+
+        <!--Start of image in second coloumn of login__container div-->
+        <!--multiple divs made to support possible putting a sildeshow-->
+        <div class="image__container">
+          <div class="image__item">
+            <img
+              class="img__H5P"
+              src="../public/img/H5P Comp.png"
+              alt=" H5P-COMP"
+              id="h5p__img"
+            />
+          </div>
+        </div>
+        <!--End of image__container-->
+      </div>
+    </div>
+  </body>
+</html>
