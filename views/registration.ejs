@@ -36,9 +36,14 @@
                       method="POST"
                       class="input-form"
                     >
-                      <% if(messages.error) { %>
-                      <div class="alert-danger" role="alert">
-                        <strong><%= messages.error %></strong>
+                      <% if ((validationErrors &&
+                      validationErrors.length)||messages.error) { %>
+                      <div class="alert alert-danger">
+                        <% if(messages.error) { %>
+                        <li><%= messages.error %></li>
+                        <% } %> <% validationErrors.forEach(error => { %>
+                        <li><%= error %></li>
+                        <% }) %>
                       </div>
                       <% } %>
 
@@ -128,7 +133,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
