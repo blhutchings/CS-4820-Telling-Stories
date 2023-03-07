@@ -6,11 +6,7 @@
 // const server = http.createServer(app);
 // const PORT = 3000;
 
-describe('always true', () =>{ //todo, temporary to make sure this file passes the github actions tests
-    it('true', () => {
-        expect('grapefruits').toMatch('grapefruits');
-    });
-})
+
 
 
 // describe("POST /registration", () => {
