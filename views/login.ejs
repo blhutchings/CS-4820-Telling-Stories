@@ -31,7 +31,7 @@
                       <h4 class="mt-5 mb-1 pb-5">A U G M E N T</h4>
                     </div>
 
-                    <form action="/login" method="POST" class="input-form">
+                    <form action="/account/login" method="POST" class="input-form">
                       <% if(messages.error) { %>
                       <div class="alert-danger" role="alert">
                         <strong><%= messages.error %></strong>
@@ -65,7 +65,7 @@
                         >
                           Log in
                         </button>
-                        <a class="text-muted" href="/forgot-password"
+                        <a class="text-muted" href="/password/forgot"
                           >Forgot password?</a
                         >
                       </div>
@@ -75,7 +75,7 @@
                       >
                         <p class="mb-0 me-2">Don't have an account?</p>
                         <a
-                          href="registration"
+                          href="/registration"
                           type="button"
                           class="btn btn-outline-primary ml-2"
                         >
