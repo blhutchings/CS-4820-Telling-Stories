@@ -10,11 +10,14 @@ const session = require("express-session")
 const passport = require("passport")
 //const { check, validationResult } = require("express-validator") //todo, not sure if this is needed in this file
 const methodOverride = require("method-override")
+
 //const sendEmail = require("../utils/email/sendEmail") //todo, not sure if this is needed in this file
+
 const rateLimit = require('express-rate-limit')
 
 const { Prisma } = require("@prisma/client") //TODO: is this needed/being used here, also see database.js
 const { application } = require("express") //TODO: is this being used?
+
 
 
 const ip = require('../utils/getPublicIp')
@@ -60,6 +63,7 @@ server.use(methodOverride("_method"))
 
 
 
+
 /**
  * start the server and export server module
  */
@@ -84,7 +88,6 @@ server.use('/account', accountRoute)
 server.use('/password', passwordRoute)
 
 //ip() //posts our public IP to the console
-
 
 
 
