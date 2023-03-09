@@ -35,7 +35,7 @@ router.post('/forgot', async(req, res) => {
 
     if (!user) {
         req.flash("error", "Email is not registered")
-        res.redirect("/forgot-password")
+        res.redirect("/password/forgot")
             //res.send('User is not registered')
     }
 
