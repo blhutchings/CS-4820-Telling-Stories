@@ -387,5 +387,13 @@ function checkNotAuthenticated(req, res, next) {
     }
     next()
 }
+
+server.get("/homepage", (req, res) => {
+    res.render('homepage.ejs')
+})
+
+server.get("/demo", (req, res) => {
+    res.render('demo.ejs')
+})
 main();
 module.exports = server

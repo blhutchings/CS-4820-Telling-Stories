@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<!--Main Homepage View-->
+<!--Author-->
+<!--Last Update: Sat Mar 4th-->
+
+<!--The followning will go through changes to match H5P hub website look-->
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+
+    <link rel="stylesheet" href="/public/css/main.css" />
+    <title>Home</title>
+  </head>
+  <body>
+    <!--Navigation EJS Partial call do not remove-->
+    <%- include('../views/partial/_navHeader.ejs'); %>
+
+    <!--Hero Section-->
+    <!--This Hero Section contains the Iframe for the H5P content creation.-->
+    <!--Iframe for H5P creator-->
+    <section class="h-100" style="padding-top: 8rem; padding-bottom: 10rem">
+      <div class="embed-responsive embed-responsive-16by9 w-50 m-auto">
+        <iframe
+          class="embed-responsive-item"
+          src="https://www.youtube.com/embed/LnXIYRX_6dw"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        >
+          ></iframe
+        >
+      </div>
+    </section>
+
+    <!--End of Hero Section-->
+
+    <!--Service Section-->
+    <div class="services">
+      <h1>See what the hype is about</h1>
+      <div class="services__container">
+        <div class="services__card">
+          <h2>Experience a better way</h2>
+          <img src="/public/img/H5P-Logo.png" alt="" />
+          <p>Improved for convenice</p>
+          <button><a href="https://h5p.org/">Learn more</a></button>
+        </div>
+        <div class="services__card">
+          <h2>Are you ready?</h2>
+          <img
+            src="/public/img/H5P-Content.png"
+            style="width: 350px; height: 145px"
+            alt=""
+          />
+          <p>Jump right in!</p>
+          <button><a href="">Get Creating</a></button>
+        </div>
+      </div>
+    </div>
+
+    <!--Navigation menu script do not remove-->
+    <script src="../public/menu-toggle-transition.js"></script>
+  </body>
+</html>
