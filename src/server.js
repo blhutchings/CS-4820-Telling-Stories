@@ -3,13 +3,20 @@
  * modular dependancies
 */
 const express = require("express")
+const bcrypt = require("bcrypt")
+const bodyParser  = require("body-parser")
+
 const server = express()
 //const render  = require("ejs") //todo, not sure if this is needed in this file
 const flash = require("express-flash")
 const session = require("express-session")
+
+
 const passport = require("passport")
 //const { check, validationResult } = require("express-validator") //todo, not sure if this is needed in this file
 const methodOverride = require("method-override")
+const expressH5P = require('./h5p/expressH5P')
+
 
 //const sendEmail = require("../utils/email/sendEmail") //todo, not sure if this is needed in this file
 
@@ -59,6 +66,9 @@ server.use(flash())
 server.use(passport.initialize())
 server.use(passport.session())
 server.use(methodOverride("_method"))
+server.use(bodyParser.json({ limit: '500mb' }));
+server.use(bodyParser.urlencoded({extended: true}));
+
 
 
 
