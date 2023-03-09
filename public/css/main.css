@@ -20,6 +20,27 @@
   font-family: Nueue;
 }
 
+/*CSS for Navbar UserHub*/
+.user__toggle,
+.dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: var(--navbar-links-color);
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+@media (max-width: 500px) {
+  .card {
+    width: 30rem;
+    height: 15rem;
+  }
+}
+/*End of CSS for Navbar UserHub*/
+
 /*Start of your Nav Bar CSS*/
 .navbar {
   background: var(--backdrop-color);
@@ -114,6 +135,8 @@
 .button:hover {
   background: var(--button-color);
   transition: all 0.3s ease;
+  color: var(--navbar-backdrop-color);
+  text-decoration: none;
 }
 
 .navbar__links:hover {
@@ -221,7 +244,7 @@
 /*End of nav Bar mobile response*/
 /*End of Nav bar CSS*/
 
-/*Hero Section CSS*/
+/*Hero Section CSS PLEASE DO NOT*/
 /*This takes care of your main front page display
 that essentailly engages viewers or pulls in viewers*/
 .main {
@@ -380,7 +403,7 @@ hence based on resize thes values will accordingly resize*/
     margin: 2.5rem 0;
   }
 }
-/*Services Section CSS*/
+/*Services Section CSS PLEASE DO NOT REMOVE*/
 .services {
   background: var(--backdrop-color);
   display: flex;
@@ -672,7 +695,6 @@ hence based on resize thes values will accordingly resize*/
   margin: 0 auto;
   height: 90vh;
   z-index: 1;
-  width: 100%;
   max-width: 1300px;
 }
 
@@ -800,3 +822,58 @@ hence based on resize thes values will accordingly resize*/
   }
 }
 /*End of mobile reposnse for register page*/
+
+/*Boostrap Login page CSS*/
+.h-100 {
+  background-color: var(--backdrop-color);
+  border-color: #4837ff;
+}
+
+.card,
+.form-control {
+  border-radius: 30px;
+  border-color: var(--button-color);
+}
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: var(--backdrop-color);
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, #4f95ff 0%, #a74fff 100%);
+
+  border-radius: 50px;
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #4f95ff 0%, #a74fff 100%);
+}
+
+@media (min-width: 768px) {
+  .gradient-form {
+    height: 89vh !important;
+  }
+}
+@media (min-width: 769px) {
+  .gradient-custom-2 {
+    border-top-right-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+    border-radius: 50px;
+  }
+}
+/*End of Bootsrap login CSS*/
+
+/*Start of Boostrap Admin User management CSS*/
+
+.pagination {
+  background-color: var(--backdrop-color);
+}
+/*End of Boostrap Users CSS*/
+
+/*CSS for the content creation page, may be subject to change.*/
+.embed-responsive-item {
+  background-color: var(--backdrop-color);
+}
+
+.forgotPass__container {
+  height: 88vh;
+  background-color: var(--backdrop-color);
+  padding-top: 10%;
+}

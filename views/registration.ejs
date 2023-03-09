@@ -2,124 +2,144 @@
 
 <!--Registrations View-->
 <!--Author-->
-<!--Last Update: Sun Feb 12-->
+<!--Last Update: Sat Mar 4th-->
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <link rel="stylesheet" href="/public/css/main.css" type="text/css" />
     <title>Augment|Registration</title>
   </head>
   <body>
+    <!--Navigation EJS Partial call do not remove-->
     <%- include('../views/partial/_navHeader.ejs'); %>
 
-    <!--Start of Login container divided into two coloums for image and login box-->
-    <div class="register">
-      <div class="register__container">
-        <div class="register__content">
-          <form action="/registration" method="POST" class="register__form__container">
-            <% if(messages.error) { %>
-            <div class="alert-danger" role="alert">
-              <strong><%= messages.error %></strong>
-            </div>
-            </nav>
+    <section class="h-100 gradient-form">
+      <div class="container py-1 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-xl-10">
+            <div class="card rounded-3 text-black">
+              <div class="row g-0">
+                <div class="col-lg-6">
+                  <div class="card-body p-md-0 mx-md-4">
+                    <div class="text-center">
+                      <h4 class="mt-5 mb-1 pb-2">A U G M E N T</h4>
+                    </div>
 
-        <div class="register-box">
-            <div class="form-container">
-                <form action="/registration" method="POST" class="input-form">
+                    <form
+                      action="/registration"
+                      method="POST"
+                      class="input-form"
+                    >
+                      <% if ((validationErrors &&
+                      validationErrors.length)||messages.error) { %>
+                      <div class="alert alert-danger">
+                        <% if(messages.error) { %>
+                        <li><%= messages.error %></li>
+                        <% } %> <% validationErrors.forEach(error => { %>
+                        <li><%= error %></li>
+                        <% }) %>
+                      </div>
+                      <% } %>
 
-                    <% if ((validationErrors && validationErrors.length)||messages.error) { %>
-                        <div class="alert alert-danger">
-                            <% if(messages.error) { %>
-                                <li>
-                                    <%= messages.error %>
-                                </li>
-                                <% } %>
-                                    <% validationErrors.forEach(error => { %>
-                                        <li>
-                                            <%= error %>
-                                        </li>
-                                        <% }) %>
-                        </div>
-                        <% }} %>
+                      <p>Please fill out the fields to register</p>
+                      <div class="form-outline mb-2">
+                        <input
+                          type="text"
+                          name="firstName"
+                          id="form2Example11"
+                          class="form-control"
+                          placeholder="First name"
+                        />
+                      </div>
 
-                            <h5 class="text-center" style="padding: 20px;"><b>Register</b></h5>
-                            <div class="form-group">
-                                <input type="text" name="firstName" class="form-control" id="firstName" placeholder="First name">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="lastName" class="form-control" id="lastName" placeholder="Last name">
-                            </div>
-                            <div class="form-group">
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="confirmPassword" class="form-control" id="confirmPassword" placeholder="Confirm Password">
-                            </div>
-                            <div class="form-group-form-check">
-                                <input type="checkbox" class="form-check-input" style="float:left;" id="remember-me">
-                                <label class="text-center" style="float:left; padding-left: 8px;" for="remember-me">Remember
-                        me</label>
-                            </div>
-                            <div class="form-group-lgn-btn">
-                                <button type="submit" class="btn btn-outline-success" onclick="">Register</button>
-                            </div>
-                            <div>
-                                <label class="text-center" style="text-align:center; padding-left: 8px; margin-top: 20px;">Click
-                        here to</label>
-                                <a href="/login" style="text-align:center; margin-top: 20px; padding-left: 5px;">Login</button></a>
-                            </div>
-                </form>
+                      <div class="form-outline mb-2">
+                        <input
+                          type="text"
+                          name="lastName"
+                          id="form2Example11"
+                          class="form-control"
+                          placeholder="Last name"
+                        />
+                      </div>
 
+                      <div class="form-outline mb-2">
+                        <input
+                          type="email"
+                          name="email"
+                          id="form2Example11"
+                          class="form-control"
+                          placeholder="Email"
+                        />
+                      </div>
+
+                      <div class="form-outline mb-2">
+                        <input
+                          type="password"
+                          name="password"
+                          id="form2Example22"
+                          class="form-control"
+                          placeholder="Password"
+                        />
+                      </div>
+
+                      <div class="form-outline mb-2">
+                        <input
+                          type="password"
+                          name="confirmPassword"
+                          id="form2Example11"
+                          class="form-control"
+                          placeholder="Confirm Password"
+                        />
+                      </div>
+                      <div class="text-center pt mb-2 pb-1">
+                        <button
+                          class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                        >
+                          Register
+                        </button>
+                      </div>
+                      <div
+                        class="d-flex align-items-center justify-content-center pb-4"
+                      >
+                        <p class="mb-0 me-2">Have an account?</p>
+                        <a
+                          href="/account/login"
+                          type="button"
+                          class="btn btn-outline-primary ml-2"
+                        >
+                          Login
+                        </a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div
+                  class="col-lg-6 d-flex align-items-center gradient-custom-2"
+                >
+                  <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                    <h4 class="mb-4">This is more than just an idea</h4>
+                    <p class="small mb-0 text-justify">
+                      A service that extends your power to communicate and
+                      present your content. Build a more interactive and
+                      effective tool, pushing the boundaries of presentation,
+                      teaching and more.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="form__validation__reg">
-              <input
-                type="email"
-                name="email"
-                class="form__input"
-                id="email"
-                placeholder="Email"
-              />
-            </div>
-            <div class="form__validation__reg">
-              <input
-                type="password"
-                name="password"
-                class="form__input"
-                id="password"
-                placeholder="Password"
-              />
-            </div>
-            <div class="form__validation__reg">
-              <input
-                type="password"
-                name="confirmPassword"
-                class="form__input"
-                id="confirmPassword"
-                placeholder="Confirm Password"
-              />
-            </div>
-            <div class="form__validation__btn">
-              <button class="register__btn" href="">Register</button>
-            </div>
-            <div class="form__newreg">
-              <label for="">Click here to</label>
-              <a href="/login">Login</a>
-            </div>
-          </form>
-        </div>
-        <div class="register__info">
-          <p class="info-label">
-            Welcome to augment, where you are given the tools to create new and
-            interactive components to engage your viewers, to begin registration
-            please enter your email and password to create an account.
-          </p>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!--Navigation menu script do not remove-->
+    <script src="../public/menu-toggle-transition.js"></script>
   </body>
 </html>
