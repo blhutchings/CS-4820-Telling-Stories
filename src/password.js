@@ -48,7 +48,7 @@ router.post('/forgot', async(req, res) => {
                 id: user.id
             }
             const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-            const resetLink = `localhost:8080/password/reset/${user.id}/${token}`//TODO: change local host to domain name
+            const resetLink = `http://localhost:8080/password/reset/${user.id}/${token}`//TODO: change local host to domain name
             console.log(resetLink)
             const resetEmailPayload = {
                 name: user.firstName,
@@ -105,7 +105,7 @@ router.post('/reset/:id/:token',
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
             req.flash("validationErrors", passwordValidationErrors)
-            res.redirect(`/reset-password/${req.params.id}/${req.params.token}`);
+            res.redirect(`/password/reset/${req.params.id}/${req.params.token}`);
             return;
         }
         const { id, token } = req.params
@@ -128,7 +128,9 @@ router.post('/reset/:id/:token',
                         password: hash,
                     },
                 })
-                return res.redirect('/login')
+                //req.flash("validationErrors", passwordValidationErrors)
+                //res.redirect(`/password/reset/${req.params.id}/${req.params.token}`);
+                return res.redirect('/account/login')
 
             } catch (error) {
                 console.log(error)
