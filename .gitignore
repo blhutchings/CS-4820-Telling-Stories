@@ -1,3 +1,7 @@
+# H5P
+/h5p/
+/test/data/hub-content/
+
 # Logs
 logs
 *.log
