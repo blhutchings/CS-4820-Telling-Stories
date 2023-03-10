@@ -97,7 +97,8 @@
 }
 
 .navbar__item {
-  height: 80px;
+  height: 100px;
+  white-space: nowrap;
 }
 
 .navbar__links {
