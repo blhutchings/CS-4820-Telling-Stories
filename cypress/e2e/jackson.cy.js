@@ -1,16 +1,29 @@
 describe('forgot password page', () => { 
-    it('email is registered', () => {
-        cy.visit('http://localhost:8080/password/forgot');
-        
+    it('user can properly navigate to /password/reset from root', () => {
+        cy.visit('http://localhost:8080')
+        cy.get('.button').click()
+        cy.get('.text-muted').click()
+        cy.url().should('include', "/password/forgot")
+
+
     });
-    it('email is NOT registered', () => {
-        
+    it('email form is showing right information', () => {
+        cy.visit('http://localhost:8080/password/forgot')
+        cy.get('#email').type('e@e')
+        cy.get('#email').should('have.value','e@e')
     });
-    it('vist reset page from email that is registerd', () => {
-        
+    it('entering email that is registered with system', () => {
+        cy.visit('http://localhost:8080/password/forgot') //maybe put this is a before each
+        cy.get('#email').type('e@e')
+        cy.get('.btn').click()
+        cy.contains('A password reset link') //currenlty simply checks if the entire body contains text that says this, maybe check for .alert element instead?
     });
-    it('attempt to visit reset page', () => {
-        
+    it('email that is NOT registered', () => {
+        cy.visit('http://localhost:8080/password/forgot')
+        cy.get('#email').type('nonRegisteredEmail@fake')
+        cy.get('.btn').click()
+        cy.contains('Email is not registered')
     });
+    
 
  })

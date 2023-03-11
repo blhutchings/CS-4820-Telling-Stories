@@ -36,7 +36,6 @@ router.post('/forgot', async(req, res) => {
     if (!user) {
         req.flash("error", "Email is not registered")
         res.redirect("/password/forgot")
-            //res.send('User is not registered')
     }
 
     //user exists and now creating a one time link that is valid for only 15 minutes
@@ -57,7 +56,6 @@ router.post('/forgot', async(req, res) => {
             sendEmail(user.email, "Reset Password", resetEmailPayload, "views/partial/_emailPasswordResetRequest.ejs")
             req.flash("success", "A password reset link has been sent to your email.")
             res.redirect("/password/forgot")
-            //res.redirect('/reset-password')
         } catch (error) {
             console.log(error)
         }
