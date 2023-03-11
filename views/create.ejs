@@ -35,13 +35,21 @@
         <div class="main">
             <div class="form-container">
                 <h2 class="text-center">Welcome,
-                    <%= name %>
+                    <%= user.firstName %>
                 </h2>
                 <form action="/logout?_method=DELETE" method="POST">
                     <div class="text-center">
                         <button type="submit" class="btn btn-danger btn-rounded btn-lg">Logout</button>
                     </div>
                 </form>
+                <div class="test">
+                    Testing
+                    <% if(user.role[0].role === "Admin") { %>
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Yes Admin</strong>
+                        </div>
+                        <% } %>
+                </div>
             </div>
         </div>
     </body>

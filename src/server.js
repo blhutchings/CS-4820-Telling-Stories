@@ -54,8 +54,9 @@ server.get('/', async(req, res) => {
 
 server.get('/create', checkAuthenticated, async(req, res) => {
 
-    console.log("USER ID IS " + req.user.id)
-    res.render("create.ejs", { name: req.user.firstName })
+    //res.send(req.user)
+    console.log("USER IS " + req.user)
+    res.render("create.ejs", { user: req.user })
 })
 
 server.get('/login', checkNotAuthenticated, (req, res) => {
