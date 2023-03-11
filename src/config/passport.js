@@ -1,5 +1,6 @@
 const LocalStrategy = require("passport-local").Strategy
 const bcrypt = require("bcrypt")
+const db = require("../config/database")
 
 
 function initialize(passport, getUserByEmail, getUserById) {
@@ -38,8 +39,11 @@ function initialize(passport, getUserByEmail, getUserById) {
     })
     passport.deserializeUser(async(id, done) => {
         console.log("---------> Deserialize Id")
-        console.log(id)
-        const user = await getUserById(id)
+        const user = await db.User.findFirst({
+            where: { id: id },
+            include: { role: true },
+        })
+        console.log(user)
         return done(null, user)
     })
 }

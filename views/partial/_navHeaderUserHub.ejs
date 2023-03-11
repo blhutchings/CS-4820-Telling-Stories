@@ -5,89 +5,69 @@
 <!--Navbar UserHub Section-->
 <!--This navbar is different from index page navbar meant to help users navigate once they have logged in.-->
 
-<link
-  rel="stylesheet"
-  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-  crossorigin="anonymous"
-/>
-<script
-  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-  crossorigin="anonymous"
-></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <nav class="navbar">
-  <div class="navbar__container">
-    <a href="/" id="navbar__logo">H5P</a>
-    <div class="navbar__toggle" id="mobile-menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </div>
-    <ul class="navbar__menu">
-      <li class="navbar__item">
-        <a
-          href="/account/homepage"
-          class="navbar__links"
-          style="font-size: 80%"
-        >
+    <div class="navbar__container">
+        <a href="/" id="navbar__logo">H5P</a>
+        <div class="navbar__toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <ul class="navbar__menu">
+            <li class="navbar__item">
+                <a href="/account/homepage" class="navbar__links" style="font-size: 80%">
           Home
         </a>
-      </li>
-      <li class="navbar__item">
-        <a href="/content" class="navbar__links" style="font-size: 80%"
-          >My Content
+            </li>
+            <% if(user.role[0].role === "Admin") { %>
+                <li class="navbar__item">
+                    <a href="/users" class="navbar__links" style="font-size: 80%">
+                    Manage Users
+                </a>
+                </li>
+                <% } %>
+                    <li class="navbar__item">
+                        <a href="/content" class="navbar__links" style="font-size: 80%">My Content
         </a>
-      </li>
-      <li class="navbar__item">
-        <a href="/organization" class="navbar__links" style="font-size: 80%">
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/organization" class="navbar__links" style="font-size: 80%">
           My Organization
         </a>
-      </li>
-      <!-- Example single danger button -->
-      <li>
-        <div class="btn-group">
-          <button
-            type="button"
-            class="btn btn-outline-danger dropdown-toggle"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <%= name%>
+                    </li>
+                    <!-- Example single danger button -->
+                    <li>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= user.firstName%>    
           </button>
 
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Getting Started</a>
-            <a class="dropdown-item" href="#">My Account</a>
-            <div class="dropdown-divider"></div>
-            <form action="/logout?_method=DELETE" method="POST">
-              <div class="text-center">
-                <button
-                  type="submit"
-                  class="btn btn-outline-danger btn-rounded btn-lg"
-                >
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Getting Started</a>
+                                <a class="dropdown-item" href="#">My Account</a>
+                                <div class="dropdown-divider"></div>
+                                <form action="/logout?_method=DELETE" method="POST">
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-outline-danger btn-rounded btn-lg">
                   Logout
                 </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </li>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
 
-      <li class="navbar__btn">
-        <a href="/account/create" class="button" style="font-size: 80%">
+                    <li class="navbar__btn">
+                        <a href="/account/create" class="button" style="font-size: 80%">
           Create Content
         </a>
-      </li>
-    </ul>
-  </div>
+                    </li>
+        </ul>
+    </div>
 </nav>
 
 <!--End of Navbar UserHub-->
