@@ -109,7 +109,7 @@ router.post('/reset/:id/:token',
             return;
         }
         const { id, token } = req.params
-        const { password, confirmPassword } = req.body
+        const { password, confirmPassword } = req.body //todo, can we get rid of confirm password? 
         const user = await db.User.findFirst({ where: { id: parseInt(id) } })
         if (!user) {
             console.log("invalid id")
@@ -128,8 +128,11 @@ router.post('/reset/:id/:token',
                         password: hash,
                     },
                 })
-                //req.flash("validationErrors", passwordValidationErrors)
-                //res.redirect(`/password/reset/${req.params.id}/${req.params.token}`);
+               // req.flash("validationErrors", "success")//todo, cant redirect to this same page after reseting password as the token is now changed and causes issue in .get
+                //console.log(req.originalUrl)   //this will not work             
+                //return res.redirect(req.originalUrl) //this will not work
+                
+                req.flash("passwordReset", "New password set successfully!")
                 return res.redirect('/account/login')
 
             } catch (error) {
