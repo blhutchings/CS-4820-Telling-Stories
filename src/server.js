@@ -69,7 +69,7 @@ server.use(methodOverride("_method"))
 server.use(bodyParser.json({ limit: '500mb' }));
 server.use(bodyParser.urlencoded({extended: true}));
 
-
+expressH5P(server)
 
 
 
