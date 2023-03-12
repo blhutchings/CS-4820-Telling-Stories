@@ -4,29 +4,30 @@
  * their proper IT and beforeeach(), this is rough draft
  */
 describe('test login forms/credientals', () =>{
+  
   it('text is properly inputted into forms', () => {
     cy.visit("http://localhost:8080/account/login")
-    cy.get('#email').type('testing@email.com')
-    cy.get('#email').should('have.value', 'testing@email.com' )
+    cy.get('#form2Example11').type('testing@email.com')
+    cy.get('#form2Example11').should('have.value', 'testing@email.com' )
 
-    cy.get('#password').type('Testingpassword1!') 
-    cy.get('#password').should('have.value','Testingpassword1!')
+    cy.get('#form2Example22').type('Testingpassword1!') 
+    cy.get('#form2Example22').should('have.value','Testingpassword1!')
 
-    cy.get('.login__btn').click()
+    cy.get('.text-center > .btn').click()
   });
   it('invalid email', () => {
     cy.visit("http://localhost:8080/account/login")
-    cy.get('#email').type('thisemailshouldntexist@testing.com')
-    cy.get('#password').type('doesntMatter') 
+    cy.get('#form2Example11').type('thisemailshouldntexist@testing.com')
+    cy.get('#form2Example22').type('doesntMatter') 
     
-    cy.get('.login__btn').click()
+    cy.get('.text-center > .btn').click()
   });
   it('invalid password', () => {
     cy.visit("http://localhost:8080/account/login")
-    cy.get('#email').type('t@t')
-    cy.get('#password').type('wrongPassword') 
+    cy.get('#form2Example11').type('t@t')
+    cy.get('#form2Example22').type('wrongPassword') 
     
-    cy.get('.login__btn').click()
+    cy.get('.text-center > .btn').click()
   });
 })
 
@@ -38,10 +39,10 @@ describe('test login forms/credientals', () =>{
 describe('proper HTTP reponses/redirects, logged in', ()=>{ 
   beforeEach(()=>{
     cy.visit("http://localhost:8080/account/login")
-    cy.get('#email').type('t@t')
-    cy.get('#password').type('YP@5A.AW#X7tx2')
+    cy.get('#form2Example11').type('t@t')
+    cy.get('#form2Example22').type('YP@5A.AW#X7tx2')
 
-    cy.get('.login__btn').click()
+    cy.get('.text-center > .btn').click()
     
   })
   it('properly logged in', () => {
