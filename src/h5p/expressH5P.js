@@ -2,14 +2,13 @@ const H5P = require('@lumieducation/h5p-server')
 const h5pAjaxExpressRouter = require('@lumieducation/h5p-express').h5pAjaxExpressRouter
 const libraryAdministrationExpressRouter = require('@lumieducation/h5p-express').libraryAdministrationExpressRouter
 const contentTypeCacheExpressRouter = require('@lumieducation/h5p-express').contentTypeCacheExpressRouter
-const fileURLToPath = require('url').fileURLToPath
 const path = require('path')
-const dirname = path.dirname
 const fileUpload = require('express-fileupload')
 const DefaultUser = require('../DefaultUser.js')
 const expressRoutes = require('../routes/h5pRoutes.js')
 const createH5PEditor = require('../h5p/createH5PEditor.js')
-
+const h5pRoutes = require('../routes/h5pRoutes.js')
+const contentCreateView = require('../../views/contentCreate.js')
 
 module.exports = async (server) => {
     // Load the configuration file from the local file system
@@ -43,7 +42,7 @@ module.exports = async (server) => {
         undefined,
         h5pEditor.contentUserDataStorage
     );
- 
+
     // Configure file uploads
     server.use(fileUpload({ limits: { fileSize: h5pEditor.config.maxTotalSize }}));
 
@@ -56,6 +55,17 @@ module.exports = async (server) => {
         req.user = new DefaultUser();
         next();
     });
+
+    server.use(
+        h5pEditor.config.baseUrl,
+        h5pRoutes(
+            h5pEditor,
+            h5pPlayer,
+            'auto' // You can change the language of the editor by setting
+            // the language code you need here. 'auto' means the route will try
+            // to use the language detected by the i18next language detector.
+        )
+    );
 
     // The Express adapter handles GET and POST requests to various H5P
     // endpoints. You can add an options object as a last parameter to configure
@@ -76,6 +86,7 @@ module.exports = async (server) => {
         )
     );
 
+    h5pEditor.setRenderer(contentCreateView)
 
     // The expressRoutes are routes that create pages for these actions:
     // - Creating new content
@@ -107,6 +118,6 @@ module.exports = async (server) => {
         contentTypeCacheExpressRouter(h5pEditor.contentTypeCache)
     );
 
-
+    
 
 }
