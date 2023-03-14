@@ -1,4 +1,3 @@
-
 /**
  * modular dependcies
  * todo: may have to import db var as well
@@ -8,7 +7,7 @@ const router = express.Router()
 const { check, validationResult } = require("express-validator")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const sendEmail = require("../utils/email/sendEmail") 
+const sendEmail = require("../utils/email/sendEmail")
 const db = require("./config/database")
 
 
@@ -35,7 +34,7 @@ router.post('/forgot', async(req, res) => {
 
     if (!user) {
         req.flash("error", "Email is not registered")
-        res.redirect("/forgot-password")
+        res.redirect("/password/forgot")
             //res.send('User is not registered')
     }
 
@@ -48,7 +47,7 @@ router.post('/forgot', async(req, res) => {
                 id: user.id
             }
             const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-            const resetLink = `localhost:8080/password/reset/${user.id}/${token}`//TODO: change local host to domain name
+            const resetLink = `localhost:8080/password/reset/${user.id}/${token}` //TODO: change local host to domain name
             console.log(resetLink)
             const resetEmailPayload = {
                 name: user.firstName,
@@ -56,8 +55,8 @@ router.post('/forgot', async(req, res) => {
             }
             sendEmail(user.email, "Reset Password", resetEmailPayload, "views/partial/_emailPasswordResetRequest.ejs")
             req.flash("success", "A password reset link has been sent to your email.")
-            res.redirect("/password/forgot")
-            //res.redirect('/reset-password')
+            res.redirect("/password/forgot/")
+
         } catch (error) {
             console.log(error)
         }
@@ -105,7 +104,7 @@ router.post('/reset/:id/:token',
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
             req.flash("validationErrors", passwordValidationErrors)
-            res.redirect(`/reset-password/${req.params.id}/${req.params.token}`);
+            res.redirect(`/password/reset/${req.params.id}/${req.params.token}`);
             return;
         }
         const { id, token } = req.params
@@ -128,7 +127,7 @@ router.post('/reset/:id/:token',
                         password: hash,
                     },
                 })
-                return res.redirect('/login')
+                return res.redirect('/account/login')
 
             } catch (error) {
                 console.log(error)
