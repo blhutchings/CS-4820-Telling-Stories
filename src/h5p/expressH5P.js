@@ -16,7 +16,7 @@ const User = require('../DefaultUser.js')
 const h5pRoutes = require('../routes/h5pRoutes.js')
 const createH5PEditor = require('./createH5PEditor.js')
 
-const contentCreatePage = require('contentCreate.js')
+const contentCreatePage = require('../../views/contentCreate.js')
 
 let tmpDir;
 module.exports = async (server) => {
