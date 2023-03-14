@@ -4,7 +4,7 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
     const router = express.Router();
 
     //Gets and display/plays completed h5p component
-    router.get(`${h5pEditor.config.playUrl}/:contentId`,  async (req, res) => {
+    router.get(`${h5pEditor.config.playUrl}/:contentId`, async (req, res) => {
         try {
             const h5pPage = await h5pPlayer.render(
                 req.params.contentId,
@@ -27,6 +27,19 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
         }
     })
 
+    router.get('/edit/:contentId', async (req, res) => {
+        const page = await h5pEditor.render(
+            req.params.contentId,
+            languageOverride === 'auto'
+                ? req.language ?? 'en'
+                : languageOverride,
+            req.user
+        );
+        res.send(page);
+        res.status(200).end();
+    }
+    );
+
     router.post('/edit/:contentId', async (req, res) => {
         const contentId = await h5pEditor.saveOrUpdateContent(
             req.params.contentId.toString(),
@@ -41,16 +54,16 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
     });
 
     router.get('/new', async (req, res) => {
-            const page = await h5pEditor.render(
-                undefined,
-                languageOverride === 'auto'
-                    ? req.language ?? 'en'
-                    : languageOverride,
-                req.user
-            );
-            res.send(page);
-            res.status(200).end();
-        }
+        const page = await h5pEditor.render(
+            undefined,
+            languageOverride === 'auto'
+                ? req.language ?? 'en'
+                : languageOverride,
+            req.user
+        );
+        res.send(page);
+        res.status(200).end();
+    }
     );
 
     router.post('/new', async (req, res) => {
