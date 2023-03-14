@@ -1,6 +1,7 @@
 # H5P
 /h5p/
 /test/data/hub-content/
+/tests/data/content-type-cache/real-content-types.json
 
 # Logs
 logs
