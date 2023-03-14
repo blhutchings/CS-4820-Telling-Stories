@@ -7,6 +7,7 @@ module.exports = class DefaultUser {
         this.name = 'Default User';
         this.email = 'test@example.com';
         this.type = 'local';
+
         this.canInstallRecommended = true;
         this.canUpdateAndInstallLibraries = true;
         this.canCreateRestricted = true;
@@ -16,6 +17,7 @@ module.exports = class DefaultUser {
     name;
     email;
     type;
+
     canCreateRestricted;
     canInstallRecommended;
     canUpdateAndInstallLibraries;
