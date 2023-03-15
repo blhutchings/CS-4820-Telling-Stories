@@ -42,7 +42,7 @@ router.post('/', auth.checkNotAuthenticated,
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
-            //req.flash("validationErrors", passwordValidationErrors) /todo, currenlty breaking registration page
+            req.flash("validationErrors", passwordValidationErrors) //todo, currenlty breaking registration page
             res.redirect('/registration'); 
             return;
         }

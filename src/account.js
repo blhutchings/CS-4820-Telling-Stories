@@ -12,7 +12,7 @@ const auth = require('./authenticate')
  * the user to their 'homepage' when they successfully login
  */
 router.get('/homepage', auth.checkAuthenticated, async(req, res) => { //todo: rename to account/homepage? 
-    res.render("homepage.ejs")
+    res.render("homepage.ejs",{ name: req.user.firstName})
 })
 
 router.get('/login', auth.checkNotAuthenticated, (req, res)=>{ 
@@ -23,7 +23,8 @@ router.post('/login', auth.checkNotAuthenticated, passport.authenticate("local",
     successRedirect: "/account/homepage",
     failureRedirect: "/account/login",
     failureFlash: true
-}))
+})) 
+
 
 
 router.delete("/logout", (req, res) => {
