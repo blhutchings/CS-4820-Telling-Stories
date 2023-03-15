@@ -17,6 +17,7 @@ const createH5PEditor = require('./createH5PEditor.js')
 
 const contentCreatePage = require('../../views/contentCreate.js')
 const playerPage = require('../../views/player.js')
+const contentPageRenderer = require('../../views/contentPageRenderer.js')
 
 let tmpDir;
 module.exports = async (server) => {
@@ -101,6 +102,8 @@ module.exports = async (server) => {
         undefined,
         h5pEditor.contentUserDataStorage
     );
+
+    server.get('/content', contentPageRenderer(h5pEditor));
 
     // Custom page to render Hub and display content
     h5pPlayer.setRenderer(playerPage)
