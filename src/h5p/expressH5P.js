@@ -103,7 +103,7 @@ module.exports = async (server) => {
     );
 
     // Custom page to render Hub and display content
-    h5pPlayer.setRenderer(contentCreatePage)
+    // h5pPlayer.setRenderer(contentCreatePage)
     h5pEditor.setRenderer(contentCreatePage)
 
 
