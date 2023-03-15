@@ -5,7 +5,6 @@ const { h5pAjaxExpressRouter,
     contentTypeCacheExpressRouter } = require('@lumieducation/h5p-express')
 
 const fileUpload = require('express-fileupload')
-const bodyParser = require("body-parser")
 const path = require('path')
 
 const i18next = require('i18next')
@@ -17,6 +16,7 @@ const h5pRoutes = require('../routes/h5pRoutes.js')
 const createH5PEditor = require('./createH5PEditor.js')
 
 const contentCreatePage = require('../../views/contentCreate.js')
+const playerPage = require('../../views/player.js')
 
 let tmpDir;
 module.exports = async (server) => {
@@ -103,7 +103,7 @@ module.exports = async (server) => {
     );
 
     // Custom page to render Hub and display content
-    // h5pPlayer.setRenderer(contentCreatePage)
+    h5pPlayer.setRenderer(playerPage)
     h5pEditor.setRenderer(contentCreatePage)
 
 

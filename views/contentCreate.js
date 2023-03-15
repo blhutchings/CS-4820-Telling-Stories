@@ -1,8 +1,7 @@
 
 fs = require('fs');
-const navBar = fs.readFileSync(__dirname  + '/partial/_navHeaderUserHub.ejs', 'utf-8')
-module.exports = async (model) => { 
-  return `
+const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+module.exports = async (model) => { return `
 <!DOCTYPE html>
 
 <!--Main Homepage View-->
@@ -22,11 +21,9 @@ module.exports = async (model) => {
     />
 
     <link rel="stylesheet" href="/public/css/main.css" />
-    <script> window.H5PIntegration = parent.H5PIntegration || ${JSON.stringify(
-      model.integration,
-      null,
-      2
-    )}</script>
+    <script> 
+        window.H5PIntegration = parent.H5PIntegration || ${JSON.stringify(model.integration, null, 2)}
+    </script>
     ${model.styles.map((style) => `<link rel="stylesheet" href="${style}">`).join('\n    ')}
     ${model.scripts.map((script) => `<script src="${script}"></script>`).join('\n    ')}
 
