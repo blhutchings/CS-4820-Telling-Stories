@@ -38,11 +38,11 @@ const start = async () => {
 
     const contentTypes = await contentTypeCache.downloadContentTypesFromHub();
     await fsExtra.writeJSON(
-        path.resolve('test/data/content-type-cache/real-content-types.json'),
+        path.resolve('tests/data/content-type-cache/real-content-types.json'),
         { contentTypes }
     );
     console.log(
-        'Wrote current content type cache to test/content-type-cache/real-content-types.json'
+        'Wrote current content type cache to tests/content-type-cache/real-content-types.json'
     );
 };
 
