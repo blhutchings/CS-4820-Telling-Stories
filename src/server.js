@@ -62,6 +62,10 @@ server.use('/users', usersRoute)
 server.use('/account', accountRoute)
 server.use('/password', passwordRoute)
 
+server.get("/demo", (req, res) => {
+    res.render('demo.ejs')
+})
+
 
 /**
  * start the server and export server module
@@ -70,28 +74,5 @@ const PORT = process.env.PORT || '8080';
 server.listen(PORT)
 console.log(`Server started on port http://localhost:${PORT}...`)
 
-
-
-
-
-
-function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect("/create")
-    }
-    next()
-}
-
-server.delete("/logout", (req, res) => {
-    req.logout(req.user, err => {
-        if (err) return next(err)
-        res.redirect("/account/login")
-    })
-})
-
-
-server.get("/demo", (req, res) => {
-    res.render('demo.ejs')
-})
 
 module.exports = server
