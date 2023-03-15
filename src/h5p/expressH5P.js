@@ -12,6 +12,7 @@ const i18nextFsBackend = require('i18next-fs-backend')
 const i18nextHttpMiddleware = require('i18next-http-middleware')
 
 const User = require('../DefaultUser.js')
+const h5pContentRoutes = require('../routes/h5pContentRoutes');
 const h5pRoutes = require('../routes/h5pRoutes.js')
 const createH5PEditor = require('./createH5PEditor.js')
 
@@ -104,7 +105,7 @@ module.exports = async (server) => {
     );
 
     server.get('/content', contentPageRenderer(h5pEditor));
-
+    server.get('/contentRoute', h5pContentRoutes(h5pEditor));
     // Custom page to render Hub and display content
     h5pPlayer.setRenderer(playerPage)
     h5pEditor.setRenderer(contentCreatePage)
@@ -184,7 +185,12 @@ module.exports = async (server) => {
             'auto' // You can change the language of the editor by setting
             // the language code you need here. 'auto' means the route will try
             // to use the language detected by the i18next language detector.
-        )
+        ),
+        h5pContentRoutes(
+          h5pEditor,
+          h5pPlayer,
+          'auto'
+    ),
     );
 
     // The LibraryAdministrationExpress routes are REST endpoints that offer
