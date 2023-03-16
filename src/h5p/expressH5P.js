@@ -106,7 +106,7 @@ module.exports = async (server) => {
         h5pEditor.contentUserDataStorage
     );
 
-    server.get('/account/homepage',auth.checkAuthenticated, contentPageRenderer(h5pEditor));
+    server.get('/account/content',auth.checkAuthenticated, contentPageRenderer(h5pEditor));
     server.get('/contentRoute', h5pContentRoutes(h5pEditor));
     // Custom page to render Hub and display content
     h5pPlayer.setRenderer(playerPage)
