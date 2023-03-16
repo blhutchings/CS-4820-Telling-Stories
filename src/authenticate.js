@@ -7,7 +7,7 @@ exports.checkAuthenticated = function checkAuthenticated(req, res, next) {
 
 exports.checkNotAuthenticated = function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        return res.redirect("/account/homepage")
+        return res.redirect("/account/content")
     }
     next()
 }
