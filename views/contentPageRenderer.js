@@ -43,7 +43,7 @@ module.exports = function render(editor) {
                 .map(
                     (content) =>
 
-                        `<div class="list-group-item" style="border-radius:5px; box-shadow: 0px 2px black; margin-top: 0.5rem">
+                        `<div class="list-group-item" style="border-radius:15px; box-shadow: rgba(99,99,99,0.2) 0px 2px 8px 0px; margin-top: 0.5rem">
                                 <div class="d-flex w-10">
                                     <div class="me-auto p-2 align-self-center">
                                         <a href="${editor.config.baseUrl}${editor.config.playUrl}/${content.id}">
