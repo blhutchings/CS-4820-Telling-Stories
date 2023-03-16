@@ -22,94 +22,85 @@
     <%- include('../views/partial/_navheaderUserHub.ejs') %>
 
     <!--Hero Section-->
-    <section class="h-100" style="padding-top: 10rem; padding-bottom: 10rem">
-      <div
-        class="card-deck justify-content-center p-1"
-        style="width: 100rem; margin: auto"
-      >
-        <div class="card">
-          <img class="card-img-top" src="..." alt="Card image cap" />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
-            <p class="card-text">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
+
+    <div class="page__container">
+      <div class="content__container" style="padding-top: 6rem">
+        <h2><span class="fa fa-file"></span> My content</h2>
+        <a
+          class="btn btn-primary my-2"
+          style="border-radius: 50px"
+          href="${editor.config.baseUrl
+      }/new"
+        >
+          <span class="fa fa-plus-circle m-2"></span>Create new content
+        </a>
+        <div class="list-group" style="padding-top: 1rem">
+          $ {contentObjects .map( (content) => `
+          <div
+            class="list-group-item"
+            style="
+              border-radius: 5px;
+              box-shadow: 0px 2px black;
+              margin-top: 0.5rem;
+            "
+          >
+            <div class="d-flex w-10">
+              <div class="me-auto p-2 align-self-center">
+                <a
+                  href="${editor.config.baseUrl}${editor.config.playUrl}/${content.id}"
+                >
+                  <h5>${content.content.title}</h5>
+                </a>
+                <hr />
+                <div class="small d-flex">
+                  <div class="me-2">
+                    <span class="fa fa-book-open"></span>
+                    ${content.content.mainLibrary}
+                  </div>
+                  <div class="me-2">
+                    <span class="fa fa-fingerprint"></span>
+                    ${content.id}
+                  </div>
+                </div>
+              </div>
+              <div class="p-2">
+                <a
+                  class="btn btn-outline-secondary"
+                  style="border-radius: 20px"
+                  href="${editor.config.baseUrl}/edit/${content.id}"
+                >
+                  <span class="fa fa-pencil-alt m-1"></span>
+                  edit
+                </a>
+              </div>
+              <div class="p-2">
+                <a
+                  class="btn btn-outline-primary"
+                  style="border-radius: 20px"
+                  href="${editor.config.baseUrl}${editor.config.downloadUrl}/${content.id}"
+                >
+                  <span class="fa fa-file-download m-1"></span>
+                  download
+                </a>
+              </div>
+              <div class="p-2">
+                <a
+                  class="btn btn-outline-danger"
+                  style="border-radius: 20px"
+                  href="${editor.config.baseUrl}/delete/${content.id}"
+                >
+                  <span class="fa fa-trash-alt m-1"></span>
+                  delete
+                </a>
+              </div>
+            </div>
           </div>
+          ` ) .join("")}
         </div>
-        <div class="card">
-          <img class="card-img-top" src="..." alt="Card image cap" />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
-            <p class="card-text">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <img class="card-img-top" src="..." alt="Card image cap" />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This card has supporting text below as a natural lead-in to
-              additional content.
-            </p>
-            <p class="card-text">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <img class="card-img-top" src="..." alt="Card image cap" />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This card has supporting text below as a natural lead-in to
-              additional content.
-            </p>
-            <p class="card-text">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <img class="card-img-top" src="..." alt="Card image cap" />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This card has supporting text below as a natural lead-in to
-              additional content.
-            </p>
-            <p class="card-text">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
-          </div>
-        </div>
-        <div class="card">
-          <img class="card-img-top" src="..." alt="Card image cap" />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This card has even longer content
-              than the first to show that equal height action.
-            </p>
-            <p class="card-text">
-              <small class="text-muted">Last updated 3 mins ago</small>
-            </p>
-          </div>
-        </div>
+        <hr />
       </div>
-    </section>
+    </div>
+    ;
     <!--End of Hero Section-->
 
     <!--Service Section-->

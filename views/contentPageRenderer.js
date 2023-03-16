@@ -43,12 +43,13 @@ module.exports = function render(editor) {
                 .map(
                     (content) =>
 
-                        `<div class="list-group-item" style="border-radius:20px;">
+                        `<div class="list-group-item" style="border-radius:5px; box-shadow: 0px 2px black; margin-top: 0.5rem">
                                 <div class="d-flex w-10">
                                     <div class="me-auto p-2 align-self-center">
                                         <a href="${editor.config.baseUrl}${editor.config.playUrl}/${content.id}">
                                             <h5>${content.content.title}</h5>
                                         </a>
+                                        <hr/>
                                         <div class="small d-flex">                                            
                                             <div class="me-2">
                                                 <span class="fa fa-book-open"></span>
