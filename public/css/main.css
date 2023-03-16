@@ -1,5 +1,5 @@
 :root {
-  --navbar-backdrop-color: #eaf7ff;
+  --navbar-backdrop-color: #ffff;
   --backdrop-color: #eaf7ff; /*Chnage this to any color to affect chnage in overall backdrop color*/
   --navbar-links-color: #131313; /*Menu Links and inverted color chnaged for text or menu links from here*/
   --button-color: #4837ff; /*Button text color can be chnaged using this*/
@@ -29,8 +29,8 @@
   color: var(--navbar-links-color);
   padding: 14px 16px;
   background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  margin: 0; /* Important for vertical align on mobile phones */
+  font-family: inherit; /* Important for vertical align on mobile  */
+  margin: 0; /* Important for vertical align on mobile  */
 }
 
 @media (max-width: 500px) {
@@ -43,7 +43,7 @@
 
 /*Start of your Nav Bar CSS*/
 .navbar {
-  background: var(--backdrop-color);
+  background: var(--navbar-backdrop-color);
   height: 80px;
   display: flex;
   justify-content: center;
@@ -52,12 +52,13 @@
   position: sticky;
   top: 0;
   z-index: 999;
+  box-shadow: 2px 0px 10px black;
 }
 
 .navbar__container {
   display: flex;
   justify-content: space-between;
-  height: 80px;
+  height: 60px;
   z-index: 1;
   width: 100%;
 
@@ -906,4 +907,16 @@ hence based on resize thes values will accordingly resize*/
   height: 88vh;
   background-color: var(--backdrop-color);
   padding-top: 10%;
+}
+
+/*CSS for ContentRender Content Container*/
+.content__container {
+  margin: auto;
+  width: 1200px;
+  height: 100%;
+}
+
+.page__container {
+  height: 89vh;
+  background-color: var(--backdrop-color);
 }

@@ -21,76 +21,15 @@
 
 <!--Navbar UserHub Section-->
 <!--This navbar is different from index page navbar meant to help users navigate once they have logged in.-->
-<nav class="navbar">
-  <div class="navbar__container">
-    <a href="/" id="navbar__logo">H5P</a>
-    <div class="navbar__toggle" id="mobile-menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </div>
-    <ul class="navbar__menu">
-      <li class="navbar__item">
-        <a
-          href="/account/homepage"
-          class="navbar__links"
-          style="font-size: 80%"
-        >
-          Home
-        </a>
-      </li>
-      <li class="navbar__item">
-        <a href="/content" class="navbar__links" style="font-size: 80%"
-          >My Content
-        </a>
-      </li>
-      <li class="navbar__item">
-        <a href="/organization" class="navbar__links" style="font-size: 80%">
-          My Organization
-        </a>
-      </li>
-      <li class="navbar__item">
-        <a href="/users" class="navbar__links" style="font-size: 80%">
-          Admin
-        </a>
-      </li>
-
-      <!-- Example single danger button -->
-      <li>
-        <div class="btn-group">
-          <button
-            type="button"
-            class="btn btn-outline-danger dropdown-toggle"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-          <%= name%>
-          </button>
-          
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Getting Started</a>
-            <a class="dropdown-item" href="#">My Account</a>
-            <div class="dropdown-divider"></div>
-            <form action="/account/logout?_method=DELETE" method="POST">
-              <div class="text-center">
-                <button
-                  type="submit"
-                  class="btn btn-outline-danger btn-rounded btn-lg"
-                >
-                  Logout
-                </button>
-          </div>
-        </div>
-      </li>
-
-      <li class="navbar__btn">
-        <a href="/create" class="button" style="font-size: 80%">
-          Create Content
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<div
+  class="secondarynav_container"
+  style="background-color: white; box-shadow: 50px 0px 5px black"
+>
+  <ul class="nav nav-pills">
+    <li class="nav-item" style="margin-top: 15px; margin-left: 15px">
+      <a class="nav-link active" aria-current="page" href="#">Active</a>
+    </li>
+  </ul>
+</div>
 
 <!--End of Navbar UserHub-->
