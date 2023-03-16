@@ -32,7 +32,7 @@ module.exports = function render(editor) {
         ${navBar}
 
         
-        <div class="page__container">
+        <div class="page__container" style="height:92vh;">
             <div class="content__container" style="padding-top: 6rem;">
                 <h2>
                     <span class="fa fa-file"></span> My content</h2>

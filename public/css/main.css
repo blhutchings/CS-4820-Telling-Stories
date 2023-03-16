@@ -542,7 +542,7 @@ hence based on resize thes values will accordingly resize*/
   background-color: var(--backdrop-color);
   justify-self: center;
   margin: 0 auto;
-  height: 90vh;
+  height: 100vh;
   z-index: 1;
   width: 100%;
   max-width: 1300px;
@@ -559,7 +559,7 @@ hence based on resize thes values will accordingly resize*/
   align-items: center;
   justify-self: center;
   text-align: center;
-  height: 70vh;
+  height: 80vh;
   z-index: 1;
   width: 100%;
   max-width: 1300px;
@@ -879,7 +879,7 @@ hence based on resize thes values will accordingly resize*/
 
 @media (min-width: 768px) {
   .gradient-form {
-    height: 89vh !important;
+    height: 91vh !important;
   }
 }
 @media (min-width: 769px) {
