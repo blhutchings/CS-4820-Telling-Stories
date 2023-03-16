@@ -920,3 +920,21 @@ hence based on resize thes values will accordingly resize*/
   height: 89vh;
   background-color: var(--backdrop-color);
 }
+
+.body_container {
+  width: 1905px;
+  margin: auto;
+  background-color: #eaf7ff;
+}
+.hero_container {
+  width: 926px;
+}
+
+@media (min-width: 926px) {
+  .body_container {
+    width: 1490px;
+  }
+  .hero_container {
+    width: 926px;
+  }
+}

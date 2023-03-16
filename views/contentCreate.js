@@ -33,11 +33,11 @@ module.exports = async (model) => { return `
     <title>Home</title>
   </head>
   <body>
-  <div class="body_container" style="width:1905px; margin:auto; background-color:#eaf7ff">
+  <div class="body_container" style="width:100vw; margin:auto; background-color:#eaf7ff">
     <!--Navigation EJS Partial call do not remove-->
     ${navBar}
    
-    <div class="hero_container" style="width:1905px; margin:auto; background-color:#eaf7ff; text-align: center">
+    <div class="hero_container" style="width:100vw; margin:auto; background-color:#eaf7ff; text-align: center">
     <!--Hero Section-->
     <!--This Hero Section contains the Iframe for the H5P content creation.-->
     <!--Iframe for H5P creator-->
@@ -49,9 +49,11 @@ module.exports = async (model) => { return `
                 <div class="h5p-editor"></div>
             </div>
           </div>
-          <input id="save-h5p" type="submit" name="submit" value="Save" class="button button-primary" style="width: 100px">
-          <input id="cancel-h5p" type="submit" name="submit" value="Cancel" class="button button-primary" style="width: 100px; display:flex">
-        </form>
+          <div clas="button-parent" style="display: flex">
+          <input id="save-h5p" type="submit" name="submit" value="Save" class="button button-primary" style="width: 100px;">
+          <input id="cancel-h5p" type="submit" name="submit" value="Cancel" class="btn btn-outline-secondary" style="width: 100px; margin-left:1rem; border-radius: 50px">
+        </div>
+          </form>
     </section>
     </div>
     </div>
@@ -63,17 +65,21 @@ module.exports = async (model) => { return `
       <div class="services__container">
         <div class="services__card">
           <h2>Experience a better way</h2>
-          <img src="/public/img/H5P-Logo.png" alt="" />
+          <div class="services__img__container">
+            <img src="/public/img/H5P-Logo.png" alt="" />
+          </div>
           <p>Improved for convenice</p>
           <button><a href="https://h5p.org/">Learn more</a></button>
         </div>
         <div class="services__card">
           <h2>Are you ready?</h2>
-          <img
-            src="/public/img/H5P-Content.png"
-            style="width: 350px; height: 145px"
-            alt=""
-          />
+          <div class="services__img__container">
+            <img
+              src="/public/img/H5P-Content.png"
+              style="width: 350px; height: 145px"
+              alt=""
+            />
+          </div>
           <p>Jump right in!</p>
           <button><a href="">Get Creating</a></button>
         </div>
