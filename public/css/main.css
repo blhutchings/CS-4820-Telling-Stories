@@ -929,12 +929,3 @@ hence based on resize thes values will accordingly resize*/
 .hero_container {
   width: 926px;
 }
-
-@media (min-width: 926px) {
-  .body_container {
-    width: 1490px;
-  }
-  .hero_container {
-    width: 926px;
-  }
-}
