@@ -50,7 +50,6 @@ module.exports = async (model) => { return `
             </div>
           </div>
           <div>
-          <div>
           <input id="save-h5p" type="submit" name="submit" value="Save" class="button button-primary" style="width: 100px; float:left; margin-right: 10px;">
           <input id="cancel-h5p" type="submit" name="submit" value="Cancel" class="button button-primary" style="width: 100px; float:left; background: linear-gradient(to bottom, #e82727, #c51414);">
         </div>
