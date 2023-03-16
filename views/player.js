@@ -35,7 +35,7 @@ module.exports = async (model) => { return `
 
     <!--Hero Section-->
     <!--This Hero Section contains the Iframe for the H5P content creation.-->
-    <div class="hero_container" style="width:100vw; margin:auto; background-color:#eaf7ff; text-align: center">
+    <div class="hero_container" style="width:100vh; margin:auto; background-color:#eaf7ff; text-align: center">
    
     <div class="h5p-iframe" style="padding-top: 6rem">
         <div class="h5p-content" data-content-id="${model.contentId}"></div>
