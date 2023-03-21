@@ -75,19 +75,21 @@ server.use(bodyParser.urlencoded({extended: true}));
 
 
 /**
- * start the server and export server module
+ * start the server 
+ * HEADS UP: this has been moved to ./startServer.js to support the use of jest tests
+ * this is due to when the server is exported to example.test.js it runs the below code and 
+ * starts a seperate instance of this server
  */
-const PORT = 8080
-server.listen(PORT)
-console.log(`Server started on port http://localhost:${PORT}...`)
-module.exports = server
+// const PORT = 8080
+// server.listen(PORT)
+// console.log(`Server started on port http://localhost:${PORT}...`)
 
 
 
 /**
  * server code, primarily uses Expresses routes, and creates 'mini-apps' for the main functionalities
  * of our application
- */
+*/
 server.get('/', async(req, res) => {
     res.render("index.ejs")
 })
@@ -99,6 +101,11 @@ server.use('/password', passwordRoute)
 
 //ip() //posts our public IP to the console
 
+
+/**
+ * export server module
+ */
+module.exports = server
 
 
 
