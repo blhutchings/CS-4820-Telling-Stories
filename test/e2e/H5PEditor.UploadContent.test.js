@@ -24,4 +24,7 @@ describe('e2e test: upload content and save', () => {
             await uploadHelpers.uploadSave(path.join(examplesPath, file));
         }, 60000);
     }
+    it('temp', () => {
+        expect('this').toBe('this')
+    });
 });
