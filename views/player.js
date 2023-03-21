@@ -1,3 +1,6 @@
+fs = require('fs');
+const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+module.exports = async (model) => { return `  
 <!DOCTYPE html>
 
 <!--Main Homepage View-->
@@ -17,32 +20,27 @@
     />
 
     <link rel="stylesheet" href="/public/css/main.css" />
+    <script> 
+        window.H5PIntegration = ${JSON.stringify(model.integration, null, 2)}
+    </script>
+    ${model.styles.map((style) => `<link rel="stylesheet" href="${style}">`).join('\n    ')}
+    ${model.scripts.map((script) => `<script src="${script}"></script>`).join('\n    ')}
+
     <title>Home</title>
   </head>
   <body>
     <!--Navigation EJS Partial call do not remove-->
-    <%- include('../views/partial/_navheaderUserHub.ejs'); %>
+    ${navBar}
 
     <!--Hero Section-->
     <!--This Hero Section contains the Iframe for the H5P content creation.-->
-    <!--Iframe for H5P creator-->
-    <section class="h-100" style="padding-top: 8rem; padding-bottom: 10rem">
-      <div class="embed-responsive embed-responsive-16by9 w-50 m-auto">
-        <iframe
-          class="embed-responsive-item"
-          src="https://www.youtube.com/embed/LnXIYRX_6dw"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        >
-          ></iframe
-        >
-      </div>
-    </section>
+   
+    <div class="h5p-iframe">
+        <div class="h5p-content" data-content-id="${model.contentId}"></div>
+        <a href="${model.downloadPath}">Download</button>
+    </div>
 
     <!--End of Hero Section-->
-
     <!--Service Section-->
     <div class="services">
       <h1>See what the hype is about</h1>
@@ -76,3 +74,4 @@
     ></script>
   </body>
 </html>
+`}

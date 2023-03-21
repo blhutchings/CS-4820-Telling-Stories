@@ -1,4 +1,3 @@
-
 /**
  * modular dependcies
  * todo: may have to import db var as well
@@ -8,7 +7,7 @@ const router = express.Router()
 const { check, validationResult } = require("express-validator")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const sendEmail = require("../utils/email/sendEmail") 
+const sendEmail = require("../utils/email/sendEmail")
 const db = require("./config/database")
 
 
@@ -24,11 +23,11 @@ const JWT_SECRET = process.env.JWT_SECRET
  * working code, handles requests to root route /password, handles both 'forgot-password' and 'reset-password'
  * renamed to 'forgot' and 'reset' respectivly 
  */
-router.get('/forgot', async(req, res) => { //rnamed from /forgot-password, now accessible via /password/forgot
+router.get('/forgot', async (req, res) => { //rnamed from /forgot-password, now accessible via /password/forgot
     res.render('forgotPassword.ejs')
 })
 
-router.post('/forgot', async(req, res) => {
+router.post('/forgot', async (req, res) => {
     const { email } = req.body
 
     const user = await db.User.findFirst({ where: { email } })
@@ -63,9 +62,9 @@ router.post('/forgot', async(req, res) => {
     }
 })
 
-router.get('/reset/:id/:token', async(req, res) => { //renamed from /reset-password/:id/:token, now accessible via /password/reset/:id/:token
+router.get('/reset/:id/:token', async (req, res) => { //renamed from /reset-password/:id/:token, now accessible via /password/reset/:id/:token
     const { id, token } = req.params
-        //res.send(req.params)
+    //res.send(req.params)
     const user = await db.User.findFirst({ where: { id: parseInt(id) } })
     if (!user) {
         console.log("invalid id")
@@ -93,12 +92,12 @@ router.post('/reset/:id/:token',
     }),
 
     check('password')
-    .notEmpty().withMessage("Password field can not be empty")
-    .isLength({ min: 8 }).withMessage('Password must be 8 characters long')
-    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must include a special character')
-    .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
+        .notEmpty().withMessage("Password field can not be empty")
+        .isLength({ min: 8 }).withMessage('Password must be 8 characters long')
+        .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must include a special character')
+        .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
 
-    async(req, res) => {
+    async (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
@@ -139,9 +138,5 @@ router.post('/reset/:id/:token',
         }
 
     })
-
-
-
-
 
 module.exports = router

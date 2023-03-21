@@ -53,7 +53,7 @@ router.get('/', auth.checkAuthenticated, async(req, res) => { //remember, /users
         });
 
         console.log("users length is " + count)
-        res.render("users.ejs", { users, page, totalPages });
+        res.render("users.ejs", { name: req.user.firstName , users, page, totalPages });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal server error');

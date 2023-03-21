@@ -79,8 +79,7 @@ module.exports = async function createH5PEditor(
         lock = new H5P.SimpleLockProvider();
     }
 
-
-        // Depending on the environment variables we use different implementations
+    // Depending on the environment variables we use different implementations
     // of the storage interfaces.
     let libraryStorage;
     if (process.env.LIBRARYSTORAGE === 'mongo') {
@@ -122,42 +121,63 @@ module.exports = async function createH5PEditor(
     }
 
     const contentUserDataStorage =
-    new H5P.fsImplementations.FileContentUserDataStorage(
-        localContentUserDataPath
-    );
+        new H5P.fsImplementations.FileContentUserDataStorage(
+            localContentUserDataPath
+        );
 
     const h5pEditor = new H5P.H5PEditor(
         new H5P.cacheImplementations.CachedKeyValueStorage('kvcache', cache), // this is a general-purpose cache
         config,
-        process.env.CACHE ? new H5P.cacheImplementations.CachedLibraryStorage(libraryStorage, cache) : libraryStorage,
-        process.env.CONTENTSTORAGE !== 'mongos3' ? new H5P.fsImplementations.FileContentStorage(localContentPath) : new dbImplementations.MongoS3ContentStorage(
-              dbImplementations.initS3({
-                  s3ForcePathStyle: true,
-                  signatureVersion: 'v4'
-              }),
-              (await dbImplementations.initMongo()).collection(process.env.CONTENT_MONGO_COLLECTION),
-              {
-                  s3Bucket: process.env.CONTENT_AWS_S3_BUCKET,
-                  maxKeyLength: process.env.AWS_S3_MAX_FILE_LENGTH ? Number.parseInt(process.env.AWS_S3_MAX_FILE_LENGTH, 10) : undefined
-              }
-        ),
-
-        process.env.TEMPORARYSTORAGE === 's3' ? new dbImplementations.S3TemporaryFileStorage(
-              dbImplementations.initS3({
-                  s3ForcePathStyle: true,
-                  signatureVersion: 'v4'
-              }),
-              {
-                  s3Bucket: process.env.TEMPORARY_AWS_S3_BUCKET,
-                  maxKeyLength: process.env.AWS_S3_MAX_FILE_LENGTH ? Number.parseInt(process.env.AWS_S3_MAX_FILE_LENGTH, 10): undefined
-              }
-        ) : new H5P.fsImplementations.DirectoryTemporaryFileStorage(localTemporaryPath),
-
+        process.env.CACHE
+            ? new H5P.cacheImplementations.CachedLibraryStorage(
+                  libraryStorage,
+                  cache
+              )
+            : libraryStorage,
+        process.env.CONTENTSTORAGE !== 'mongos3'
+            ? new H5P.fsImplementations.FileContentStorage(localContentPath)
+            : new dbImplementations.MongoS3ContentStorage(
+                  dbImplementations.initS3({
+                      s3ForcePathStyle: true,
+                      signatureVersion: 'v4'
+                  }),
+                  (await dbImplementations.initMongo()).collection(
+                      process.env.CONTENT_MONGO_COLLECTION
+                  ),
+                  {
+                      s3Bucket: process.env.CONTENT_AWS_S3_BUCKET,
+                      maxKeyLength: process.env.AWS_S3_MAX_FILE_LENGTH
+                          ? Number.parseInt(
+                                process.env.AWS_S3_MAX_FILE_LENGTH,
+                                10
+                            )
+                          : undefined
+                  }
+              ),
+        process.env.TEMPORARYSTORAGE === 's3'
+            ? new dbImplementations.S3TemporaryFileStorage(
+                  dbImplementations.initS3({
+                      s3ForcePathStyle: true,
+                      signatureVersion: 'v4'
+                  }),
+                  {
+                      s3Bucket: process.env.TEMPORARY_AWS_S3_BUCKET,
+                      maxKeyLength: process.env.AWS_S3_MAX_FILE_LENGTH
+                          ? Number.parseInt(
+                                process.env.AWS_S3_MAX_FILE_LENGTH,
+                                10
+                            )
+                          : undefined
+                  }
+              )
+            : new H5P.fsImplementations.DirectoryTemporaryFileStorage(
+                  localTemporaryPath
+              ),
         translationCallback,
         undefined,
         {
-            enableHubLocalization: false,
-            enableLibraryNameLocalization: false,
+            enableHubLocalization: true,
+            enableLibraryNameLocalization: true,
             lockProvider: lock
         },
         contentUserDataStorage
@@ -165,9 +185,14 @@ module.exports = async function createH5PEditor(
 
     // Set bucket lifecycle configuration for S3 temporary storage to make
     // sure temporary files expire.
-    if (h5pEditor.temporaryStorage instanceof dbImplementations.S3TemporaryFileStorage) {
-        await (h5pEditor.temporaryStorage).setBucketLifecycleConfiguration(h5pEditor.config);
+    if (
+        h5pEditor.temporaryStorage instanceof
+        dbImplementations.S3TemporaryFileStorage
+    ) {
+        await (
+            h5pEditor.temporaryStorage
+        ).setBucketLifecycleConfiguration(h5pEditor.config);
     }
 
     return h5pEditor;
-};
+}
