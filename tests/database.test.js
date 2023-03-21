@@ -27,7 +27,8 @@ describe("database stuff", () => {
    
 
     it("user added to database", async () => {
-        expect(user.id).toBeDefined()
+      const user = await db.User.findFirst()  
+      expect(user).toBeDefined()
 
         
     })
