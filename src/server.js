@@ -68,8 +68,6 @@ expressH5P(server)
  * of our application
 */
 server.get('/', async(req, res) => {
- */
-server.get('/', async (req, res) => {
     res.render("index.ejs")
 })
 
@@ -91,9 +89,7 @@ module.exports = server
 /**
  * start the server and export server module
  */
-const PORT = process.env.PORT || '8080';
-server.listen(PORT)
-console.log(`Server started on port http://localhost:${PORT}...`)
+// const PORT = process.env.PORT || '8080';
+// server.listen(PORT)
+// console.log(`Server started on port http://localhost:${PORT}...`)
 
-
-module.exports = server
