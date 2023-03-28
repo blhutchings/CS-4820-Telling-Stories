@@ -20,6 +20,8 @@ const contentCreatePage = require('../../views/contentCreate.js')
 const playerPage = require('../../views/player.js')
 const contentPageRenderer = require('../../views/contentPageRenderer.js')
 
+const auth = require('../authenticate')
+
 let tmpDir;
 module.exports = async (server) => {
     const useTempUploads = process.env.TEMP_UPLOADS === 'true';
@@ -104,7 +106,7 @@ module.exports = async (server) => {
         h5pEditor.contentUserDataStorage
     );
 
-    server.get('/content', contentPageRenderer(h5pEditor));
+    server.get('/account/content',auth.checkAuthenticated, contentPageRenderer(h5pEditor));
     server.get('/contentRoute', h5pContentRoutes(h5pEditor));
     // Custom page to render Hub and display content
     h5pPlayer.setRenderer(playerPage)
@@ -233,5 +235,4 @@ module.exports = async (server) => {
         );
     }
 };
-
 

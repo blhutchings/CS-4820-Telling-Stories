@@ -1,6 +1,8 @@
 
 fs = require('fs');
-const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs',  'utf-8')
+/**please note the below is work under progress, DO NOT DELETE THE _NAVHEADERADMIN PARTIAL, you can remove its usage*/
+const secondaryNavbar = fs.readFileSync(__dirname + '/partial/_navHeaderAdmin.ejs', 'utf-8')
 module.exports = async (model) => { return `
 <!DOCTYPE html>
 
@@ -24,29 +26,37 @@ module.exports = async (model) => { return `
     <script> 
         window.H5PIntegration = parent.H5PIntegration || ${JSON.stringify(model.integration, null, 2)}
     </script>
-    ${model.styles.map((style) => `<link rel="stylesheet" href="${style}">`).join('\n    ')}
+    
+    ${model.styles.map((styles) => `<link rel="stylesheet" href="${styles}">`).join('\n    ')}
     ${model.scripts.map((script) => `<script src="${script}"></script>`).join('\n    ')}
-
+    
     <title>Home</title>
   </head>
   <body>
+  <div class="body_container" style="width:100vw; margin:auto; background-color:#eaf7ff">
     <!--Navigation EJS Partial call do not remove-->
     ${navBar}
-
+   
+    <div class="hero_container" style="width:100vw; margin:auto; background-color:#eaf7ff; text-align: center">
     <!--Hero Section-->
     <!--This Hero Section contains the Iframe for the H5P content creation.-->
     <!--Iframe for H5P creator-->
-    <section class="h-100" style="padding-top: 8rem; padding-bottom: 10rem">
+    <div class="iframe_container" style="width:960px; display:inline-block; margin: 0 auto">
+    <section class="h-100" style="padding-top: 6rem; padding-bottom: 5rem; height:10px">
         <form method="post" enctype="multipart/form-data" id="h5p-content-form">
           <div id="post-body-content">
             <div class="h5p-create">
                 <div class="h5p-editor"></div>
             </div>
           </div>
-          <input id="save-h5p" type="submit" name="submit" value="Create" class="button button-primary button-large">
+          <div class="button__container" style="display: flex;">
+          <input id="save-h5p" type="submit" name="submit" value="Save" class="button button-primary" style="width: 100px">
+          <input id="cancel-h5p" type="submit" name="submit" value="Cancel" class="btn btn-outline-secondary" style="width: 100px; margin-left:1rem; border-radius: 50px">
+          </div>
         </form>
     </section>
-
+    </div>
+    </div>
     <!--End of Hero Section-->
 
     <!--Service Section-->
@@ -55,23 +65,27 @@ module.exports = async (model) => { return `
       <div class="services__container">
         <div class="services__card">
           <h2>Experience a better way</h2>
-          <img src="/public/img/H5P-Logo.png" alt="" />
+          <div class="services__img__container">
+            <img src="/public/img/H5P-Logo.png" alt="" />
+          </div>
           <p>Improved for convenice</p>
           <button><a href="https://h5p.org/">Learn more</a></button>
         </div>
         <div class="services__card">
           <h2>Are you ready?</h2>
-          <img
-            src="/public/img/H5P-Content.png"
-            style="width: 350px; height: 145px"
-            alt=""
-          />
+          <div class="services__img__container">
+            <img
+              src="/public/img/H5P-Content.png"
+              style="width: 350px; height: 145px"
+              alt=""
+            />
+          </div>
           <p>Jump right in!</p>
           <button><a href="">Get Creating</a></button>
         </div>
       </div>
     </div>
-
+</div>
     <!--Navigation menu script do not remove-->
     <script src="../public/menu-toggle-transition.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

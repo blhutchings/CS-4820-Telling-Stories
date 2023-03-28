@@ -1,4 +1,5 @@
 const H5P = require('@lumieducation/h5p-server')
+const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs',  'utf-8')
 
 module.exports = function render(editor) {
     return async (req, res) => {
@@ -17,33 +18,38 @@ module.exports = function render(editor) {
         res.send(`
         <!doctype html>
         <html>
+
+        
         <head>
             <meta charset="utf-8">
             <script src="/node_modules/requirejs/require.js"></script>
             <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
             <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+            <link rel="stylesheet" href="/public/css/main.css">
             <title>H5P NodeJs Demo</title>
         </head>
         <body>
-            <div class="container">
-                <h1>H5P NodeJs Demo</h1>
-                <div class="alert alert-warning">This demo is for debugging and demonstration purposes only and not suitable for production use!</div>                
+        ${navBar}
+
+        
+        <div class="page__container" style="height:92vh;">
+            <div class="content__container" style="padding-top: 6rem;">
                 <h2>
-                    <span class="fa fa-file"></span> Existing content
-                </h2>
-                <a class="btn btn-primary my-2" href="${editor.config.baseUrl
+                    <span class="fa fa-file"></span> My content</h2>
+                <a class="btn btn-primary my-2" style="border-radius: 50px;" href="${editor.config.baseUrl
             }/new"><span class="fa fa-plus-circle m-2"></span>Create new content</a>
-                <div class="list-group">
+                <div class="list-group" style="padding-top:1rem">
                 ${contentObjects
                 .map(
                     (content) =>
 
-                        `<div class="list-group-item">
+                        `<div class="list-group-item" style="border-radius:15px; box-shadow: rgba(99,99,99,0.2) 0px 2px 8px 0px; margin-top: 0.5rem">
                                 <div class="d-flex w-10">
                                     <div class="me-auto p-2 align-self-center">
                                         <a href="${editor.config.baseUrl}${editor.config.playUrl}/${content.id}">
                                             <h5>${content.content.title}</h5>
                                         </a>
+                                        <hr/>
                                         <div class="small d-flex">                                            
                                             <div class="me-2">
                                                 <span class="fa fa-book-open"></span>
@@ -56,19 +62,19 @@ module.exports = function render(editor) {
                                         </div>
                                     </div>
                                     <div class="p-2">                                        
-                                        <a class="btn btn-secondary" href="${editor.config.baseUrl}/edit/${content.id}">
+                                        <a class="btn btn-outline-secondary" style="border-radius:20px;"href="${editor.config.baseUrl}/edit/${content.id}">
                                             <span class="fa fa-pencil-alt m-1"></span>
                                             edit
                                         </a>
                                     </div>
                                     <div class="p-2">
-                                        <a class="btn btn-info" href="${editor.config.baseUrl}${editor.config.downloadUrl}/${content.id}">
+                                        <a class="btn btn-outline-primary" style="border-radius:20px;"href="${editor.config.baseUrl}${editor.config.downloadUrl}/${content.id}">
                                             <span class="fa fa-file-download m-1"></span>
                                             download
                                         </a>
                                     </div>
                                     <div class="p-2">
-                                        <a class="btn btn-danger" href="${editor.config.baseUrl}/delete/${content.id}">
+                                        <a class="btn btn-outline-danger" style="border-radius:20px;" href="${editor.config.baseUrl}/delete/${content.id}">
                                             <span class="fa fa-trash-alt m-1"></span>
                                             delete
                                         </a>
@@ -80,6 +86,7 @@ module.exports = function render(editor) {
                 </div>
                 <hr/>
             </div>
+         </div>
         </body>
         `);
     };
