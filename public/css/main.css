@@ -43,7 +43,7 @@
 
 /*Start of your Nav Bar CSS*/
 .navbar {
-  background: var(--navbar-backdrop-color);
+  background-color: var(--navbar-backdrop-color);
   height: 80px;
   display: flex;
   justify-content: center;
@@ -61,7 +61,7 @@
   height: 60px;
   z-index: 1;
   width: 100%;
-
+  position: fixed;
   margin-right: auto;
   margin-left: auto;
   padding-right: 50px;
@@ -84,6 +84,20 @@
   cursor: pointer;
   text-decoration: none;
   letter-spacing: 30px;
+}
+
+.dropdown-menu {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  z-index: 1;
+  width: 100%;
+  position: fixed;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 50px;
+  padding-left: 50px;
+  font-weight: 700;
 }
 
 .fa-gem {
@@ -404,127 +418,6 @@ hence based on resize thes values will accordingly resize*/
   .main__btn {
     padding: 12px 36px;
     margin: 2.5rem 0;
-  }
-}
-/*Services Section CSS PLEASE DO NOT REMOVE*/
-.services {
-  background: var(--backdrop-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-}
-
-.services h1 {
-  background-color: #ff8177;
-  background-image: linear-gradient(
-    to right,
-    #4f95ff 0%,
-    #7baef9 0%,
-    #5d9af5 52%,
-    #2c5da5 78%,
-    #0f3774 100%
-  );
-
-  background-size: 100%;
-  margin-bottom: 5rem;
-  font-size: 2.5rem;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-
-.services__card h2 {
-  margin-left: 6em;
-  padding-bottom: 2rem;
-}
-
-.services__card p {
-  margin-left: 9em;
-  padding-top: 1rem;
-}
-
-.services__container {
-  background-color: var(--backdrop-color);
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.services__card {
-  background-color: var(--backdrop-color);
-  margin: 1rem;
-  height: 525px;
-  width: 600px;
-  border-radius: 4px;
-  background-image: linear-gradient(
-      to button,
-      rgba * (0, 0, 0, 0) 0%,
-      rgba(17, 17, 17, 0) 100%
-    ),
-    url("/public/images/H5P-Logo.png");
-  background-size: cover;
-  position: relative;
-  color: var(--navbar-links-color);
-}
-
-.services__card button {
-  font-size: 1rem;
-  background-image: linear-gradient(to top, #4f95ff 0%, #a74fff 100%);
-  margin: 9em;
-  padding: 14px 32px;
-  border: none;
-  outline: none;
-  border-radius: 50px;
-  color: var(--button-color);
-  margin-top: 2rem;
-  cursor: pointer;
-  position: absolute;
-  transition: all 0.35s;
-  outline: none;
-}
-
-.services__card a {
-  position: relative;
-  z-index: 2;
-  color: var(--button-text-color);
-  text-decoration: none;
-}
-
-.services__card button:after {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  background: #4837ff;
-  transition: all 0.35s;
-  border-radius: 50px;
-}
-
-.services__img__container {
-  text-align: center;
-}
-
-.services__card button:hover {
-  color: var(--button-color);
-}
-
-.services__card button:hover:after {
-  width: 100%;
-}
-
-@media screen and (max-width: 1280px) {
-  .services__card {
-    height: 325px;
-  }
-
-  .services h1 {
-    font-size: 2rem;
-    margin-top: 3rem;
-    margin-left: 2rem;
   }
 }
 
@@ -913,19 +806,14 @@ hence based on resize thes values will accordingly resize*/
 .content__container {
   margin: auto;
   width: 1200px;
-  height: 100%;
+  max-height: 100%;
 }
 
 .page__container {
-  height: 89vh;
+  max-height: 100%;
   background-color: var(--backdrop-color);
 }
 
-.body_container {
-  width: 1905px;
-  margin: auto;
-  background-color: #eaf7ff;
-}
 .hero_container {
   width: 926px;
 }

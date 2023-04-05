@@ -60,31 +60,7 @@ module.exports = async (model) => { return `
     <!--End of Hero Section-->
 
     <!--Service Section-->
-    <div class="services">
-      <h1>See what the hype is about</h1>
-      <div class="services__container">
-        <div class="services__card">
-          <h2>Experience a better way</h2>
-          <div class="services__img__container">
-            <img src="/public/img/H5P-Logo.png" alt="" />
-          </div>
-          <p>Improved for convenice</p>
-          <button><a href="https://h5p.org/">Learn more</a></button>
-        </div>
-        <div class="services__card">
-          <h2>Are you ready?</h2>
-          <div class="services__img__container">
-            <img
-              src="/public/img/H5P-Content.png"
-              style="width: 350px; height: 145px"
-              alt=""
-            />
-          </div>
-          <p>Jump right in!</p>
-          <button><a href="">Get Creating</a></button>
-        </div>
-      </div>
-    </div>
+    
 </div>
     <!--Navigation menu script do not remove-->
     <script src="../public/menu-toggle-transition.js"></script>
