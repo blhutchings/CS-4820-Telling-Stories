@@ -44,30 +44,6 @@ module.exports = async (model) => { return `
     </div>
 
     <!--End of Hero Section-->
-    <!--Service Section-->
-    <div class="services">
-      <h1>See what the hype is about</h1>
-      <div class="services__container">
-        <div class="services__card">
-          <h2>Experience a better way</h2>
-          <img src="/public/img/H5P-Logo.png" alt="" />
-          <p>Improved for convenice</p>
-          <button><a href="https://h5p.org/">Learn more</a></button>
-        </div>
-        <div class="services__card">
-          <h2>Are you ready?</h2>
-          <img
-            src="/public/img/H5P-Content.png"
-            style="width: 350px; height: 145px"
-            alt=""
-          />
-          <p>Jump right in!</p>
-          <button><a href="">Get Creating</a></button>
-        </div>
-      </div>
-    </div>
-    </div>
-
     <!--Navigation menu script do not remove-->
     <script src="../public/menu-toggle-transition.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
