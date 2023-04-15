@@ -77,6 +77,7 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
             res.status(400).send('Malformed request').end();
             return;
         }
+        try{
         const contentId = await h5pEditor.saveOrUpdateContent(
             undefined,
             req.body.params.params,
@@ -87,6 +88,10 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
 
         res.send(JSON.stringify({ contentId }));
         res.status(200).end();
+    } catch(err){
+        res.json(err);
+        res.status(500).end();
+    }
     });
 
     router.get('/delete/:contentId', async (req, res) => {
