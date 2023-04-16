@@ -35,7 +35,6 @@ router.post('/forgot', async (req, res) => {
     if (!user) {
         req.flash("error", "Email is not registered")
         res.redirect("/password/forgot")
-            //res.send('User is not registered')
     }
 
     //user exists and now creating a one time link that is valid for only 15 minutes
@@ -47,7 +46,7 @@ router.post('/forgot', async (req, res) => {
                 id: user.id
             }
             const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-            const resetLink = `localhost:8080/password/reset/${user.id}/${token}` //TODO: change local host to domain name
+            const resetLink = `http://localhost:8080/password/reset/${user.id}/${token}`//TODO: change local host to domain name
             console.log(resetLink)
             const resetEmailPayload = {
                 name: user.firstName,
@@ -55,8 +54,7 @@ router.post('/forgot', async (req, res) => {
             }
             sendEmail(user.email, "Reset Password", resetEmailPayload, "views/partial/_emailPasswordResetRequest.ejs")
             req.flash("success", "A password reset link has been sent to your email.")
-            res.redirect("/password/forgot/")
-
+            res.redirect("/password/forgot")
         } catch (error) {
             console.log(error)
         }
@@ -108,7 +106,7 @@ router.post('/reset/:id/:token',
             return;
         }
         const { id, token } = req.params
-        const { password, confirmPassword } = req.body
+        const { password, confirmPassword } = req.body //todo, can we get rid of confirm password? 
         const user = await db.User.findFirst({ where: { id: parseInt(id) } })
         if (!user) {
             console.log("invalid id")
@@ -127,6 +125,11 @@ router.post('/reset/:id/:token',
                         password: hash,
                     },
                 })
+               // req.flash("validationErrors", "success")//todo, cant redirect to this same page after reseting password as the token is now changed and causes issue in .get
+                //console.log(req.originalUrl)   //this will not work             
+                //return res.redirect(req.originalUrl) //this will not work
+                
+                req.flash("passwordReset", "New password set successfully!")
                 return res.redirect('/account/login')
 
             } catch (error) {
