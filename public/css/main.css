@@ -781,7 +781,7 @@ hence based on resize thes values will accordingly resize*/
     border-radius: 50px;
   }
 
-  .table tr {
+  .table-user tr {
     width: 50%;
   }
 }
