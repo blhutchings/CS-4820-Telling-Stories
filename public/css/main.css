@@ -780,6 +780,10 @@ hence based on resize thes values will accordingly resize*/
     border-bottom-right-radius: 0.3rem;
     border-radius: 50px;
   }
+
+  .table tr {
+    width: 50%;
+  }
 }
 /*End of Bootsrap login CSS*/
 
