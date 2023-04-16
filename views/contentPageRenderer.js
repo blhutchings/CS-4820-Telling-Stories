@@ -87,6 +87,7 @@ module.exports = function render(editor) {
                 <hr/>
             </div>
          </div>
+         <script src="../public/menu-toggle-transition.js"></script>
         </body>
         `);
     };

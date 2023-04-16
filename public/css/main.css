@@ -43,7 +43,7 @@
 
 /*Start of your Nav Bar CSS*/
 .navbar {
-  background-color: var(--navbar-backdrop-color);
+  background-color: var(--button-text-color);
   height: 80px;
   display: flex;
   justify-content: center;
@@ -52,7 +52,7 @@
   position: sticky;
   top: 0;
   z-index: 999;
-  box-shadow: 2px 0px 10px black;
+  box-shadow: 0 6px 5px -6px black;
 }
 
 .navbar__container {
@@ -771,16 +771,18 @@ hence based on resize thes values will accordingly resize*/
   background: linear-gradient(to right, #4f95ff 0%, #a74fff 100%);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 769px) {
   .gradient-form {
     height: 91vh !important;
   }
-}
-@media (min-width: 769px) {
   .gradient-custom-2 {
     border-top-right-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
     border-radius: 50px;
+  }
+
+  .table-user tr {
+    width: 50%;
   }
 }
 /*End of Bootsrap login CSS*/
