@@ -42,7 +42,7 @@ module.exports = async (model) => { return `
     <!--This Hero Section contains the Iframe for the H5P content creation.-->
     <!--Iframe for H5P creator-->
     <div class="iframe_container" style="width:960px; display:inline-block; margin: 0 auto">
-    <section class="h-100" style="padding-top: 6rem; padding-bottom: 5rem; height:10px">
+    <section class="h-100" style="padding-top: 6rem; padding-bottom: 5rem">
         <form method="post" enctype="multipart/form-data" id="h5p-content-form">
           <div id="post-body-content">
             <div class="h5p-create">
@@ -51,7 +51,10 @@ module.exports = async (model) => { return `
           </div>
           <div class="button__container" style="display: flex;">
           <input id="save-h5p" type="submit" name="submit" value="Save" class="button button-primary" style="width: 100px">
-          <input id="cancel-h5p" type="submit" name="submit" value="Cancel" class="btn btn-outline-secondary" style="width: 100px; margin-left:1rem; border-radius: 50px">
+          <a href="/h5p/new" class="btn btn-outline-secondary" style="width: 100px; text-align: center; margin-left:1rem; border-radius: 50px">  
+          Cancel
+         </a>
+       
           </div>
         </form>
     </section>
