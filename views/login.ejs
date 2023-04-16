@@ -37,6 +37,11 @@
                         <strong><%= messages.error %></strong>
                       </div>
                       <% } %>
+                      <% if(messages.passwordReset) { %>
+                        <div class="alert-success" role="alert">
+                          <strong><%= messages.passwordReset %></strong>
+                        </div>
+                        <% } %>
                       <p>Please login to your account</p>
 
                       <div class="form-outline mb-4">
