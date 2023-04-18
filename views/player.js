@@ -29,13 +29,13 @@ module.exports = async (model) => { return `
     <title>Home</title>
   </head>
   <body>
-  <div class="body_container" style="width:100vw; margin:auto; background-color:#eaf7ff">
+  <div class="body_container" style="width:100%; height: 100%; margin:auto; background-color:#eaf7ff">
     <!--Navigation EJS Partial call do not remove-->
     ${navBar}
 
     <!--Hero Section-->
     <!--This Hero Section contains the Iframe for the H5P content creation.-->
-    <div class="hero_container" style="width:100vh; margin:auto; background-color:#eaf7ff; text-align: center">
+    <div class="hero_container" style="width:100vh; min-height: 100vh; margin:auto; background-color:#eaf7ff; text-align: center">
    
     <div class="h5p-iframe" style="padding-top: 6rem">
         <div class="h5p-content" data-content-id="${model.contentId}"></div>
