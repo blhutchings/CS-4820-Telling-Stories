@@ -51,7 +51,9 @@ module.exports = async (model) => { return `
           </div>
           <div class="button__container" style="display: flex;">
           <input id="save-h5p" type="submit" name="submit" value="Save" class="button button-primary" style="width: 100px">
-          <input id="cancel-h5p" type="submit" name="submit" value="Cancel" class="btn btn-outline-secondary" style="width: 100px; margin-left:1rem; border-radius: 50px">
+          <a href="/h5p/new" class="btn btn-outline-secondary" style="width: 100px; text-align: center; margin-left:1rem; border-radius: 50px">  
+          Cancel
+         </a>
           </div>
         </form>
     </section>

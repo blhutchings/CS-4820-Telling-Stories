@@ -42,18 +42,32 @@ server.use(passport.session())
 
 // Express H5P setup
 server.use(bodyParser.json({ limit: '500mb' }));
-server.use(
-    bodyParser.urlencoded({
-        extended: true
-    })
-);
+server.use(bodyParser.urlencoded({extended: true}));
+
+
+
+
+
+
+/**
+ * start the server 
+ * HEADS UP: this has been moved to ./startServer.js to support the use of jest tests
+ * this is due to when the server is exported to example.test.js it runs the below code and 
+ * starts a seperate instance of this server
+ */
+// const PORT = 8080
+// server.listen(PORT)
+// console.log(`Server started on port http://localhost:${PORT}...`)
+
+
+
 expressH5P(server)
 
 /**
  * server code, primarily uses Expresses routes, and creates 'mini-apps' for the main functionalities
  * of our application
- */
-server.get('/', async (req, res) => {
+*/
+server.get('/', async(req, res) => {
     res.render("index.ejs")
 })
 
@@ -66,13 +80,16 @@ server.get("/demo", (req, res) => {
     res.render('demo.ejs')
 })
 
+/**
+ * export server module
+ */
+module.exports = server
+
 
 /**
  * start the server and export server module
  */
-const PORT = process.env.PORT || '8080';
-server.listen(PORT)
-console.log(`Server started on port http://localhost:${PORT}...`)
+// const PORT = process.env.PORT || '8080';
+// server.listen(PORT)
+// console.log(`Server started on port http://localhost:${PORT}...`)
 
-
-module.exports = server

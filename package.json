@@ -4,11 +4,9 @@
     "description": "",
     "type": "commonjs",
     "scripts": {
-        "devStart": "nodemon src/server.js",
-        "start": "node src/server.js",
-        "dev": "nodemon src/server.js",
+        "devStart": "nodemon src/startServer.js",
+        "start": "node src/startServer.js",
         "test": "jest",
-        "testcov": "jest --coverage",
         "clean": "rm -rf h5p && rm -rf coverage && rm -rf node_modules",
         "postinstall": "npm run download:content-type-cache && npm run download:h5p",
         "download:h5p": "sh scripts/install.sh",
