@@ -24,10 +24,15 @@
 
 ## About Us
 
-We are a group of 4th year students currently studying at UPEI. Under the guidance of Prof. David LeBlanc we have been trusted with creating an interactive media applciaiton (similar to H5P) that allows a non-technical user to register with our application and start adding various components to their written work. Components such as ----, ----, and ---- . You can then integrate these components into ----.
+We are a group of 4th year students currently studying at UPEI. Under the guidance of Prof. David LeBlanc we have been trusted with creating an extension to the commonly used H5P framework which allows non-technical users to register with our application and start creating (and saving) various interactive components. Components such as: multiple choice questions, charts, and even crosswords! You can then integrate these components into any CMS you want (typically moodle or wordpress sites).
 
-*put screenshot here*  
-*put screenshot here*  
+**Creating a component:** 
+
+![creating](images/multiChoiceCreation.png)  
+ 
+**Your newly created multiple choice question!** 
+ 
+![created](images/multiChoiceExample.png)
 
 
 
@@ -40,30 +45,19 @@ To view any documentation either visit our github wiki via the above tabs, or cl
 
 **Client:** Dr. William Montelpare  
 **Project Lead:** Ben Hutchings -- @blhutchings  
-**Tech Lead:** Tasnif Ahmed -- @  
+**Tech Lead:** Tasnif Ahmed  
 **Test Lead:** Jackson Boulter -- @boulterjackson  
-**Frontend Design:** Aditya  
-**Backend:** Mamnoon Sami
+**Version Control/Repo Manager:** Jackson Boulter -- @boulterjackson  
+**Frontend Design:** Aditya Agrawal  
+**Backend:** Mamnoon Sami  
+**Documentation:** Full team effort!
 
-Other possible roles:   
-Git Repository Manager, Front End Design, Front End, Back End, API and Backend Testing Notifications, Email
-Hosting, Deployment and Deployment Testing, Documentation Lead  
-
-Special thanks to Prof. David LeBlanc for his input and guidance throughout this project  
+Special thanks to Prof. David LeBlanc for his input and guidance throughout this project.  
 
 
 ## Credits 
 This application uses Open Source components. You can find the links to the project(s) we used down below. We acknowledge and are grateful to these developers for their hard work and contributions to open source software.  
 
 **Project:** Lumie Education -- H5P Nodejs Library https://github.com/Lumieducation/H5P-Nodejs-library  
-**Copyright:**  
-**License:**
 
-**Project:**  
-**Copyright:**  
-**License:**  
-
-example taken from online:  
-Project: MNColorKit https://github.com/madninja/MNColorKit  
-Copyright (c) 2013 Marc Nijdam (marc@imadjine.com)  
-License (MIT) https://github.com/madninja/MNColorKit/blob/master/LICENSE.txt  
+**Project:** H5P Framework -- https://h5p.org/ 
