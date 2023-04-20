@@ -1,11 +1,22 @@
-const express = require('express')
+const express = require('express');
+const auth = require('../authentication')
+const db = require("../config/database")
+const getContentPermissions = require('../h5p/getContentPermissions')
 
 module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
     const router = express.Router();
 
     //Gets and display/plays completed h5p component
-    router.get(`${h5pEditor.config.playUrl}/:contentId`, async (req, res) => {
+    router.get(`${h5pEditor.config.playUrl}/:contentId`, auth.checkAuthenticated, async (req, res) => {
         try {
+            if (!req.user.UserRole.includes('Admin')) {
+                const permissions = await getContentPermissions(req.params.contentId, req.user.id)
+                if (!permissions || !permissions.view) {
+                    res.render("unauthorized.ejs")
+                    return
+                }
+            }
+
             const h5pPage = await h5pPlayer.render(
                 req.params.contentId,
                 req.user,
@@ -27,7 +38,15 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
         }
     })
 
-    router.get('/edit/:contentId', async (req, res) => {
+    router.get('/edit/:contentId', auth.checkAuthenticated, async (req, res) => {
+        if (!req.user.UserRole.includes('Admin')) {
+            const permissions = await getContentPermissions(req.params.contentId, req.user.id)
+            if (!permissions || !permissions.edit) {
+                res.render("unauthorized.ejs")
+                return
+            }
+        }
+
         const page = await h5pEditor.render(
             req.params.contentId,
             languageOverride === 'auto'
@@ -40,7 +59,14 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
     }
     );
 
-    router.post('/edit/:contentId', async (req, res) => {
+    router.post('/edit/:contentId', auth.checkAuthenticated, async (req, res) => {
+        if (!req.user.UserRole.includes('Admin')) {
+            const permissions = await getContentPermissions(req.params.contentId, req.user.id)
+            if (!permissions || !permissions.edit) {
+                res.render("unauthorized.ejs")
+                return
+            }
+        }
         const contentId = await h5pEditor.saveOrUpdateContent(
             req.params.contentId.toString(),
             req.body.params.params,
@@ -53,7 +79,7 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
         res.status(200).end();
     });
 
-    router.get('/new', async (req, res) => {
+    router.get('/new', auth.checkAuthenticated, async (req, res) => {
         const page = await h5pEditor.render(
             undefined,
             languageOverride === 'auto'
@@ -66,7 +92,7 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
     }
     );
 
-    router.post('/new', async (req, res) => {
+    router.post('/new', auth.checkAuthenticated, async (req, res) => {
         if (
             !req.body.params ||
             !req.body.params.params ||
@@ -77,35 +103,61 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
             res.status(400).send('Malformed request').end();
             return;
         }
-        const contentId = await h5pEditor.saveOrUpdateContent(
-            undefined,
-            req.body.params.params,
-            req.body.params.metadata,
-            req.body.library,
-            req.user
-        );
 
-        res.send(JSON.stringify({ contentId }));
-        res.status(200).end();
+        try {
+            const contentId = await h5pEditor.saveOrUpdateContent(
+                undefined,
+                req.body.params.params,
+                req.body.params.metadata,
+                req.body.library,
+                req.user
+            );
+
+            await db.Content.create({
+                data: {
+                    id: `${contentId}`,
+                    userId: req.user.id,
+                    isOwner: true
+                }
+            })
+            res.json(JSON.stringify({ contentId }));
+            res.status(200).end();
+
+        } catch (err) {
+            console.error(err)
+            res.json(err);
+            res.status(500).end();
+        }
     });
 
-    router.get('/delete/:contentId', async (req, res) => {
+    router.get('/delete/:contentId', auth.checkAuthenticated, async (req, res) => {
+        if (!req.user.UserRole.includes('Admin')) {
+            const permissions = await getContentPermissions(req.params.contentId, req.user.id)
+            if (!permissions || !permissions.delete) {
+                res.render("unauthorized.ejs")
+                return
+            }
+        }
         try {
+
+            // Remove entry from database
+            await db.Content.deleteMany({
+                where: {
+                    id: req.params.contentId,
+                }
+            })
+
+            // Delete content file
             await h5pEditor.deleteContent(req.params.contentId, req.user);
+            
         } catch (error) {
-            res.send(
-                `Error deleting content with id ${req.params.contentId}: ${error.message}<br/><a href="javascript:window.location=document.referrer">Go Back</a>`
-            );
-            res.status(500).end();
+            req.flash("success", `Error deleting content with id ${req.params.contentId}`)
+            res.redirect("/account/content")
             return;
         }
-
-        res.send(
-            `Content ${req.params.contentId} successfully deleted.<br/><a href="javascript:window.location=document.referrer">Go Back</a>`
-        );
-        res.status(200).end();
+        req.flash("success", `Content ${req.params.contentId} successfully deleted`)
+        res.redirect("/account/content")
     });
-
 
     return router;
 }
