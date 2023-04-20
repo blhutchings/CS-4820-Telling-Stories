@@ -11,22 +11,19 @@ module.exports = async (model) => { return `
 
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+    <title>View</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/main.css">
 
-    <link rel="stylesheet" href="/public/css/main.css" />
     <script> 
         window.H5PIntegration = ${JSON.stringify(model.integration, null, 2)}
     </script>
     ${model.styles.map((style) => `<link rel="stylesheet" href="${style}">`).join('\n    ')}
     ${model.scripts.map((script) => `<script src="${script}"></script>`).join('\n    ')}
 
-    <title>Home</title>
   </head>
   <body>
   <div class="body_container" style="width:100vw; margin:auto; background-color:#eaf7ff">

@@ -1,32 +1,55 @@
-const H5P = require('@lumieducation/h5p-server')
-const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs',  'utf-8')
+const db = require("../src/config/database")
+const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+
 
 module.exports = function render(editor) {
     return async (req, res) => {
-        console.log(req.user);
-        const contentIds = await editor.contentManager.listContent();
-        const contentObjects = await Promise.all(
-            contentIds.map(async (id) => ({
-                content: await editor.contentManager.getContentMetadata(
-                    id,
-                    req.user
-                ),
-                id
-            }))
-        );
-        console.log(contentObjects)
+
+        let content = [];
+
+        if (req.user.UserRole.includes('Admin')) {
+            const allContent = await db.Content.findMany()
+            content = allContent.map(content => content.id)
+        } else {
+            const userContent = await db.Content.findMany({
+                where: {
+                    userId: req.user.id
+                }
+            })
+            content = userContent.filter(content => content.view).map(content => content.id)
+        }
+
+        const contentObjects = (await Promise.all(
+            content.map(async (id) => {
+                try {
+                    return {
+                        id: id,
+                        content: await editor.contentManager.getContentMetadata(id),
+                    }
+                } catch (err) {
+                    await db.Content.deleteMany({
+                        where: {
+                            id: id,
+                        }
+                    })
+                }
+            })
+        )).filter(contentObject => !!contentObject.content)
+
         res.send(`
         <!doctype html>
         <html>
-
-        
         <head>
+            <title>My Content</title>
             <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+            <link rel="stylesheet" href="/public/css/main.css">
+            
             <script src="/node_modules/requirejs/require.js"></script>
             <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
             <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
-            <link rel="stylesheet" href="/public/css/main.css">
-            <title>H5P NodeJs Demo</title>
         </head>
         <body>
         ${navBar}
