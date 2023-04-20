@@ -6,7 +6,7 @@ const express = require("express")
 const router = express.Router()
 const { check, validationResult } = require("express-validator")
 const bcrypt = require("bcrypt")
-const auth = require('./authenticate')
+const auth = require('./authentication')
 const db = require("./config/database")
 
 /**
@@ -22,7 +22,6 @@ router.get('/', auth.checkNotAuthenticated, (req, res) => {
     res.render('registration.ejs', { validationErrors: req.flash('validationErrors') })
 })
 
-
 router.post('/', auth.checkNotAuthenticated,
     check('confirmPassword').custom((value, { req }) => {
         if (value !== req.body.password) {
@@ -33,39 +32,46 @@ router.post('/', auth.checkNotAuthenticated,
     }),
 
     check('password')
-    .notEmpty().withMessage("Password field can not be empty")
-    .isLength({ min: 8 }).withMessage('Password must be 8 characters long')
-    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must include a special character')
-    .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
+        .notEmpty().withMessage("Password field can not be empty")
+        .isLength({ min: 8 }).withMessage('Password must be 8 characters long')
+        .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must include a special character')
+        .matches(/[A-Z]/).withMessage('Password must include an uppercase letter'),
 
-    async(req, res) => {
+    async (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             const passwordValidationErrors = errors.array().map(error => error.msg);
             req.flash("validationErrors", passwordValidationErrors) //todo, currenlty breaking registration page
-            res.redirect('/registration'); 
+            res.redirect('/registration');
             return;
         }
 
         const { firstName, lastName, email, password } = req.body
-        const encryptedPassword = await bcrypt.hashSync(password, SALT)
+        const encryptedPassword = bcrypt.hashSync(password, SALT)
+
         if (email && encryptedPassword) {
             try {
-                const result = await db.User.create({
-                    data: { email: email, password: encryptedPassword, firstName: firstName, lastName: lastName }
+                // Create User
+                await db.User.create({
+                    data: {
+                        email: email,
+                        password: encryptedPassword,
+                        firstName: firstName,
+                        lastName: lastName,
+                        UserRole: {
+                            create: {
+                                role: 'User'
+                            }
+                        }
+                    }
                 })
-                console.log(req.body)
-                
-                
-                // Create a new UserRole object and connect it to the newly created User object.
-                await db.UserRole.create({
-                    data: { role: 'User', user: { connect: { id: result.id } } },
-                });
+
+                req.flash("info", "User created. Please login.");
                 res.redirect("/account/login")
             } catch (error) {
-                console.log(error)
+                console.error(error)
                 req.flash("error", "User is already registered. Please login.");
-                res.redirect("/registration") 
+                res.redirect("/registration")
             } finally {
                 await db.$disconnect();
             }
