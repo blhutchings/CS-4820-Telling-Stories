@@ -4,7 +4,7 @@
 const express = require("express")
 const router = express.Router()
 const passport = require("passport")
-const auth = require('./authenticate')
+const auth = require('./authentication')
 
 
 /**
@@ -24,9 +24,9 @@ router.get('/login', auth.checkNotAuthenticated, (req, res)=>{
 router.post('/login', auth.checkNotAuthenticated, passport.authenticate("local", {
     successRedirect: "/account/content",
     failureRedirect: "/account/login",
-    failureFlash: true
+    failureFlash: true,
+    
 })) 
-
 
 router.delete("/logout", (req, res) => {
     req.logout(req.user, err => {
@@ -34,8 +34,6 @@ router.delete("/logout", (req, res) => {
         res.redirect("/")
     })
 })
-
-
 
 
 

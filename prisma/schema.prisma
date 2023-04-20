@@ -8,31 +8,44 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique 
-  password String
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
   firstName String?
-  lastName String?
-  createdAt DateTime @default(now())
-  role UserRole[] 
-} 
+  lastName  String?
+  createdAt DateTime   @default(now())
+  UserRole  UserRole[]
+  Content   Content[]
+}
 
-model UserTesting {
-  id    Int     @id @default(autoincrement())
-  email String  @unique 
-  password String
-  firstName String?
-  lastName String?
-  createdAt DateTime @default(now())
+model Content {
+  @@id([id, userId])
+  id       String     
+  userId   Int
+  isOwner  Boolean @default(true)
+  delete   Boolean @default(true)
+  download Boolean @default(true)
+  edit     Boolean @default(true)
+  view     Boolean @default(true)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserRole {
-  id Int @id @default(autoincrement())
-  user User @relation(fields:[id], references: [id])
+  id   Int  @id @default(autoincrement())
+  user User @relation(fields: [id], references: [id], onDelete: Cascade)
   role Role
 }
 
 enum Role {
   User
   Admin
+}
+
+model UserTesting {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  firstName String?
+  lastName  String?
+  createdAt DateTime @default(now())
 }

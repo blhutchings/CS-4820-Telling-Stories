@@ -5,15 +5,13 @@
  */
 const express = require("express")
 const router = express.Router()
-const auth = require('./authenticate')
+const auth = require('./authentication')
 const db = require("./config/database")
 
 /**
  * config
  */
 const PAGE_SIZE = 8;
-
-
 
 /**
  * code to handle any requests to the user route
@@ -27,19 +25,11 @@ router.get('/', auth.checkAuthenticated, async(req, res) => { //remember, /users
     const totalPages = Math.ceil(count / PAGE_SIZE)
 
     try {
-        const user = await db.User.findFirst({
-            where: { id: req.user.id },
-            include: { role: true },
-        })
-
-        //console.log(user)
-
-        if (!user || user.role[0].role !== "Admin") { //todo, may be small issue, returns internal server error when the given user (in User) does not have role/exist in UserRole
+        if (!req.user || !req.user.UserRole.includes("Admin")) {
             // req.flash("error", "You do not have access to view users.")
             res.render("unauthorized.ejs")
             return
         }
-
 
         const users = await db.user.findMany({
             skip: skip,
@@ -51,18 +41,14 @@ router.get('/', auth.checkAuthenticated, async(req, res) => { //remember, /users
                 lastName: true,
             },
         });
-
-        console.log("users length is " + count)
         res.render("users.ejs", { name: req.user.firstName , users, page, totalPages });
     } catch (error) {
-        console.error(error);
         res.status(500).send('Internal server error');
     }
 });
 
 router.post('/:id/delete', async(req, res) => { // this would be users/:id/delete
     const userId = parseInt(req.params.id);
-    console.log(userId)
     try {
         // Find the user by ID
         const user = await db.user.findUnique({
@@ -70,10 +56,11 @@ router.post('/:id/delete', async(req, res) => { // this would be users/:id/delet
                 id: userId,
             },
         });
-        console.log(user);
+
         if (!user) {
             return res.status(404).send('User not found');
         }
+        
         // Delete the user
         await db.user.delete({
             where: {

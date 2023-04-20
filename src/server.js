@@ -4,23 +4,22 @@ const express = require("express")
 const session = require("express-session")
 const flash = require("express-flash")
 const methodOverride = require("method-override")
-const bodyParser  = require("body-parser")
+const bodyParser = require("body-parser")
 const expressH5P = require('./h5p/expressH5P')
 
-const regestrationRoute = require('./registration')
-const usersRoute = require('./users')
-const accountRoute = require('./account')
-const passwordRoute = require('./password')
+const regestrationRoute = require('./user-registration')
+const usersRoute = require('./user-management')
+const accountRoute = require('./user-session')
+const passwordRoute = require('./user-password')
 
 const passport = require("passport")
 const initializePassport = require('./config/passport')
 const db = require("./config/database")
-const auth = require('./authenticate')
 
 initializePassport(
     passport,
-    async email => await db.User.findFirst({ where: { email } }),
-    async id => await db.User.findFirst({ where: { id } })
+    async (email) => await db.User.findFirst({ where: { email } }),
+    async (id) => await db.User.findFirst({ where: { id }, include: { UserRole: true } })
 )
 
 const server = express()
@@ -76,20 +75,10 @@ server.use('/users', usersRoute)
 server.use('/account', accountRoute)
 server.use('/password', passwordRoute)
 
-server.get("/demo", (req, res) => {
-    res.render('demo.ejs')
-})
-
-/**
- * export server module
- */
-module.exports = server
-
-
 /**
  * start the server and export server module
  */
-// const PORT = process.env.PORT || '8080';
-// server.listen(PORT)
-// console.log(`Server started on port http://localhost:${PORT}...`)
+const PORT = process.env.PORT || '8080';
+server.listen(PORT)
+console.log(`Server started on port http://localhost:${PORT}...`)
 
