@@ -43,23 +43,6 @@ server.use(passport.session())
 server.use(bodyParser.json({ limit: '500mb' }));
 server.use(bodyParser.urlencoded({extended: true}));
 
-
-
-
-
-
-/**
- * start the server 
- * HEADS UP: this has been moved to ./startServer.js to support the use of jest tests
- * this is due to when the server is exported to example.test.js it runs the below code and 
- * starts a seperate instance of this server
- */
-// const PORT = 8080
-// server.listen(PORT)
-// console.log(`Server started on port http://localhost:${PORT}...`)
-
-
-
 expressH5P(server)
 
 /**
