@@ -29,8 +29,8 @@
                 <div class="form-group">
                     <label for="role">Role</label>
                     <select class="form-control" id="role" name="role">
-                        <option value="User" <%= user.role[0].role === 'User' ? 'selected' : '' %>>User</option>
-                        <option value="Admin" <%= user.role[0].role === 'Admin' ? 'selected' : '' %>>Admin</option>
+                        <option value="User" <%= user.UserRole.includes('User') ? 'selected' : '' %>>User</option>
+                        <option value="Admin" <%= user.UserRole.includes('Admin') ? 'selected' : '' %>>Admin</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>

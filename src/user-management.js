@@ -16,7 +16,7 @@ const PAGE_SIZE = 8;
 /**
  * code to handle any requests to the user route
  */
-router.get('/', auth.checkAuthenticated, async(req, res) => { //remember, /users is appended at the begining of this route, even though it is written as /
+router.get('/', auth.checkAuthenticated, async (req, res) => { //remember, /users is appended at the begining of this route, even though it is written as /
     const page = parseInt(req.query.page) || 1
     const skip = (page - 1) * PAGE_SIZE
     const limit = PAGE_SIZE
@@ -41,13 +41,15 @@ router.get('/', auth.checkAuthenticated, async(req, res) => { //remember, /users
                 lastName: true,
             },
         });
-        res.render("users.ejs", { name: req.user.firstName , users, page, totalPages });
+        users.forEach(user => user.UserRole = user.UserRole?.map(role => role.role) || [])
+
+        res.render("users.ejs", { name: req.user.firstName, users, page, totalPages });
     } catch (error) {
         res.status(500).send('Internal server error');
     }
 });
 
-router.post('/:id/delete', async(req, res) => { // this would be users/:id/delete
+router.post('/:id/delete', async (req, res) => { // this would be users/:id/delete
     const userId = parseInt(req.params.id);
     try {
         // Find the user by ID
@@ -60,7 +62,7 @@ router.post('/:id/delete', async(req, res) => { // this would be users/:id/delet
         if (!user) {
             return res.status(404).send('User not found');
         }
-        
+
         // Delete the user
         await db.user.delete({
             where: {
@@ -76,7 +78,7 @@ router.post('/:id/delete', async(req, res) => { // this would be users/:id/delet
     }
 });
 
-router.get('/:id/edit', async(req, res) => {
+router.get('/:id/edit', async (req, res) => {
     try {
         const userId = parseInt(req.params.id);
         const user = await db.user.findUnique({
@@ -84,9 +86,11 @@ router.get('/:id/edit', async(req, res) => {
                 id: userId
             },
             include: {
-                role: true
+                UserRole: true
             }
         });
+        user.UserRole = user.UserRole?.map(role => role.role) || [];
+
         console.log(user)
         if (!user) {
             return res.status(404).send('User not found');
@@ -101,28 +105,30 @@ router.get('/:id/edit', async(req, res) => {
     }
 });
 
-router.post('/:id/edit', async(req, res) => {
+router.post('/:id/edit', async (req, res) => {
     const { firstName, lastName, email, role } = req.body;
     const userId = parseInt(req.params.id);
 
     try {
-        const updatedUser = await db.user.update({
+        await db.user.update({
             where: {
                 id: userId
             },
             data: {
                 firstName: firstName,
                 lastName: lastName,
-                email: email
+                email: email,
+                UserRole: {
+                    update: {
+                        where: {
+                            id: userId
+                        },
+                        data: {
+                            role: role
+                        }
+                    }
+                }
             }
-        });
-        const updatedUserRole = await db.userRole.update({
-            where: {
-                id: userId
-            },
-            data: {
-                role: role,
-            },
         });
 
         req.flash('success', 'User updated successfully!');
