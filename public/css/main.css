@@ -722,30 +722,32 @@ hence based on resize thes values will accordingly resize*/
 /*End of registration info CSS*/
 
 /*Start of Mobile response for register page*/
-@media screen and (max-width: 700px) {
-  .register__container {
-    display: grid;
-    grid-template-columns: auto;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0px;
-    height: 110vh;
-  }
 
-  .register__content {
-    text-align: center;
-    display: grid;
-    margin-bottom: 2rem;
-  }
-
-  .register__info {
-    display: grid;
+@media screen and (max-width: 890px) {
+  .list-group {
     text-align: justify;
-    align-items: center;
-    width: 80%;
+    margin-left: 2rem;
+    width: 55%;
+  }
+
+  .table {
+    width: 20%;
+  }
+  .table th {
+    font-size: 2dvw;
+    width: 100px;
+    display: revert;
+  }
+
+  .table tr {
+    font-size: 7px;
+    width: 90px;
+  }
+  .card {
+    min-height: 70vh;
   }
 }
+
 /*End of mobile reposnse for register page*/
 
 /*Boostrap Login page CSS*/
@@ -813,7 +815,7 @@ hence based on resize thes values will accordingly resize*/
 }
 
 .page__container {
-  max-height: 100%;
+  min-height: 90vh;
   background-color: var(--backdrop-color);
 }
 

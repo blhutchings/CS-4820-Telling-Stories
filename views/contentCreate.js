@@ -30,15 +30,15 @@ module.exports = async (model) => { return `
     
   </head>
   <body>
-  <div class="body_container" style="width:100vw; margin:auto; background-color:#eaf7ff">
+  <div class="body_container" style="width:100vw; min-height:100vh; margin:auto; background-color:#eaf7ff">
     <!--Navigation EJS Partial call do not remove-->
     ${navBar}
    
-    <div class="hero_container" style="width:100vw; margin:auto; background-color:#eaf7ff; text-align: center">
+    <div class="hero_container" style="width:100vw; min-height:100vh; margin:auto; background-color:#eaf7ff; text-align: center">
     <!--Hero Section-->
     <!--This Hero Section contains the Iframe for the H5P content creation.-->
     <!--Iframe for H5P creator-->
-    <div class="iframe_container" style="width:960px; display:inline-block; margin: 0 auto">
+    <div class="iframe_container" style="width:960px; min-height:100vh; display:inline-block; margin: 0 auto">
     <section class="h-100" style="padding-top: 6rem; padding-bottom: 5rem; height:10px">
         <form method="post" enctype="multipart/form-data" id="h5p-content-form">
           <div id="post-body-content">
