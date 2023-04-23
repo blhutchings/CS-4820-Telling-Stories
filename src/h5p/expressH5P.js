@@ -1,4 +1,5 @@
 const express = require('express')
+const { dir } = require('tmp-promise')
 const H5P = require('@lumieducation/h5p-server')
 const { h5pAjaxExpressRouter,
     libraryAdministrationExpressRouter,
@@ -59,7 +60,7 @@ module.exports = async (server) => {
                 'server',
                 'storage-file-implementations'
             ],
-            preload: ['en', 'de'] // If you don't use a language detector of
+            preload: ['en'] // If you don't use a language detector of
             // i18next, you must preload all languages you want to use!
         });
 
@@ -106,14 +107,13 @@ module.exports = async (server) => {
         h5pEditor.contentUserDataStorage
     );
 
-    server.get('/account/content',auth.checkAuthenticated, contentPageRenderer(h5pEditor));
+    server.get('/account/content', auth.checkAuthenticated, contentPageRenderer(h5pEditor));
     server.get('/contentRoute', h5pContentRoutes(h5pEditor));
     // Custom page to render Hub and display content
     h5pPlayer.setRenderer(playerPage)
     h5pEditor.setRenderer(contentCreatePage)
 
 
-    /**
     // Required but use'd in main server.js
     server.use(bodyParser.json({ limit: '500mb' }));
     server.use(
@@ -121,8 +121,6 @@ module.exports = async (server) => {
             extended: true
         })
     );
-    */
-
     // Configure file uploads
     server.use(
         fileUpload({
@@ -189,10 +187,10 @@ module.exports = async (server) => {
             // to use the language detected by the i18next language detector.
         ),
         h5pContentRoutes(
-          h5pEditor,
-          h5pPlayer,
-          'auto'
-    ),
+            h5pEditor,
+            h5pPlayer,
+            'auto'
+        ),
     );
 
     // The LibraryAdministrationExpress routes are REST endpoints that offer
