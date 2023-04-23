@@ -13,7 +13,7 @@ module.exports = function render(editor) {
             } else {
                 const userContent = await db.Content.findMany({
                     where: {
-                        userId: req.user.id
+                        userId: parseInt(req.user.id)
                     }
                 })
                 content = userContent.filter(content => content.view).map(content => content.id)
@@ -29,8 +29,8 @@ module.exports = function render(editor) {
                         return {
                             id: id,
                             content: {
-                                title: "undefined",
-                                mainLibrary: "undefined",
+                                title: "Not Available",
+                                mainLibrary: "Not Available",
                                 id: id
                             }
                         }

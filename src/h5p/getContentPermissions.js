@@ -5,7 +5,7 @@ module.exports = function getContentPermissions(contentId, userId) {
         where: {
             id_userId: {
                 id: contentId,
-                userId: userId
+                userId: parseInt(userId)
             }
         }
     })

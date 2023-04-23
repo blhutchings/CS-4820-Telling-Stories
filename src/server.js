@@ -19,7 +19,7 @@ const db = require("./config/database")
 initializePassport(
     passport,
     async (email) => await db.User.findFirst({ where: { email } }),
-    async (id) => await db.User.findFirst({ where: { id }, include: { UserRole: true } })
+    async (id) => await db.User.findFirst({ where: { id: +id }, include: { UserRole: true } })
 )
 
 const server = express()
