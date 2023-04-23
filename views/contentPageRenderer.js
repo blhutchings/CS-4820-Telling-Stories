@@ -6,41 +6,40 @@ module.exports = function render(editor) {
     return async (req, res) => {
 
         let content = [];
-
-        if (req.user.UserRole.includes('Admin')) {
-            const allContent = await db.Content.findMany()
-            content = allContent.map(content => content.id)
-        } else {
-            const userContent = await db.Content.findMany({
-                where: {
-                    userId: req.user.id
-                }
-            })
-            content = userContent.filter(content => content.view).map(content => content.id)
-        }
-
-        const contentObjects = (await Promise.all(
-            content.map(async (id) => {
-                try {
-                    return {
-                        id: id,
-                        content: await editor.contentManager.getContentMetadata(id),
+        try {
+            if (req.user.UserRole.includes('Admin')) {
+                const allContent = await db.Content.findMany()
+                content = allContent.map(content => content.id)
+            } else {
+                const userContent = await db.Content.findMany({
+                    where: {
+                        userId: req.user.id
                     }
-                } catch (err) {
-                    return {
-                        id: id,
-                        content: {
-                            title: "undefined",
-                            mainLibrary: "undefined",
-                            id: id
+                })
+                content = userContent.filter(content => content.view).map(content => content.id)
+            }
+            const contentObjects = (await Promise.all(
+                content.map(async (id) => {
+                    try {
+                        return {
+                            id: id,
+                            content: await editor.contentManager.getContentMetadata(id),
+                        }
+                    } catch (err) {
+                        return {
+                            id: id,
+                            content: {
+                                title: "undefined",
+                                mainLibrary: "undefined",
+                                id: id
+                            }
                         }
                     }
-                }
-            })
-        )).filter(contentObject => contentObject !== undefined)
-          .filter(contentObject => "content" in contentObject)
+                })
+            )).filter(contentObject => contentObject !== undefined)
+                .filter(contentObject => "content" in contentObject)
 
-        res.send(`
+            res.send(`
         <!doctype html>
         <html>
         <head>
@@ -64,13 +63,13 @@ module.exports = function render(editor) {
                 <h2>
                     <span class="fa fa-file"></span> My content</h2>
                 <a class="btn btn-primary my-2" style="border-radius: 50px;" href="${editor.config.baseUrl
-            }/new"><span class="fa fa-plus-circle m-2"></span>Create new content</a>
+                }/new"><span class="fa fa-plus-circle m-2"></span>Create new content</a>
                 <div class="list-group" style="padding-top:1rem">
                 ${contentObjects
-                .map(
-                    (content) =>
+                    .map(
+                        (content) =>
 
-                        `<div class="list-group-item" style="border-radius:15px; box-shadow: rgba(99,99,99,0.2) 0px 2px 8px 0px; margin-top: 0.5rem">
+                            `<div class="list-group-item" style="border-radius:15px; box-shadow: rgba(99,99,99,0.2) 0px 2px 8px 0px; margin-top: 0.5rem">
                                 <div class="d-flex w-10">
                                     <div class="me-auto p-2 align-self-center">
                                         <a href="${editor.config.baseUrl}${editor.config.playUrl}/${content.id}">
@@ -108,8 +107,8 @@ module.exports = function render(editor) {
                                     </div>
                                 </div>                                
                             </div>`
-                )
-                .join('')}
+                    )
+                    .join('')}
                 </div>
                 <hr/>
             </div>
@@ -117,5 +116,8 @@ module.exports = function render(editor) {
          <script src="../public/menu-toggle-transition.js"></script>
         </body>
         `);
+        } catch (err) {
+            res.status(500).send(err)
+        }
     };
 }
