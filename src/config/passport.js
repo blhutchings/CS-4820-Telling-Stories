@@ -38,7 +38,7 @@ function initialize(passport, getUserByEmail, getUserWithRoles) {
     passport.deserializeUser(async (id, done) => {
         const user = (await getUserWithRoles(id));
         user.UserRole = user.UserRole?.map(role => role.role) || [];
-        user['id'] = user.id;
+        user['id'] = `${user.id}`; // Needs to be a string
         user['name'] = user.firstName + ' ' + user.lastName;
         if (user.UserRole.includes("Admin")) {
             user['canInstallRecommended'] = true;

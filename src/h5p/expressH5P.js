@@ -12,7 +12,6 @@ const i18next = require('i18next')
 const i18nextFsBackend = require('i18next-fs-backend')
 const i18nextHttpMiddleware = require('i18next-http-middleware')
 
-const User = require('../DefaultUser.js')
 const h5pContentRoutes = require('../routes/h5pContentRoutes');
 const h5pRoutes = require('../routes/h5pRoutes.js')
 const createH5PEditor = require('./createH5PEditor.js')
@@ -115,12 +114,14 @@ module.exports = async (server) => {
 
 
     // Required but use'd in main server.js
+    /*
     server.use(bodyParser.json({ limit: '500mb' }));
     server.use(
         bodyParser.urlencoded({
             extended: true
         })
     );
+    */
     // Configure file uploads
     server.use(
         fileUpload({
@@ -137,16 +138,6 @@ module.exports = async (server) => {
             next();
         });
     }
-
-    // It is important that you inject a user object into the request object!
-    // The Express adapter below (H5P.adapters.express) expects the user
-    // object to be present in requests.
-    // In your real implementation you would create the object using sessions,
-    // JSON webtokens or some other means.
-    server.use((req, res, next) => {
-        req.user = new User();
-        next();
-    });
 
     // The i18nextExpressMiddleware injects the function t(...) into the req
     // object. This function must be there for the Express adapter
