@@ -29,8 +29,8 @@ module.exports = function render(editor) {
                         return {
                             id: id,
                             content: {
-                                title: "undefined",
-                                mainLibrary: "undefined",
+                                title: "Not Available",
+                                mainLibrary: "Not Available",
                                 id: id
                             }
                         }
