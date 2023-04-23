@@ -49,7 +49,7 @@ router.post('/forgot', async (req, res) => {
             let resetLink = `localhost:8080/password/reset/${user.id}/${token}`
 
             if (process.env.DOMAIN) {
-                resetLink = `https://${process.env.DOMAIN}/password/reset/${user.id}/${token}`
+                resetLink = `${process.env.DOMAIN}/password/reset/${user.id}/${token}`
             }
 
             const resetEmailPayload = {
