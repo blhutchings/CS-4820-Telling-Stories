@@ -116,7 +116,7 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
             await db.Content.create({
                 data: {
                     id: `${contentId}`,
-                    userId: req.user.id,
+                    userId: parseInt(req.user.id),
                     isOwner: true
                 }
             })
