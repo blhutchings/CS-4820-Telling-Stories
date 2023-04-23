@@ -34,7 +34,8 @@ module.exports = function render(editor) {
                     })
                 }
             })
-        )).filter(contentObject => "content" in contentObject)
+        )).filter(contentObject => contentObject !== undefined)
+          .filter(contentObject => "content" in contentObject)
 
         res.send(`
         <!doctype html>
