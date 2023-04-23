@@ -5,11 +5,11 @@ const prisma = new PrismaClient();
 
 // Required middelware to convert userId from a session into int
 prisma.$use(async (params, next) => {
-    if (params.model == 'Content' && params.action == 'find') {
+    if (params.model == 'Content' && params.action.includes('find')) {
         if (params.args?.where?.userId) {
             params.args.where.userId = parseInt(params.args.where.userId)
         }
-    } else if (params.model == 'Content' && params.action == 'create') {
+    } else if (params.model == 'Content' && params.action.includes('create')) {
         params.args.data.userId = parseInt(params.args.data.userId)
     }
     // Manipulate params here
