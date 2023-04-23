@@ -1,15 +1,7 @@
 name: Cypress Tests
 
-on:
-  push:
-    branches:
-    - main
-    - develop
-  pull_request:
-    branches:
-    - main
-    - develop
-  workflow_dispatch:
+on: [push,workflow_dispatch] 
+
 
 jobs:
   cypress-run:
