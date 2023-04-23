@@ -66,7 +66,7 @@ router.post('/', auth.checkNotAuthenticated,
                     }
                 })
 
-                req.flash("info", "User created. Please login.");
+                req.flash("passwordReset", "User created. Please login.");
                 res.redirect("/account/login")
             } catch (error) {
                 console.error(error)
