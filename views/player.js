@@ -17,6 +17,8 @@ module.exports = async (model) => { return `
     <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/css/main.css">
+    <script src="/node_modules/requirejs/require.js"></script>
+            <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
 
     <script> 
         window.H5PIntegration = ${JSON.stringify(model.integration, null, 2)}
@@ -26,7 +28,7 @@ module.exports = async (model) => { return `
 
   </head>
   <body>
-  <div class="body_container" style="width:100%; height: 100%; margin:auto; background-color:#eaf7ff">
+  <div class="body_container" style="width:100%; min-height: 90vh; margin:auto; background-color:#eaf7ff">
     <!--Navigation EJS Partial call do not remove-->
     ${navBar}
 
@@ -36,7 +38,10 @@ module.exports = async (model) => { return `
    
     <div class="h5p-iframe" style="padding-top: 6rem">
         <div class="h5p-content" data-content-id="${model.contentId}"></div>
-        <a href="${model.downloadPath}">Download</button>
+        
+        <a href="${model.downloadPath}" class="btn btn-outline-primary" style="width: 120px; text-align: center; margin-top:1rem; border-radius: 50px">  
+          Download
+         </a>
     </div>
     </div>
 
@@ -49,6 +54,7 @@ module.exports = async (model) => { return `
       integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
       crossorigin="anonymous"
     ></script>
-  </body>
+    <script src="../public/menu-toggle-transition.js"></script>
+  </body>s
 </html>
 `}
