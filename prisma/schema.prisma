@@ -27,7 +27,7 @@ model Content {
   download Boolean @default(true)
   edit     Boolean @default(true)
   view     Boolean @default(true)
-  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User    @relation(fields: [userId], references: [id])
 }
 
 model UserRole {
