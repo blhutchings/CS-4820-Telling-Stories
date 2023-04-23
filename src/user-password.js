@@ -46,8 +46,12 @@ router.post('/forgot', async (req, res) => {
                 id: user.id
             }
             const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-            const resetLink = `http://localhost:8080/password/reset/${user.id}/${token}`//TODO: change local host to domain name
-            console.log(resetLink)
+            let resetLink = `localhost:8080/password/reset/${user.id}/${token}`
+
+            if (process.env.DOMAIN) {
+                resetLink = `${process.env.DOMAIN}/password/reset/${user.id}/${token}`
+            }
+
             const resetEmailPayload = {
                 name: user.firstName,
                 link: resetLink
@@ -125,10 +129,10 @@ router.post('/reset/:id/:token',
                         password: hash,
                     },
                 })
-               // req.flash("validationErrors", "success")//todo, cant redirect to this same page after reseting password as the token is now changed and causes issue in .get
+                // req.flash("validationErrors", "success")//todo, cant redirect to this same page after reseting password as the token is now changed and causes issue in .get
                 //console.log(req.originalUrl)   //this will not work             
                 //return res.redirect(req.originalUrl) //this will not work
-                
+
                 req.flash("passwordReset", "New password set successfully!")
                 return res.redirect('/account/login')
 

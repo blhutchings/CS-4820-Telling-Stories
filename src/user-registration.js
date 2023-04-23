@@ -72,10 +72,7 @@ router.post('/', auth.checkNotAuthenticated,
                 console.error(error)
                 req.flash("error", "User is already registered. Please login.");
                 res.redirect("/registration")
-            } finally {
-                await db.$disconnect();
             }
-
         }
     })
 

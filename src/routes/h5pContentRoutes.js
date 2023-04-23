@@ -2,7 +2,6 @@ const H5P = require('@lumieducation/h5p-server')
 
 module.exports = function render(editor) {
     return async (req, res) => {
-        console.log(req.user);
         const contentIds = await editor.contentManager.listContent();
         const contentObjects = await Promise.all(
             contentIds.map(async (id) => ({
@@ -13,7 +12,6 @@ module.exports = function render(editor) {
                 id
             }))
         );
-        console.log(contentObjects);
         res.json(contentObjects);
     };
 }

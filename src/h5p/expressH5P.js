@@ -1,4 +1,5 @@
 const express = require('express')
+const { dir } = require('tmp-promise')
 const H5P = require('@lumieducation/h5p-server')
 const { h5pAjaxExpressRouter,
     libraryAdministrationExpressRouter,
@@ -11,7 +12,6 @@ const i18next = require('i18next')
 const i18nextFsBackend = require('i18next-fs-backend')
 const i18nextHttpMiddleware = require('i18next-http-middleware')
 
-const User = require('../DefaultUser.js')
 const h5pContentRoutes = require('../routes/h5pContentRoutes');
 const h5pRoutes = require('../routes/h5pRoutes.js')
 const createH5PEditor = require('./createH5PEditor.js')
@@ -59,7 +59,7 @@ module.exports = async (server) => {
                 'server',
                 'storage-file-implementations'
             ],
-            preload: ['en', 'de'] // If you don't use a language detector of
+            preload: ['en'] // If you don't use a language detector of
             // i18next, you must preload all languages you want to use!
         });
 
@@ -106,15 +106,15 @@ module.exports = async (server) => {
         h5pEditor.contentUserDataStorage
     );
 
-    server.get('/account/content',auth.checkAuthenticated, contentPageRenderer(h5pEditor));
+    server.get('/account/content', auth.checkAuthenticated, contentPageRenderer(h5pEditor));
     server.get('/contentRoute', h5pContentRoutes(h5pEditor));
     // Custom page to render Hub and display content
     h5pPlayer.setRenderer(playerPage)
     h5pEditor.setRenderer(contentCreatePage)
 
 
-    /**
     // Required but use'd in main server.js
+    /*
     server.use(bodyParser.json({ limit: '500mb' }));
     server.use(
         bodyParser.urlencoded({
@@ -122,7 +122,6 @@ module.exports = async (server) => {
         })
     );
     */
-
     // Configure file uploads
     server.use(
         fileUpload({
@@ -139,16 +138,6 @@ module.exports = async (server) => {
             next();
         });
     }
-
-    // It is important that you inject a user object into the request object!
-    // The Express adapter below (H5P.adapters.express) expects the user
-    // object to be present in requests.
-    // In your real implementation you would create the object using sessions,
-    // JSON webtokens or some other means.
-    server.use((req, res, next) => {
-        req.user = new User();
-        next();
-    });
 
     // The i18nextExpressMiddleware injects the function t(...) into the req
     // object. This function must be there for the Express adapter
@@ -189,10 +178,10 @@ module.exports = async (server) => {
             // to use the language detected by the i18next language detector.
         ),
         h5pContentRoutes(
-          h5pEditor,
-          h5pPlayer,
-          'auto'
-    ),
+            h5pEditor,
+            h5pPlayer,
+            'auto'
+        ),
     );
 
     // The LibraryAdministrationExpress routes are REST endpoints that offer
