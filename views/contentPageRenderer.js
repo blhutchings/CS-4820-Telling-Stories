@@ -27,11 +27,14 @@ module.exports = function render(editor) {
                         content: await editor.contentManager.getContentMetadata(id),
                     }
                 } catch (err) {
-                    await db.Content.deleteMany({
-                        where: {
-                            id: id,
+                    return {
+                        id: id,
+                        content: {
+                            title: "undefined",
+                            mainLibrary: "undefined",
+                            id: id
                         }
-                    })
+                    }
                 }
             })
         )).filter(contentObject => contentObject !== undefined)
