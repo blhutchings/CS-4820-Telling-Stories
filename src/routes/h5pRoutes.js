@@ -122,10 +122,7 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
             })
             res.json(JSON.stringify({ contentId }));
             res.status(200).end();
-
         } catch (err) {
-            console.error(err)
-            res.json(err);
             res.status(500).end();
         }
     });
