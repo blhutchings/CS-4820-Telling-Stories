@@ -38,10 +38,11 @@
         <% } %>
 
         <h1 class="mb-4 mt-5">Users List</h1>
-        <form action="/users/search/" method="POST">
-          <input type="text" name="emailSearch" id="emailSearch" placeholder="Search by email here..">
-          <input type="submit">
+        <form class="form-inline my-2 my-lg-0" action="/users/search/" method="POST">
+          <input class="form-control mr-sm-2" type="search" name="emailSearch" id="emailSearch" placeholder="email@address.com" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+        <br>
         <% if (users.length) { %>
         <div class="card p-5 rounded-2">
           <table class="table">
