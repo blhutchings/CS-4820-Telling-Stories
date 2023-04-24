@@ -71,25 +71,30 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
                 return
             }
         }
-        const contentId = await h5pEditor.saveOrUpdateContent(
-            req.params.contentId.toString(),
-            req.body.params.params,
-            req.body.params.metadata,
-            req.body.library,
-            req.user
-        );
-
-        await db.Content.update({
-            data: {
-                updatedAt: new Date()
-            },
-            where: {
-                id: req.params.contentId
-            }
-        })
-
-        res.send(JSON.stringify({ contentId }));
-        res.status(200).end();
+        try {
+            const contentId = await h5pEditor.saveOrUpdateContent(
+                req.params.contentId.toString(),
+                req.body.params.params,
+                req.body.params.metadata,
+                req.body.library,
+                req.user
+            );
+    
+            await db.Content.updateMany({
+                data: {
+                    updatedAt: new Date()
+                },
+                where: {
+                    id: req.params.contentId
+                }
+            })
+    
+            res.send(JSON.stringify({ contentId }));
+            res.status(200).end();
+        } catch (err) {
+            res.send(err);
+            res.status(500).end();
+        }
     });
 
     router.get('/new', auth.checkAuthenticated, async (req, res) => {
