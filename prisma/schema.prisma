@@ -22,6 +22,7 @@ model Content {
   @@id([id, userId])
   id       String     
   userId   Int
+  updatedAt DateTime @default(now()) 
   isOwner  Boolean @default(true)
   delete   Boolean @default(true)
   download Boolean @default(true)

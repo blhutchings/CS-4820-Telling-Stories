@@ -1,9 +1,13 @@
 
 fs = require('fs');
-const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs',  'utf-8')
-/**please note the below is work under progress, DO NOT DELETE THE _NAVHEADERADMIN PARTIAL, you can remove its usage*/
-const secondaryNavbar = fs.readFileSync(__dirname + '/partial/_navHeaderAdmin.ejs', 'utf-8')
-module.exports = async (model) => { return `
+
+const userNavBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+const adminNavBar = fs.readFileSync(__dirname + '/partial/_navHeaderAdminHub.ejs', 'utf-8')
+
+
+module.exports = async (model) => {
+    return (req) => {
+        return `  
 <!DOCTYPE html>
 
 <!--Main Homepage View-->
@@ -32,7 +36,7 @@ module.exports = async (model) => { return `
   <body>
   <div class="body_container" style="width:100vw; min-height:100vh; margin:auto; background-color:#eaf7ff">
     <!--Navigation EJS Partial call do not remove-->
-    ${navBar}
+    ${req.user.UserRole.includes('Admin') ? adminNavBar : userNavBar}
    
     <div class="hero_container" style="width:100vw; min-height:100vh; margin:auto; background-color:#eaf7ff; text-align: center">
     <!--Hero Section-->
@@ -214,3 +218,4 @@ module.exports = async (model) => { return `
   </body>
 </html>
 `}
+}

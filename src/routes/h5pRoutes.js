@@ -17,7 +17,7 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
                 }
             }
 
-            const h5pPage = await h5pPlayer.render(
+            const h5pPartialRender = await h5pPlayer.render(
                 req.params.contentId,
                 req.user,
                 languageOverride === 'auto'
@@ -31,6 +31,8 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
                     showLicenseButton: true
                 }
             );
+            const h5pPage = h5pPartialRender(req, res)
+
             res.send(h5pPage);
             res.status(200).end();
         } catch (error) {
@@ -47,14 +49,16 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
             }
         }
 
-        const page = await h5pEditor.render(
+        const h5pPartialRender = await h5pEditor.render(
             req.params.contentId,
             languageOverride === 'auto'
                 ? req.language ?? 'en'
                 : languageOverride,
             req.user
         );
-        res.send(page);
+
+        const h5pPage = h5pPartialRender(req)
+        res.send(h5pPage);
         res.status(200).end();
     }
     );
@@ -75,19 +79,27 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
             req.user
         );
 
+        await db.Content.update({
+            data: {
+                updatedAt: new Date()
+            }
+        })
+
         res.send(JSON.stringify({ contentId }));
         res.status(200).end();
     });
 
     router.get('/new', auth.checkAuthenticated, async (req, res) => {
-        const page = await h5pEditor.render(
+        const h5pPartialRender  = await h5pEditor.render(
             undefined,
             languageOverride === 'auto'
                 ? req.language ?? 'en'
                 : languageOverride,
             req.user
         );
-        res.send(page);
+
+        const h5pPage = h5pPartialRender(req)
+        res.send(h5pPage);
         res.status(200).end();
     }
     );
