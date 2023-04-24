@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>Edit User</title>
+        <title>add User</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico">
@@ -11,18 +11,31 @@
     </head>
 
     <body>
-        <%- include('../views/partial/_navHeaderUserHub.ejs'); %>
+        <%- include('../views/partial/_navHeader.ejs'); %>
         <div class="container mt-5">
-            <h1>Edit User</h1>
+            <h1>Add User</h1>
             <form action="/users/<%= user.id %>/edit" method="POST">
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" required>
                 </div>
                 <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="form2Example11" name="password" value="<%= user.firstName %>" required>
+                </div>
+                <div class="form-group">
                     <label for="firstName">First Name</label>
                     <input type="text" class="form-control" id="firstName" name="firstName" value="<%= user.firstName %>" required>
                 </div>
+                <div class="form-outline mb-2">
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      id="form2Example11"
+                      class="form-control"
+                      placeholder="Confirm Password"
+                    />
+                  </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
                     <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.lastName %>" required>
@@ -34,7 +47,7 @@
                         <option value="Admin" <%= user.UserRole.includes('Admin') ? 'selected' : '' %>>Admin</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Add User</button>
             </form>
         </div>
         <script src="../public/menu-toggle-transition.js"></script>

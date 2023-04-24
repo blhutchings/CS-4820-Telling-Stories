@@ -140,6 +140,30 @@ router.post('/:id/edit', async (req, res) => {
     }
 });
 
+router.post('/search/', async (req,res) =>{
+    console.log(req.body.emailSearch)
+    const page = 1
+    const totalPages = 1
+
+    try {
+        if (!req.user || !req.user.UserRole.includes("Admin")) {
+            res.render("unauthorized.ejs")
+            return
+        }
+
+        const users = await db.user.findMany({
+            where:{email:req.body.emailSearch}
+        })
+        users.forEach(user => user.UserRole = user.UserRole?.map(role => role.role) || [])
+
+        res.render("users.ejs", { name: req.user.firstName, users, page, totalPages});
+    } catch (error) {
+        res.status(500).send('Internal server error');
+    }
+    
+
+})
+
 
 
 module.exports = router
