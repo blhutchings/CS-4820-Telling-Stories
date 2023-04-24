@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<!--Login View-->
+<!--Author-->
+<!--Last Update: Sat Mar 4th-->
+
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+  </head>
+  <body>
+    <%- include('../views/partial/_navHeader.ejs'); %>
+
+    <section class="h-100 gradient-form">
+      <div class="container py-1 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-xl-10">
+            <div class="card rounded-3 text-black">
+              <div class="row g-0">
+                <div class="col-lg-6">
+                  <div class="card-body p-md-0 mx-md-4">
+                    <div class="text-center">
+                      <h4 class="mt-5 mb-1 pb-5">A U G M E N T</h4>
+                    </div>
+
+                    <form action="/account/login" method="POST" class="input-form">
+                      <% if(messages.error) { %>
+                      <div class="alert-danger" role="alert">
+                        <strong><%= messages.error %></strong>
+                      </div>
+                      <% } %>
+                      <% if(messages.passwordReset) { %>
+                        <div class="alert-success" role="alert">
+                          <strong><%= messages.passwordReset %></strong>
+                        </div>
+                        <% } %>
+                      <p>Please login to your account</p>
+
+                      <div class="form-outline mb-4">
+                        <input
+                          type="email"
+                          id="form2Example11"
+                          name="email"
+                          class="form-control"
+                          placeholder="Email"
+                        />
+                      </div>
+
+                      <div class="form-outline mb-4">
+                        <input
+                          type="password"
+                          name="password"
+                          id="form2Example22"
+                          class="form-control"
+                          placeholder="Password"
+                        />
+                      </div>
+
+                      <div class="text-center pt-1 mb-5 pb-1">
+                        <button
+                          class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
+                        >
+                          Log in
+                        </button>
+                        <a class="text-muted" href="/password/forgot"
+                          >Forgot password?</a
+                        >
+                      </div>
+
+                      <div
+                        class="d-flex align-items-center justify-content-center pb-4"
+                      >
+                        <p class="mb-0 me-2">Don't have an account?</p>
+                        <a
+                          href="/registration"
+                          type="button"
+                          class="btn btn-outline-primary ml-2"
+                        >
+                          Create new
+                        </a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <div
+                  class="col-lg-6 d-flex align-items-center gradient-custom-2"
+                >
+                  <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                    <h4 class="mb-4">This is more than just an idea</h4>
+                    <p class="small mb-0 text-justify">
+                      A service that extends your power to communicate and
+                      present your content. Build a more interactive and
+                      effective tool, pushing the boundaries of presentation,
+                      teaching and more.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script src="../public/menu-toggle-transition.js"></script>
+  </body>
+</html>

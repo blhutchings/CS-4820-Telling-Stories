@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--Main Homepage View-->
+<!--Author-->
+<!--Last Update: Sat Mar 4th-->
+
+<html>
+  <head>
+    <title>Users List</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/public/css/main.css" />
+
+    <style>
+      .table td,
+      .table th {
+        padding: 0.3rem;
+      }
+    </style>
+  </head>
+
+  <body style="background-color: #eaf7ff">
+    <!--Navigation EJS Partial call do not remove-->
+    <%- include('../views/partial/_navHeaderUserHub.ejs') %>
+
+    <section class="h-100">
+      <div class="container py-1 mb-5 h-100">
+        <% if(messages.error) { %>
+        <div class="alert alert-danger" role="alert"><%= messages.error %></div>
+        <% } else if(messages.success) { %>
+        <div class="alert alert-success" role="alert">
+          <%= messages.success %>
+        </div>
+        <% } %>
+        <h1 class="mb-4 mt-5">Users List</h1>
+        <% if (users.length) { %>
+        <div class="card p-5 rounded-2">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% users.forEach(user => { %>
+              <tr>
+                <td><%= user.email %></td>
+                <td><%= user.firstName %></td>
+                <td><%= user.lastName %></td>
+                <td>
+                  <div class="d-flex">
+                    <a
+                      href="/users/<%= user.id %>/edit"
+                      class="btn btn-outline-primary mr-2"
+                      >Edit</a
+                    >
+                    <form action="/users/<%= user.id %>/delete" method="post">
+                      <input type="hidden" name="id" value="<%= user.id %>" />
+                      <button type="submit" class="btn btn-outline-danger">
+                        Remove
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+
+        <nav aria-label="User navigation">
+          <ul class="pagination justify-content-center">
+            <% if (page > 1) { %>
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="?page=<%= page - 1 %>"
+                aria-label="Previous"
+              >
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+            <% } %> <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= page === i ? 'active' : '' %>">
+              <a class="page-link" href="?page=<%= i %>"> <%= i %> </a>
+            </li>
+            <% } %> <% if (page < totalPages) { %>
+            <li class="page-item">
+              <a
+                class="page-link"
+                href="?page=<%= page + 1 %>"
+                aria-label="Next"
+              >
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+            <% } %>
+          </ul>
+        </nav>
+        <% } else { %>
+        <p>No users found.</p>
+        <% } %>
+      </div>
+    </section>
+
+    <!--Navigation menu script do not remove-->
+    <script src="../public/menu-toggle-transition.js"></script>
+  </body>
+</html>
