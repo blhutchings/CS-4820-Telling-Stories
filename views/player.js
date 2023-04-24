@@ -1,6 +1,12 @@
 fs = require('fs');
-const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
-module.exports = async (model) => { return `  
+
+const userNavBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+const adminNavBar = fs.readFileSync(__dirname + '/partial/_navHeaderAdminHub.ejs', 'utf-8')
+
+module.exports = async (model) => {
+
+  return (req) => {
+    return `  
 <!DOCTYPE html>
 
 <!--Main Homepage View-->
@@ -30,7 +36,7 @@ module.exports = async (model) => { return `
   <body>
   <div class="body_container" style="width:100%; min-height: 90vh; margin:auto; background-color:#eaf7ff">
     <!--Navigation EJS Partial call do not remove-->
-    ${navBar}
+    ${req.user.UserRole.includes('Admin') ? adminNavBar : userNavBar}
 
     <!--Hero Section-->
     <!--This Hero Section contains the Iframe for the H5P content creation.-->
@@ -58,3 +64,4 @@ module.exports = async (model) => { return `
   </body>s
 </html>
 `}
+}

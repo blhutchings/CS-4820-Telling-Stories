@@ -1,6 +1,7 @@
 const db = require("../src/config/database")
-const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
 
+const userNavBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+const adminNavBar = fs.readFileSync(__dirname + '/partial/_navHeaderAdminHub.ejs', 'utf-8')
 
 module.exports = function render(editor) {
     return async (req, res) => {
@@ -8,10 +9,17 @@ module.exports = function render(editor) {
         let content = [];
         try {
             if (req.user.UserRole.includes('Admin')) {
-                const allContent = await db.Content.findMany()
+                const allContent = await db.Content.findMany({
+                    orderBy: {
+                        updatedAt: 'desc',
+                    },
+                })
                 content = allContent.map(content => content.id)
             } else {
                 const userContent = await db.Content.findMany({
+                    orderBy: {
+                        updatedAt: 'desc',
+                    },
                     where: {
                         userId: parseInt(req.user.id)
                     }
@@ -55,9 +63,7 @@ module.exports = function render(editor) {
             <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
         </head>
         <body>
-        ${navBar}
-
-        
+        ${req.user.UserRole.includes('Admin') ? adminNavBar : userNavBar}
         <div class="page__container">
             <div class="content__container" style="padding-top: 6rem;">
                 <h2>
