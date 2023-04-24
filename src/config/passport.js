@@ -45,7 +45,7 @@ function initialize(passport, getUserByEmail, getUserWithRoles) {
             user['canUpdateAndInstallLibraries'] = true;
             user['canCreateRestricted'] = true;
         } else {
-            user['canInstallRecommended'] = false;
+            user['canInstallRecommended'] = true;
             user['canUpdateAndInstallLibraries'] = false;
             user['canCreateRestricted'] = false;
         }
