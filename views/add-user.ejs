@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>add User</title>
+        <title>Add User</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="/public/img/favicon.ico">
@@ -11,7 +11,7 @@
     </head>
 
     <body>
-        <%- include('../views/partial/_navHeader.ejs'); %>
+        <%- include('../views/partial/_navHeaderAdminHub.ejs') %>
         <div class="container mt-5">
             <h1>Add User</h1>
             <form action="/users/<%= user.id %>/edit" method="POST">
