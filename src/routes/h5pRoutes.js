@@ -82,6 +82,9 @@ module.exports = function (h5pEditor, h5pPlayer, languageOverride = 'auto') {
         await db.Content.update({
             data: {
                 updatedAt: new Date()
+            },
+            where: {
+                id: req.params.contentId
             }
         })
 
