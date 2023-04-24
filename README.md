@@ -7,7 +7,7 @@
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
 
-[![Node.js CI](https://github.com/blhutchings/CS-4820-Telling-Stories/actions/workflows/node.js.yml/badge.svg)](https://github.com/blhutchings/CS-4820-Telling-Stories/actions/workflows/node.js.yml)
+
 ![issues](https://img.shields.io/github/issues/blhutchings/CS-4820-Telling-Stories)
 ![pull requests](https://img.shields.io/github/issues-pr/blhutchings/CS-4820-Telling-Stories)
 

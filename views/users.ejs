@@ -36,7 +36,12 @@
           <%= messages.success %>
         </div>
         <% } %>
+
         <h1 class="mb-4 mt-5">Users List</h1>
+        <form action="/users/search/" method="POST">
+          <input type="text" name="emailSearch" id="emailSearch" placeholder="Search by email here..">
+          <input type="submit">
+        </form>
         <% if (users.length) { %>
         <div class="card p-5 rounded-2">
           <table class="table">
