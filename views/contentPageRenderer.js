@@ -1,5 +1,6 @@
 const db = require("../src/config/database")
-const navBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+const userNavBar = fs.readFileSync(__dirname + '/partial/_navHeaderUserHub.ejs', 'utf-8')
+//const adminNavBar = fs.readFileSync(__dirname + '/partial/_navHeaderAdminHub.ejs', 'utf-8')
 
 
 module.exports = function render(editor) {
